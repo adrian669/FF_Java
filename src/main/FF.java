@@ -1,11 +1,23 @@
-
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+//daniel.balouek@ens-lyon.fr
 package main;
-
+import java.util.*;
+import java.io.*;
+/**
+ *
+ * @author p1106346
+ */
 public class FF {
 
-
+    /**
+     * @param args the command line arguments
+     */
     public static void main(String[] args) {
-       
+        // TODO code application logic here
         
         Case case11= new Case (1,1,1,true,-1);
         Case case12= new Case (1,2,0,false,0);
@@ -70,39 +82,61 @@ public class FF {
         grille1.mark(case13, 2);
         grille1.mark(case23, 2);
         grille1.affiche();
+        System.out.println(grille1.directionCaseAvt(case21)+" 21");
+        System.out.println(grille1.directionCaseAvt(case12)+" 12");
+        System.out.println(grille1.directionCaseAvt(case13)+" 13");
+        System.out.println(grille1.directionCaseAvt(case21)+" 21");
+        System.out.println(grille1.directionCaseAvt(case23)+" 23");
         System.out.println("jeu resolu ? "+grille1.solved()+"");
         
         //test fonction eraseCase
+        System.out.println("test eraseCase");
         grille1.eraseCase(case31);
         grille1.affiche();
         
         //test fonction eraseAllCasesColor
+        System.out.println("test eraseAllCasesColor");
         grille1.eraseAllCasesColor(2);
         grille1.affiche();
         
         //test directionCaseAvt
-        System.out.println(grille1.directionCaseAvt(case21)+"");
-        
-        
-        
+        System.out.println("test directionCaseAvt");
+        grille1.affiche();
+        System.out.println(grille1.directionCaseAvt(case21)+" 21");
         
         //test constructeur Adrian par txt
-        try{
-        Grille grille2= new Grille("test.txt");
-        grille2.affiche();
-        System.out.println(grille2.length);        
-        }
-        catch(Exception e){
-             System.out.println("marche pas");
-        }
+//        try{
+//        Grille grille2= new Grille("test.txt");
+//        grille2.affiche();
+//        System.out.println(grille2.length);        
+//        }
+//        catch(NullPointerException e){
+//             System.out.println("NullPoinerException de FF");
+//        }
+//        catch(FileNotFoundException e){
+//             System.out.println("FileNotFound Exception de FF");
+//        }
+//        catch(Exception e){
+//                e.printStackTrace();
+//             System.out.println("Exception de FF");
+//        }
         
         
-        Grille grille3 = new Grille(4);
-        grille3.affiche();
+//        Grille grille3 = new Grille(4);
+//        grille3.affiche();
+       
         
-                
+//        System.out.println("test fonction Solve");
+//        grille1.affiche();
+//        grille1.eraseAllCasesColor(1);
+//        grille1.affiche();
+//        grille1.Solve();
+//        System.out.println("test fonction Solve bis");
+//        grille1.affiche();
+//        grille1.matrice[1][1].affiche();
         
-    
+        
+        
     }
     
 }
