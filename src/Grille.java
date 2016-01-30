@@ -29,7 +29,7 @@ public class Grille {
 //         }
     }
 
-    //constructeur generation aleatoire
+    //constructeur generation de grille aleatoire
     Grille(int length1) {
 
         this.matrice = new Case[length1][length1];
@@ -39,19 +39,19 @@ public class Grille {
 
         switch(length1) {
             case 5:
-            this.nb_color = rand1.nextInt(2) + 4;
+            this.nb_color = rand1.nextInt(2) + 4; // Pour avoir 5 ou 6 couleurs
             break;
             case 6:
-            this.nb_color = rand1.nextInt(3) + 4;
+            this.nb_color = rand1.nextInt(3) + 4; // Pour avoir 6,5 ou 4 couleurs
             break;
             case 7:
-            this.nb_color = rand1.nextInt(3) + 5; 
+            this.nb_color = rand1.nextInt(3) + 5; // Pour avoir 7,6 ou 5 couleurs
             break;
             case 8:
-            this.nb_color = rand1.nextInt(3) + 6;
+            this.nb_color = rand1.nextInt(3) + 6; // Pour avoir 8,7 ou 6 couleurs
             break;
             case 9:
-            this.nb_color = rand1.nextInt(3) + 7;
+            this.nb_color = rand1.nextInt(3) + 7; // Pour avoir 9,8 ou 7 couleurs
             break;
         }
 
@@ -93,43 +93,38 @@ public class Grille {
         }
     }
 
-            //constructeur a partir d'un fichier csv contenant 1 grille
-    Grille(String nom_fich) throws Exception {
-        BufferedReader br = null;
-        FileReader reader = null;
-        File f = null;
+    //constructeur a partir d'un fichier csv contenant des grilles
+    Grille(String nom_fich, int choix_input) throws Exception {
         int tempo = 0; // Va prendre le int dans le scanner.
         int nb_ligne = 0; // Nombre de ligne pour une grille
         int max = 0; // Pour connaitre le numéro de la plus grande couleur dans le fichier. On en déduit le nombre de couleur.
         int compteur = 0; // Pour parcourir une par une les cases contenus dans le vector de case
-        boolean temp; // Pour gerer la fin d'une ligne. Si le scanner n'est pas un int temp devient faux.
+        boolean temp;// Pour gerer la fin d'une ligne. Si le scanner n'est pas un int temp devient faux.
+        int choix_nb_ligne = Integer.parseInt(nom_fich.substring(4, 5)); // Pour savoir la taille de la grille en fonction du nom du fichier
         arret = false;
         sucess = false;
         nb_cases_marked = 0;
         nb_color_linked = 0;
         Vector<Case> vector = new Vector(); // On stocke les cases dans un vector
 
+        
         try {
-            String line;
-            f = new File(nom_fich);
-            reader = new FileReader(f);
-            br = new BufferedReader(reader);
             Scanner scanner = new Scanner(
              new BufferedReader(
                  new FileReader(
                      new File(nom_fich))));
 
-
-            scanner.useDelimiter("[;\n\r]");
-
-            // On cherche le nombre de ligne pour initialiser la matrice de case.
-
-            while ((line = br.readLine()) != null) {
-                nb_ligne++;
-            }
-
+            nb_ligne = choix_nb_ligne;
             this.matrice = new Case[nb_ligne][nb_ligne];
             this.length = nb_ligne;
+            
+            if (choix_input > 1) {
+                for (int i = 1; i <= (nb_ligne + 1) * (choix_input - 1); i++) {
+                    scanner.nextLine(); // On saute des lignes jusqu'à atteindre l'input voulu
+                }
+            }
+            
+            scanner.useDelimiter("[;\n\r]");
 
             // On initialise les cases et on les mets dans un vector
 
@@ -141,8 +136,7 @@ public class Grille {
             }
 
             // On remplit les attributs des cases comme il faut (couleur, case départ ou non , marqué ou non)
-
-            for (int i = 0; i <= nb_ligne * nb_ligne + nb_ligne - 2; i++) { //  Nombre de case +  nombre de ligne - 2
+            for (int i = 1; i <= nb_ligne * nb_ligne + nb_ligne; i++) { //  Nombre de case +  nombre de ligne
                if (scanner.hasNextInt()) {
                    tempo = scanner.nextInt();
                    if(tempo > max) {
@@ -162,36 +156,25 @@ public class Grille {
                              } else {
                                temp = false;
                            }
-                           if (scanner.hasNext() && temp == false) { 
-                               scanner.next(); 
-                           }
-                       }
+                             if (scanner.hasNext() && temp == false) { // La condition temp == false doit etre verifie sinon les 2 scanners.has sont vrais et l'on saute des nombres
+                             scanner.next(); 
+                         }
+                     }
 
 
-                       this.nb_color = max;
+                     this.nb_color = max;
 
-                       scanner.close();
+                     scanner.close();
 
-                   } catch (FileNotFoundException e) {
+                 } catch (FileNotFoundException e) {
                     e.printStackTrace();
                     System.out.println("Fichier pas trouvé de grille");
-                } catch (IOException e) {
-                    e.printStackTrace();
-                    System.out.println("IOexception de grille");
                 } catch (NullPointerException e) {
                     e.printStackTrace();
                     System.out.println("Null Pointer exception de grille");
                 } catch (Exception e) {
                     e.printStackTrace();
                     System.out.println("Exception de grille");
-                } finally {
-                    try {
-                        br.close();
-                        reader.close();
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                        System.out.println("Exception de finally");
-                    }
                 }
 
             }

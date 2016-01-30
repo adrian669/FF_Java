@@ -94,7 +94,7 @@ public class FF {
 
         //test constructeur par txt
         try{
-            Grille grille2= new Grille("test6x6.csv");
+            Grille grille2= new Grille("test6x6.csv", 1);
             grille2.affiche();
             System.out.println(grille2.length);
             System.out.println(grille2.nb_color);
