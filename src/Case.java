@@ -64,9 +64,14 @@ public class Case {
         return color;
     }
 
-    int SetMarked() {
+    int SetNbMarked() {
         this.nb_marked = -1;
         return nb_marked;
+    }
+
+    boolean SetMarked() {
+        this.marked = true;
+        return this.marked;
     }
 
 }

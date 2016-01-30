@@ -93,23 +93,28 @@ public class FF {
         System.out.println(grille1.directionCaseAvt(case21) + " 21");
 
         //test constructeur par txt
-//        try{
-//        Grille grille2= new Grille("test.txt");
-//        grille2.affiche();
-//        System.out.println(grille2.length);        
-//        }
-//        catch(NullPointerException e){
-//             System.out.println("NullPoinerException de FF");
-//        }
-//        catch(FileNotFoundException e){
-//             System.out.println("FileNotFound Exception de FF");
-//        }
-//        catch(Exception e){
-//                e.printStackTrace();
-//             System.out.println("Exception de FF");
-//        }
-//        Grille grille3 = new Grille(4);
-//        grille3.affiche();
+        try{
+            Grille grille2= new Grille("test6x6.csv");
+            grille2.affiche();
+            System.out.println(grille2.length);
+            System.out.println(grille2.nb_color);
+        }
+        catch(NullPointerException e){
+          e.printStackTrace();
+          System.out.println("NullPointerException de FF");
+      }
+      catch(FileNotFoundException e){
+       e.printStackTrace();
+       System.out.println("FileNotFound Exception de FF");
+   }
+   catch(Exception e){
+    e.printStackTrace();
+    System.out.println("Exception de FF");
+}
+
+
+Grille grille3 = new Grille(5);
+grille3.affiche();
 //        System.out.println("test fonction Solve");
 //        grille1.affiche();
 //        grille1.eraseAllCasesColor(1);
@@ -118,6 +123,6 @@ public class FF {
 //        System.out.println("test fonction Solve bis");
 //        grille1.affiche();
 //        grille1.matrice[1][1].affiche();
-    }
+}
 
 }
