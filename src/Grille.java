@@ -17,7 +17,6 @@ public class Grille {
 
      //Constructeurs
     //constructeur d'une grille vide de taille donnée et avec un nb de couleur donné
-
     Grille(int length1, int nb_color1) {
         this.matrice = new Case[length1][length1];
         this.length = length1;
@@ -31,40 +30,41 @@ public class Grille {
 
     //constructeur generation de grille aleatoire
     Grille(int length1) {
-
         this.matrice = new Case[length1][length1];
         this.length = length1;
         this.nb_color = length1;
         Random rand1 = new Random();
-
-        switch(length1) {
-            case 5:
-            this.nb_color = rand1.nextInt(2) + 4; // Pour avoir 5 ou 6 couleurs
-            break;
-            case 6:
-            this.nb_color = rand1.nextInt(3) + 4; // Pour avoir 6,5 ou 4 couleurs
-            break;
-            case 7:
-            this.nb_color = rand1.nextInt(3) + 5; // Pour avoir 7,6 ou 5 couleurs
-            break;
-            case 8:
-            this.nb_color = rand1.nextInt(3) + 6; // Pour avoir 8,7 ou 6 couleurs
-            break;
-            case 9:
-            this.nb_color = rand1.nextInt(3) + 7; // Pour avoir 9,8 ou 7 couleurs
-            break;
-        }
-
-        this.nb_color = length1;
         nb_cases_marked = 0;
         nb_color_linked = 0;
         arret = false;
         sucess = false;
+        // Les points aléatoires
         int x1;
         int y1;
         int x2;
         int y2;
 
+
+        switch (length1) {
+            case 5:
+                this.nb_color = rand1.nextInt(2) + 4; // Pour avoir 5 ou 6 couleurs
+                break;
+            case 6:
+                this.nb_color = rand1.nextInt(3) + 4; // Pour avoir 6,5 ou 4 couleurs
+                break;
+            case 7:
+                this.nb_color = rand1.nextInt(3) + 5; // Pour avoir 7,6 ou 5 couleurs
+                break;
+            case 8:
+                this.nb_color = rand1.nextInt(3) + 6; // Pour avoir 8,7 ou 6 couleurs
+                break;
+            case 9:
+                this.nb_color = rand1.nextInt(3) + 7; // Pour avoir 9,8 ou 7 couleurs
+                break;
+        }
+
+        // On initialise les cases
+        
         for (int i = 0; i < length1; i++) {
             for (int j = 0; j < length1; j++) {
                 this.matrice[i][j] = new Case(i + 1, j + 1, 0, false, 0);
@@ -78,6 +78,8 @@ public class Grille {
             x2 = rand.nextInt(length1);
             y2 = rand.nextInt(length1);
 
+            // On verifie que les cases aléatoires n'ont pas déjà une couleur et que ce ne soient pas des cases départs.
+            
             if ((!((x1 == x2) && (y1 == y2))) && (!(this.matrice[x1][y1].color != 0)) && (!(this.matrice[x2][y2].color != 0)) && (this.matrice[x1][y1].nb_marked == 0) && (this.matrice[x2][y2].nb_marked == 0)) {
                 this.matrice[x1][y1].i = this.matrice[x1][y1].SetPosition_i(x1 + 1);
                 this.matrice[x1][y1].j = this.matrice[x1][y1].SetPosition_j(y1 + 1);
@@ -88,7 +90,7 @@ public class Grille {
                 this.matrice[x2][y2].color = this.matrice[x2][y2].SetColor(i);
                 this.matrice[x2][y2].nb_marked = this.matrice[x2][y2].SetNbMarked();
             } else {
-                i--;
+                i--; // Sinon on recommence !
             }
         }
     }
@@ -107,27 +109,25 @@ public class Grille {
         nb_color_linked = 0;
         Vector<Case> vector = new Vector(); // On stocke les cases dans un vector
 
-        
         try {
             Scanner scanner = new Scanner(
-             new BufferedReader(
-                 new FileReader(
-                     new File(nom_fich))));
+                    new BufferedReader(
+                            new FileReader(
+                                    new File(nom_fich))));
 
             nb_ligne = choix_nb_ligne;
             this.matrice = new Case[nb_ligne][nb_ligne];
             this.length = nb_ligne;
-            
+
             if (choix_input > 1) {
                 for (int i = 1; i <= (nb_ligne + 1) * (choix_input - 1); i++) {
                     scanner.nextLine(); // On saute des lignes jusqu'à atteindre l'input voulu
                 }
             }
-            
+
             scanner.useDelimiter("[;\n\r]");
 
             // On initialise les cases et on les mets dans un vector
-
             for (int ligne = 0; ligne < this.length; ligne++) {
                 for (int col = 0; col < this.length; col++) {
                     matrice[ligne][col] = new Case(ligne + 1, col + 1, 0, false, 0);
@@ -137,135 +137,134 @@ public class Grille {
 
             // On remplit les attributs des cases comme il faut (couleur, case départ ou non , marqué ou non)
             for (int i = 1; i <= nb_ligne * nb_ligne + nb_ligne; i++) { //  Nombre de case +  nombre de ligne
-               if (scanner.hasNextInt()) {
-                   tempo = scanner.nextInt();
-                   if(tempo > max) {
-                       max = tempo;
-                   }
-                   if(tempo == 0) {
-                       vector.elementAt(compteur).SetColor(tempo);
-                       compteur++;                             
-                   } else {
-                                     vector.elementAt(compteur).SetColor(tempo); // Change la couleur
-                                     vector.elementAt(compteur).SetNbMarked(); // Change nb_marked en -1
-                                     vector.elementAt(compteur).SetMarked(); //  Change marked en true
-                                     compteur++;
-                                 }
-                                 temp = true;
-                                 
-                             } else {
-                               temp = false;
-                           }
-                             if (scanner.hasNext() && temp == false) { // La condition temp == false doit etre verifie sinon les 2 scanners.has sont vrais et l'on saute des nombres
-                             scanner.next(); 
-                         }
-                     }
+                if (scanner.hasNextInt()) {
+                    tempo = scanner.nextInt();
+                    if (tempo > max) {
+                        max = tempo;
+                    }
+                    if (tempo == 0) {
+                        vector.elementAt(compteur).SetColor(tempo);
+                        compteur++;
+                    } else {
+                        vector.elementAt(compteur).SetColor(tempo); // Change la couleur
+                        vector.elementAt(compteur).SetNbMarked(); // Change nb_marked en -1
+                        vector.elementAt(compteur).SetMarked(); //  Change marked en true
+                        compteur++;
+                    }
+                    temp = true;
 
-
-                     this.nb_color = max;
-
-                     scanner.close();
-
-                 } catch (FileNotFoundException e) {
-                    e.printStackTrace();
-                    System.out.println("Fichier pas trouvé de grille");
-                } catch (NullPointerException e) {
-                    e.printStackTrace();
-                    System.out.println("Null Pointer exception de grille");
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    System.out.println("Exception de grille");
+                } else {
+                    temp = false;
                 }
-
+                if (scanner.hasNext() && temp == false) { // La condition temp == false doit etre verifie sinon les 2 scanners.has sont vrais et l'on saute des nombres
+                    scanner.next();
+                }
             }
+
+            this.nb_color = max;
+
+            scanner.close();
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+            System.out.println("Fichier pas trouvé de grille");
+        } catch (NullPointerException e) {
+            e.printStackTrace();
+            System.out.println("Null Pointer exception de grille");
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("Exception de grille");
+        }
+
+    }
 
      //Fonctions
-     //fonction remplir
+    //fonction remplir
     //arguments: case
     //remplit une case de la grille a partir d'une case
-            void remplir(Case case1) {
-                this.matrice[case1.i - 1][case1.j - 1] = case1;
-            }
+    void remplir(Case case1) {
+        this.matrice[case1.i - 1][case1.j - 1] = case1;
+    }
 
     //fonction affiche
-            void affiche() {
-                int ligne = 0;
-                int col = 0;
-                System.out.print("\n");
-                while (ligne < this.length) {
-                    String chaine = "";
-                    while (col < this.length) {
-                        chaine = chaine + "|" + this.matrice[ligne][col].color;
-                        col++;
-                    }
-                    System.out.println(chaine + "|");
-                    col = 0;
-                    ligne++;
-                }
-                System.out.print("\n");
+    void affiche() {
+        int ligne = 0;
+        int col = 0;
+        System.out.print("\n");
+        while (ligne < this.length) {
+            String chaine = "";
+            while (col < this.length) {
+                chaine = chaine + "|" + this.matrice[ligne][col].color;
+                col++;
             }
+            System.out.println(chaine + "|");
+            col = 0;
+            ligne++;
+        }
+        System.out.print("\n");
+    }
 
-     //fonction FindStart
+    //fonction FindStart
     //trouve la case de depart d'une couleur
     //arguments: color,
     //sorties: case
-            Case FindStart(int color1) {
-                Case start;
-                int ligne = 0;
-                int col = 0;
+    Case FindStart(int color1) {
+        Case start;
+        int ligne = 0;
+        int col = 0;
+        start = this.matrice[ligne][col];
+        int s = 0;
+        while ((s == 0) & (ligne < this.length) & (col < this.length)) {
+            if ((this.matrice[ligne][col].color == color1) & (this.matrice[ligne][col].nb_marked == -1)) {
+                s = 1;
                 start = this.matrice[ligne][col];
-                int s = 0;
-                while ((s == 0) & (ligne < this.length) & (col < this.length)) {
-                    if ((this.matrice[ligne][col].color == color1) & (this.matrice[ligne][col].nb_marked == -1)) {
-                        s = 1;
-                        start = this.matrice[ligne][col];
-                    } else {
-                        if (col + 1 < this.length) {
-                            col = col + 1;
-                        } else {
+            } else {
+                if (col + 1 < this.length) {
+                    col = col + 1;
+                } else {
 
-                            ligne = ligne + 1;
-                            col = 0;
-                        }
-                    }
+                    ligne = ligne + 1;
+                    col = 0;
                 }
-                return start;
             }
+        }
+        return start;
+    }
 
-     //fonction FindEnd
+    //fonction FindEnd
     //trouve la case d'arrivee d'une couleur
     //arguments: color,
     //sorties: case
-            Case FindEnd(int color1) {
-                Case end;
-                int ligne = this.length - 1;
-                int col = this.length - 1;
+    Case FindEnd(int color1) {
+        Case end;
+        int ligne = this.length - 1;
+        int col = this.length - 1;
+        end = this.matrice[ligne][col];
+        int s = 0;
+        while ((s == 0) & (ligne > -1) & (col > -1)) {
+            if ((this.matrice[ligne][col].color == color1) & (this.matrice[ligne][col].nb_marked == -1)) {
+                s = 1;
                 end = this.matrice[ligne][col];
-                int s = 0;
-                while ((s == 0) & (ligne > -1) & (col > -1)) {
-                    if ((this.matrice[ligne][col].color == color1) & (this.matrice[ligne][col].nb_marked == -1)) {
-                        s = 1;
-                        end = this.matrice[ligne][col];
-                    } else {
-                        if (col - 1 > -1) {
-                            col = col - 1;
-                        } else {
+            } else {
+                if (col - 1 > -1) {
+                    col = col - 1;
+                } else {
 
-                            ligne = ligne - 1;
-                            col = this.length - 1;
-                        }
-                    }
+                    ligne = ligne - 1;
+                    col = this.length - 1;
                 }
-                return end;
             }
+        }
+        return end;
+    }
 
-     //fonction donneCase
+    //fonction donneCase
     //retourne la case au Nord (1), a l'Est (2) ,au Sud (3) ou a l'Ouest (4) de la case donnee
     //arguments : 1 case et 1 position
     //sortie: 1 case (la meme si l'autre n'existe pas)
-            Case donneCase(Case case1, int pos) {
-                Case end = case1;
-                if ((pos == 1) & ((case1.i - 2) > -1) & ((case1.i - 2) < this.length)) {
+    Case donneCase(Case case1, int pos) {
+        Case end = case1;
+        if ((pos == 1) & ((case1.i - 2) > -1) & ((case1.i - 2) < this.length)) {
             end = this.matrice[case1.i - 2][case1.j - 1];//coeff doivent toujou etre rectifie par - 1
         } else if ((pos == 2) & ((case1.j) > -1) & ((case1.j) < this.length)) {
             end = this.matrice[case1.i - 1][case1.j];
@@ -278,7 +277,7 @@ public class Grille {
         return end;
     }
 
-     //fonction canMark
+    //fonction canMark
     //dit si on peut marquer une case par une couleur (ie case vide a cote de la derniere case marquee par cette couleur )
     //arguments : 1 case, 1 couleur
     //sortie : boolean
@@ -303,7 +302,7 @@ public class Grille {
         return ((!(case1.nb_marked == -1)) & (!(case1.comparaison(donneCase(case1, 1))) & (donneCase(case1, 1).color == color1) & (donneCase(case1, 1).nb_marked == nb)) || ((!(case1.comparaison(donneCase(case1, 2)))) & (donneCase(case1, 2).color == color1) & (donneCase(case1, 2).nb_marked == nb)) || ((!(case1.comparaison(donneCase(case1, 3))) & (donneCase(case1, 3).color == color1) & (donneCase(case1, 3).nb_marked == nb))) || ((!(case1.comparaison(donneCase(case1, 4))) & (donneCase(case1, 4).color == color1) & (donneCase(case1, 4).nb_marked == nb))));
     }
 
-     //fonction mark
+    //fonction mark
     //on marque une cellule dans la grille (! verifier dans algo avt avec canMark!)
     //rmq: si on marque une case par la couleur 1 deja marquee pour une couleur 2 alors toutes les cases marquees par 2 se vident (sauf les cases depart)
     //si on marque une case par la couleur 1 deja marquee pour cette couleur alors on efface les cases seulement marquee par cette couleur et apres cette case
@@ -424,7 +423,7 @@ public class Grille {
         }
     }
 
-     //fonction colorLinked (ancienne methode)
+    //fonction colorLinked (ancienne methode)
     //arguments : 1 couleur
     //sortie: boolean
     //vrai si la couleur est liee, faux sinon
@@ -496,7 +495,7 @@ public class Grille {
         return end;
     }
 
-     //fonction colorLinked2 (avec liste)
+    //fonction colorLinked2 (avec liste)
     //arguments : 1 couleur
     //sortie: boolean
     //vrai si la couleur est liee, faux sinon
@@ -509,7 +508,7 @@ public class Grille {
         //vrai si la premiere case est la case de depart et si la derniere est la case d arrivee
     }
 
-     //fonction solved
+    //fonction solved
     //arguments : none
     //sortie : boolean
     //dit si la partie est finie (pour le joueur)
@@ -548,7 +547,7 @@ public class Grille {
         return this.sucess;
     }
 
-     //fonction solvedAlgo
+    //fonction solvedAlgo
     //arguments : none
     //sortie : boolean
     //dit si la partie est finie (pour l'Algo donc ss compter cases vides)
@@ -571,7 +570,7 @@ public class Grille {
         return this.sucess;
     }
 
-     //fonction eraseAllCasesColor
+    //fonction eraseAllCasesColor
     //arguments: 1 color
     //efface toutes les cases marquees par la couleur color1
     void eraseAllCasesColor(int color1) {
@@ -592,7 +591,7 @@ public class Grille {
         this.sucess = false;
     }
 
-     //fonction eraseCase
+    //fonction eraseCase
     //arguments : 1 case
     //efface cette case (ie reinitialise a vide si pas case depart) et rectifie bien les nb_marked des autres cases
     void eraseCase(Case case1) {
@@ -624,7 +623,7 @@ public class Grille {
         }
     }
 
-     //fonction directionCaseAvt (ancienne methode)
+    //fonction directionCaseAvt (ancienne methode)
     //arguments: 1 case
     //sortie : int (direction)
     //donne la direction utilisee par la case marquee avant celle-ci par la meme couleur
@@ -682,7 +681,7 @@ public class Grille {
     //arguments: 1 case
     //sortie : int (direction)
     //donne la direction utilisee par la case marquee avant celle-ci par la meme couleur
-     //fonction CaseAvt (ancienne methode)
+    //fonction CaseAvt (ancienne methode)
     //arguments : 1 case
     //sortie: case
     //donne la case precedemment marquee ou la case depart (pas forcement de la mm couleur)
