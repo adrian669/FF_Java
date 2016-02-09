@@ -1,10 +1,8 @@
-
 package main;
 
 public class Case {
 
     //Attributs
-
     int i; //position ligne
     int j; //position colonne
     int color; //couleur (>=1) ou vide (0)
@@ -20,14 +18,14 @@ public class Case {
         this.nb_marked = nb_marked1;
     }
 
-     //Fonctions
+    //Fonctions
     //fonction affiche
     void affiche() {
         System.out.println("\n");
-        System.out.println(this.color + "");
+        System.out.println("couleur : " + this.color + " ,  ligne : " + this.i + " , colonne : " + this.j);
     }
 
-     //fonction mark
+    //fonction mark
     //marque une case
     //arguments : color, nb_marked
     void mark(int color1, int nb_marked1) {
@@ -36,7 +34,7 @@ public class Case {
         this.marked = true;
     }
 
-     //fonction comparaison
+    //fonction comparaison
     //compare cette case avec une autre case donnee
     //arguments: 1 case
     //sortie: boolean
@@ -51,7 +49,7 @@ public class Case {
         return i;
     }
 
-     //foncion SetPosition_j
+    //foncion SetPosition_j
     //change la position j de la case
     // argument la nouvelle position
     int SetPosition_j(int position_j) {

@@ -13,19 +13,19 @@ public class Grille {
     int nb_color_linked = 0;// nombre de couleurs liées
     boolean arret = false;//vrai si on arrete de chercher une solution, faux si on continue
     boolean sucess = false;//vrai si une solution existe; faux sinon
-    LinkedList[] parcours;//liste des cases marquees pour chaque couleur (avec depart et arrivee) et la premiere liste contient toutes les cases marquees couleurs confondues
+    LinkedList<Case>[] parcours;//liste des cases marquees pour chaque couleur (avec depart et arrivee) et la premiere liste contient toutes les cases marquees couleurs confondues
 
-     //Constructeurs
+    //Constructeurs
     //constructeur d'une grille vide de taille donnée et avec un nb de couleur donné
     Grille(int length1, int nb_color1) {
         this.matrice = new Case[length1][length1];
         this.length = length1;
         this.nb_color = nb_color1;
-        this.parcours = new LinkedList[nb_color1];//a ajouter ds constructeur Adrian
-        int i = 1;
-//         while (i<=this.nb_color){
-//             this.parcours[i].addLast(this.FindStart(i));
-//         }
+        this.parcours = new LinkedList[nb_color1 + 1];//a ajouter ds constructeur Adrian
+        for (int j = 0; j <= nb_color1; j++) {
+            LinkedList<Case> l = new LinkedList<Case>();
+            this.parcours[j] = l;
+        }
     }
 
     //constructeur generation de grille aleatoire
@@ -38,12 +38,12 @@ public class Grille {
         nb_color_linked = 0;
         arret = false;
         sucess = false;
+
         // Les points aléatoires
         int x1;
         int y1;
         int x2;
         int y2;
-
 
         switch (length1) {
             case 5:
@@ -64,7 +64,6 @@ public class Grille {
         }
 
         // On initialise les cases
-        
         for (int i = 0; i < length1; i++) {
             for (int j = 0; j < length1; j++) {
                 this.matrice[i][j] = new Case(i + 1, j + 1, 0, false, 0);
@@ -79,7 +78,6 @@ public class Grille {
             y2 = rand.nextInt(length1);
 
             // On verifie que les cases aléatoires n'ont pas déjà une couleur et que ce ne soient pas des cases départs.
-            
             if ((!((x1 == x2) && (y1 == y2))) && (!(this.matrice[x1][y1].color != 0)) && (!(this.matrice[x2][y2].color != 0)) && (this.matrice[x1][y1].nb_marked == 0) && (this.matrice[x2][y2].nb_marked == 0)) {
                 this.matrice[x1][y1].i = this.matrice[x1][y1].SetPosition_i(x1 + 1);
                 this.matrice[x1][y1].j = this.matrice[x1][y1].SetPosition_j(y1 + 1);
@@ -93,6 +91,16 @@ public class Grille {
                 i--; // Sinon on recommence !
             }
         }
+
+        //parcours
+        this.parcours = new LinkedList[this.nb_color + 1];
+        for (int j = 0; j <= this.nb_color; j++) {
+            LinkedList<Case> l = new LinkedList<Case>();
+            this.parcours[j] = l;
+        }
+
+        this.parcours();
+
     }
 
     //constructeur a partir d'un fichier csv contenant des grilles
@@ -163,6 +171,13 @@ public class Grille {
 
             this.nb_color = max;
 
+            this.parcours = new LinkedList[this.nb_color + 1];
+            for (int j = 0; j <= this.nb_color; j++) {
+                LinkedList<Case> l = new LinkedList<Case>();
+                this.parcours[j] = l;
+            }
+            this.parcours();
+
             scanner.close();
 
         } catch (FileNotFoundException e) {
@@ -178,12 +193,38 @@ public class Grille {
 
     }
 
-     //Fonctions
+    //Fonctions
     //fonction remplir
     //arguments: case
     //remplit une case de la grille a partir d'une case
     void remplir(Case case1) {
         this.matrice[case1.i - 1][case1.j - 1] = case1;
+    }
+
+    //fonction parcours
+    //arguments :
+    //initialise la grille une fois qu'elle a les cases departs
+    void parcours() {
+        int i = 1;
+        while (i <= this.nb_color) {
+            Case d = this.FindStart(i);
+            this.parcours[i].add(d);
+            i = i + 1;
+        }
+    }
+
+    //fonction afficheparcours
+    //arguments : couleur ou 0 pour ttes les cases marquees
+    //affiche tte la liste
+    void afficheparcours(int col1) {
+        System.out.println("\n");
+        System.out.println("affiche parcours, couleur :" + col1);
+        LinkedList l = this.parcours[col1];
+        for (int j = 0; j < l.size(); j++) {
+            this.parcours[col1].get(j).affiche();
+        }
+        System.out.println("FIN affiche parcours, couleur :" + col1);
+        System.out.println("\n");
     }
 
     //fonction affiche
@@ -204,7 +245,7 @@ public class Grille {
         System.out.print("\n");
     }
 
-    //fonction FindStart
+     //fonction FindStart
     //trouve la case de depart d'une couleur
     //arguments: color,
     //sorties: case
@@ -231,7 +272,7 @@ public class Grille {
         return start;
     }
 
-    //fonction FindEnd
+     //fonction FindEnd
     //trouve la case d'arrivee d'une couleur
     //arguments: color,
     //sorties: case
@@ -258,7 +299,7 @@ public class Grille {
         return end;
     }
 
-    //fonction donneCase
+     //fonction donneCase
     //retourne la case au Nord (1), a l'Est (2) ,au Sud (3) ou a l'Ouest (4) de la case donnee
     //arguments : 1 case et 1 position
     //sortie: 1 case (la meme si l'autre n'existe pas)
@@ -277,8 +318,8 @@ public class Grille {
         return end;
     }
 
-    //fonction canMark
-    //dit si on peut marquer une case par une couleur (ie case vide a cote de la derniere case marquee par cette couleur )
+     //fonction canMark
+    //dit si on peut marquer une case par une couleur (ie case vide(?) a cote de la derniere case marquee par cette couleur )
     //arguments : 1 case, 1 couleur
     //sortie : boolean
     boolean canMark(Case case1, int color1) {
@@ -302,7 +343,7 @@ public class Grille {
         return ((!(case1.nb_marked == -1)) & (!(case1.comparaison(donneCase(case1, 1))) & (donneCase(case1, 1).color == color1) & (donneCase(case1, 1).nb_marked == nb)) || ((!(case1.comparaison(donneCase(case1, 2)))) & (donneCase(case1, 2).color == color1) & (donneCase(case1, 2).nb_marked == nb)) || ((!(case1.comparaison(donneCase(case1, 3))) & (donneCase(case1, 3).color == color1) & (donneCase(case1, 3).nb_marked == nb))) || ((!(case1.comparaison(donneCase(case1, 4))) & (donneCase(case1, 4).color == color1) & (donneCase(case1, 4).nb_marked == nb))));
     }
 
-    //fonction mark
+     //fonction mark
     //on marque une cellule dans la grille (! verifier dans algo avt avec canMark!)
     //rmq: si on marque une case par la couleur 1 deja marquee pour une couleur 2 alors toutes les cases marquees par 2 se vident (sauf les cases depart)
     //si on marque une case par la couleur 1 deja marquee pour cette couleur alors on efface les cases seulement marquee par cette couleur et apres cette case
@@ -313,6 +354,10 @@ public class Grille {
             case1.marked = true;
             case1.nb_marked = this.nb_cases_marked + 1;
             this.nb_cases_marked = this.nb_cases_marked + 1;
+            //on ajoute la nouvelle case dans le parcours associe a la couleur
+            this.parcours[color1].addLast(case1);
+            //et dans la liste regroupant toutes les cases marquees 
+            this.parcours[0].addLast(case1);
         } else if (case1.color == color1) {//case deja marquee par cette couleur 1
 
             //on efface les cases marquees par la couleur 1
@@ -423,7 +468,7 @@ public class Grille {
         }
     }
 
-    //fonction colorLinked (ancienne methode)
+     //fonction colorLinked (ancienne methode)
     //arguments : 1 couleur
     //sortie: boolean
     //vrai si la couleur est liee, faux sinon
@@ -495,20 +540,24 @@ public class Grille {
         return end;
     }
 
-    //fonction colorLinked2 (avec liste)
+     //fonction colorLinked2 (avec liste)
     //arguments : 1 couleur
     //sortie: boolean
     //vrai si la couleur est liee, faux sinon
     boolean colorLinked2(int color1) {
         Case case1;
         Case case2;
-        case1 = (Case) this.parcours[color1].getLast();//derniere case pour la couleur 
-        case2 = (Case) this.parcours[color1].getFirst();//premiere case pour la couleur 
-        return ((case1.nb_marked == -1) & (case2.nb_marked == -1) & (!case1.comparaison(case2)));
-        //vrai si la premiere case est la case de depart et si la derniere est la case d arrivee
+        if (this.parcours[color1].size() <= 1) {// si le parcours de la couleur est vide (pas <1 ?)
+            return false;
+        } else {//sinon
+            case1 = (Case) this.parcours[color1].getLast();//derniere case pour la couleur 
+            //case2=(Case)this.parcours[color1].getFirst();//premiere case pour la couleur 
+            return ((case1.nb_marked == -1) & (!case1.comparaison(this.FindStart(color1))));
+            //vrai si la premiere case est la case de depart et si la derniere est la case d arrivee
+        }
     }
 
-    //fonction solved
+     //fonction solved
     //arguments : none
     //sortie : boolean
     //dit si la partie est finie (pour le joueur)
@@ -547,7 +596,43 @@ public class Grille {
         return this.sucess;
     }
 
-    //fonction solvedAlgo
+     //fonction solved2
+    //arguments : none
+    //sortie : boolean
+    //dit si la partie est finie (pour le joueur)
+    boolean solved2() {
+        //calcul du nombre de cases vides
+        int nbempty = 0;
+        int ligne = this.length - 1;
+        int col = this.length - 1;
+        while ((ligne > -1) & (col > -1)) {
+            if (this.matrice[ligne][col].color == 0) {//case vide
+                nbempty = nbempty + 1;
+            }
+            //on change de case
+            if (col - 1 > -1) {
+                col = col - 1;
+            } else {
+                ligne = ligne - 1;
+                col = this.length - 1;
+            }
+        }
+        return ((nbempty == 0) & this.solvedAlgo2());
+    }
+
+     //fonction solvedAlgo2
+    //arguments : none
+    //sortie : boolean
+    //dit si la partie est finie (pour l'Algo donc ss compter cases vides)
+    boolean solvedAlgo2() {
+        boolean s = true;
+        for (int i = 1; i <= this.nb_color; i++) {
+            s = (s & this.colorLinked2(i));//couleurs de 1 a i liees ?
+        }
+        return s;
+    }
+
+     //fonction solvedAlgo
     //arguments : none
     //sortie : boolean
     //dit si la partie est finie (pour l'Algo donc ss compter cases vides)
@@ -570,7 +655,7 @@ public class Grille {
         return this.sucess;
     }
 
-    //fonction eraseAllCasesColor
+     //fonction eraseAllCasesColor
     //arguments: 1 color
     //efface toutes les cases marquees par la couleur color1
     void eraseAllCasesColor(int color1) {
@@ -589,9 +674,17 @@ public class Grille {
             }
         }
         this.sucess = false;
+        int h = this.parcours[color1].size();
+        for (int j = h; j > 1; j--) {//?pourquoi pas >0 ?
+            //on enleve la case du parcours de la couleur 2
+            Case c = this.parcours[color1].removeLast();
+            int index = this.parcours[0].indexOf(c);
+            //on enleve la case de ttes les cases marquees
+            this.parcours[0].remove(index);
+        }
     }
 
-    //fonction eraseCase
+     //fonction eraseCase
     //arguments : 1 case
     //efface cette case (ie reinitialise a vide si pas case depart) et rectifie bien les nb_marked des autres cases
     void eraseCase(Case case1) {
@@ -623,7 +716,7 @@ public class Grille {
         }
     }
 
-    //fonction directionCaseAvt (ancienne methode)
+     //fonction directionCaseAvt (ancienne methode)
     //arguments: 1 case
     //sortie : int (direction)
     //donne la direction utilisee par la case marquee avant celle-ci par la meme couleur
@@ -680,8 +773,50 @@ public class Grille {
      //fonction directionCaseAvt2 (avec listes)
     //arguments: 1 case
     //sortie : int (direction)
-    //donne la direction utilisee par la case marquee avant celle-ci par la meme couleur
-    //fonction CaseAvt (ancienne methode)
+    //donne la direction utilisee par la case avant celle-ci (marquee ou case depart ?)
+    //que pour la fonction solve
+    int directionCaseAvt2(Case case1) {
+        int direction;
+        Case case2 = this.CaseAvt2(case1);
+        if (case2.comparaison(case1)) {//premiere case marquee
+            //direction=1;
+            case2 = this.FindStart(case1.color);
+            if (case2.i == case1.i) {//East (2) or West (4)
+                if (case1.j == case2.j - 1) {
+                    direction = 4;
+                } else {
+                    direction = 2;
+                }
+            } else {//North (1) or South (3)
+                if (case1.i == case2.i - 1) {
+                    direction = 1;
+                } else {
+                    direction = 3;
+                }
+            }
+        } else {
+            if (case2.color != case1.color) {//pas de la meme couleur
+                case2 = this.FindStart(case1.color);
+            }
+            if (case2.i == case1.i) {//East (2) or West (4)
+                if (case1.j == case2.j - 1) {
+                    direction = 4;
+                } else {
+                    direction = 2;
+                }
+            } else {//North (1) or South (3)
+                if (case1.i == case2.i - 1) {
+                    direction = 1;
+                } else {
+                    direction = 3;
+                }
+            }
+        }
+
+        return direction;
+    }
+
+     //fonction CaseAvt (ancienne methode)
     //arguments : 1 case
     //sortie: case
     //donne la case precedemment marquee ou la case depart (pas forcement de la mm couleur)
@@ -712,171 +847,203 @@ public class Grille {
      //fonction CaseAvt2 (avec listes)
     //arguments : 1 case
     //sortie: case
-    //donne la case precedemment marquee ou la case depart (pas forcement de la mm couleur)
-//     void Solve() {
-//        boolean casarret=false;
-//        int color1 = 1; //on commence par la couleur 1
-//        int direction = 1; //on commence par la direction 1 (North)
-//        //on trouve les cases de depart et de fin pour la couleur color1
-//        Case casedepart = this.FindStart(color1);
-//        Case casearrivee = this.FindEnd(color1);
-//        Case case0;
-//        Case case1;
-//        case0 = casedepart; 
-//        //System.out.println("test fonction Solve 1");
-//        //System.out.println(""+this.solvedAlgo());
-//        while ((!this.solvedAlgo())&(!casarret)) {//tant que les couleurs ne sont pas liees ie solvedAlgo faux
-//            System.out.println("test fonction Solve");
-//            this.affiche();
-//            while (!this.colorLinked(color1)&(!casarret)) {//tant que la couleur color1 n est pas liee
-//                System.out.println("test fonction Solve: couleur 1 non liée");
-//                this.affiche();
-//                if (donneCase(case0, direction).comparaison(case0)) {//si la case est la derniere dans cette direction 
-//                    if (direction < 4) {//on change de direction
-//                        direction=direction+1;
-//                        System.out.println("test fonction Solve: chgt dir 1");
-//                    } 
-//                    else {//on efface la derniere case car on est bloque et on change de direction (par rapport directionavt?)
-//                        boolean w=true;
-//                        while(w & (!casarret)){
-//                            System.out.println("test fonction Solve: efface 1");
-//                            if(case0.nb_marked==-1){//si la derniere case0 actuelle est une case depart (ou arrivee possible?)
-//                                if(case0.comparaison(this.FindStart(1))){//si c'est la case depart de la couleur 1
-//                                    casarret=true;//cas d arret algo : on revient case depart et pas d autre direction possible
-//                                    System.out.println("test fonction Solve casarret");
-//                                }
-//                                else{//sinon
-//                                while(this.directionCaseAvt(case0)>3){//tant que la direction de la case d avant est West (4)
-//                                    case1=this.CaseAvt(case0);
-//                                    this.eraseCase(case0);//effacer derniere case marquee
-//                                    //changer case0 et direction
-//                                    case0=case1;
-//                                    this.nb_cases_marked=this.nb_cases_marked-1;
-//                                    color1=color1-1;//changer couleur
-//                                    this.nb_color_linked=this.nb_color_linked-1;//delier derniere couleur
-//                                    casedepart = this.FindStart(color1);
-//                                    casearrivee = this.FindEnd(color1);
-//                                }
-//                                //changer direction
-//                                System.out.println("test fonction Solve: efface 1.1");
-//                                direction=this.directionCaseAvt(case0)+1;
-//                                w=false;
-//                                }
-//                            }
-//                            else{//sinon
-//                                //effacer dernieres cases marquees jusqu a nouvelle direction possible
-//                                while(this.directionCaseAvt(case0)>3){//tant que la direction de la case d avant est West (4)
-//                                    case1=this.CaseAvt(case0);
-//                                    this.eraseCase(case0);
-//                                    //changer case0 et direction
-//                                    case0=case1;
-//                                    this.nb_cases_marked=this.nb_cases_marked-1;
-//                                    System.out.println("test fonction Solve: efface 1.2 while");
-//                                }
-//                                direction=this.directionCaseAvt(case0)+1;
-//                                w=false;
-//                                System.out.println("test fonction Solve: efface 1.2"+this.directionCaseAvt(case0));
-//                            }
-//                        }
+    //donne la case precedemment marquee (pas forcement de la mm couleur) 
+    Case CaseAvt2(Case case1) {
+
+        int index = this.parcours[0].indexOf(case1);
+        if (index <= 0) {//la case n'est pas marquee ou c est la premiere a l etre
+            return case1;
+        } else {
+            return this.parcours[0].get(index - 1);
+        }
+
+    }
+
+     //fonction Solve2 (avec listes)
+    //arguments : none
+    //sortie: none
+    //resout la grille (avec possiblement des cases vides) 
+    //se referer a article + voir ideee tableau "prise de decision" sur papier du prof
+    //possible pb : retourne couleur d avant ds etape backward : mettre a jour color
+    //possible pb : si pas de solution ?
+    //super long ?
+    void Solve2() {
+        //Big Start
+        int color = 1;// on commence par la couleur 1
+        Case case0;//case marquee
+        Case case1;//case a marquer
+        int direction;
+        int directionavt = 0;
+        Case casedepart;
+        Case casearrivee;
+        boolean b;//Color Linked ?
+        boolean c;//Any unmarked path ?
+        int[][] decision = new int[this.length][this.length];//tableau prise de decision
+        int dec;
+
+        //initialisation prise de decision
+        for (int i = 0; i < this.length; i++) {
+            for (int j = 0; j < this.length; j++) {
+                decision[i][j] = 0;//pas de prise de decision
+            }
+        }
+
+        while (!this.solvedAlgo2()) {
+            //Start
+            casedepart = this.FindStart(color);//case depart
+            casearrivee = this.FindEnd(color);//case arrivee
+            direction = 1;//on commence par la direction 1 (North)
+            case0 = casedepart;
+            decision[casedepart.i - 1][casedepart.j - 1] = 1;//prise de decision ?
+            //this.parcours[0].add(casedepart);//cases depart ds ttes cases marquees? NON
+
+            b = true;
+            //this.afficheparcours(0);
+            while (b) {
+                this.affiche();
+                //Any obstacles ?
+                if ((case0.comparaison(this.donneCase(case0, direction))) || ((this.donneCase(case0, direction).color != 0) & (!this.donneCase(case0, direction).comparaison(casearrivee)))) {//derniere case dans cette direction ou case non vide (hors case arrivee)
+                    //Yes
+                    dec = decision[case0.i - 1][case0.j - 1];//on veut savoir si prise de decision avant
+                    decision[case0.i - 1][case0.j - 1] = 1;//obstacle donc prise de decision
+                    c = false;
+                    //Any unmarked path ?
+                    if ((this.donneCase(case0, 1).color == 0) || (this.donneCase(case0, 2).color == 0) || (this.donneCase(case0, 3).color == 0) || (this.donneCase(case0, 4).color == 0)) {//une case vide a cote
+                        c = true;
+                        //on change de direction
+                        if ((direction != 1) & (this.donneCase(case0, 1).color == 0) & ((dec == 0) || ((dec == 1) & (direction < 1)))) {
+                            direction = 1;
+                        } else if ((direction != 2) & (this.donneCase(case0, 2).color == 0) & ((dec == 0) || ((dec == 1) & (direction < 2)))) {
+                            direction = 2;
+                        } else if ((direction != 3) & (this.donneCase(case0, 3).color == 0) & ((dec == 0) || ((dec == 1) & (direction < 3)))) {
+                            direction = 3;
+                        } else if ((direction != 4) & (this.donneCase(case0, 4).color == 0) & ((dec == 0) || ((dec == 1) & (direction < 4)))) {
+                            direction = 4;
+                        } else {//cas possible ? cas arret ?
+                            System.out.println("Pb direction >4");
+                            c = false;
+                        }
+                    }
+//                    else if((this.donneCase(case0,1).comparaison(casearrivee))||(this.donneCase(case0,2).comparaison(casearrivee))||(this.donneCase(case0,3).comparaison(casearrivee))||(this.donneCase(case0,4).comparaison(casearrivee))){//la case arrivee est a cote: normalement inutile
+//                        c=true;
 //                    }
-//                } else {//si la case cherchee existe
-//                    System.out.println("test fonction Solve: case cherchee existe");
-//                    this.affiche();
-//                    case1=donneCase(case0, direction);
-//                    if(this.canMark(case1,color1)&(case1.nb_marked==0)){//si on peut la marquer
-//                        System.out.println("test fonction Solve canMark");
+                    while (!c) {// While No
+                        //Turn one cell back
+
+                        if (case0.comparaison(this.FindStart(case0.color))) {//on a change de couleur
+                            case0 = this.parcours[0].getLast();//derniere case marquee
+                            color = color - 1;//on retourne a la couleur d avant
+                            casedepart = this.FindStart(color);//case depart
+                            casearrivee = this.FindEnd(color);//case arrivee
+                        }
+                        case1 = this.CaseAvt2(case0);
 //                        case1.affiche();
-//                        System.out.println(case1.nb_marked+"");
-//                        //on la marque et on change les cases
-//                        case1.color=color1;
-//                        case1.marked=true;
-//                        this.nb_cases_marked=this.nb_cases_marked+1;
-//                        case1.nb_marked=this.nb_cases_marked;
-//                        case0=case1;
-//                    }
-//                    else if(!case1.comparaison(casearrivee)){//ce n est pas la case arrivee
-//                        System.out.println("test fonction Solve comp");
-//                        if (direction <4){//sinon on passe a une autre direction (si possible) et on reteste
-//                            direction=direction+1;
-//                            System.out.println("test fonction Solve comp dir");
+//                        this.afficheparcours(0);
+
+                        //on adapte :
+                        if (case1.comparaison(case0)) {//premiere case marquee
+                            case1 = this.FindStart(case0.color);
+                            System.out.println("pb1 :");
+                        }
+
+                        //System.out.println("direction  :"+direction);
+                        directionavt = this.directionCaseAvt2(case0);
+                        this.eraseCase(case0);
+                        System.out.println("direction avant :" + directionavt);
+                        System.out.println("erase");
+                        case0.affiche();
+                        this.affiche();
+                        case0 = case1;
+
+                        //on acualise c :
+                        if (((directionavt != 1) & (this.donneCase(case0, 1).color == 0)) || ((directionavt != 2) & (this.donneCase(case0, 2).color == 0)) || ((directionavt != 3) & (this.donneCase(case0, 3).color == 0)) || ((directionavt != 4) & (this.donneCase(case0, 4).color == 0))) {//une case vide a cote autre que celle qu'on vient d effacer
+                            c = true;
+                            //on recupere la nouvelle direction
+                            if ((directionavt != 1) & (this.donneCase(case0, 1).color == 0) & ((decision[case0.i - 1][case0.j - 1] == 0) || ((decision[case0.i - 1][case0.j - 1] == 1) & (directionavt < 1)))) {
+                                System.out.println("dir1");
+                                case0.affiche();
+                                this.donneCase(case0, 1).affiche();
+                                direction = 1;
+                                decision[case0.i - 1][case0.j - 1] = 1;//on a pris une decision?
+                            } else if ((directionavt != 2) & (this.donneCase(case0, 2).color == 0) & ((decision[case0.i - 1][case0.j - 1] == 0) || ((decision[case0.i - 1][case0.j - 1] == 1) & (directionavt < 2)))) {
+                                direction = 2;
+                                decision[case0.i - 1][case0.j - 1] = 1;//?
+                            } else if ((directionavt != 3) & (this.donneCase(case0, 3).color == 0) & ((decision[case0.i - 1][case0.j - 1] == 0) || ((decision[case0.i - 1][case0.j - 1] == 1) & (directionavt < 3)))) {
+                                direction = 3;
+                                decision[case0.i - 1][case0.j - 1] = 1;//?
+                            } else if ((directionavt != 4) & (this.donneCase(case0, 4).color == 0) & ((decision[case0.i - 1][case0.j - 1] == 0) || ((decision[case0.i - 1][case0.j - 1] == 1) & (directionavt < 4)))) {
+                                direction = 4;
+                                decision[case0.i - 1][case0.j - 1] = 1;//?
+                            } else {//cas possible ? cas arret ?
+                                System.out.println("Pb direction bis >4");
+                                c = false;
+                                System.out.println("direction  :" + directionavt);
+                                System.out.println("decision  dec:" + dec);
+                                System.out.println("decision  :" + decision[case0.i - 1][case0.j - 1]);
+                            }
+                            System.out.println("nvlle direction  bis :" + direction);
+                            System.out.println("decision  :" + decision[case0.i - 1][case0.j - 1]);
+                            case0.affiche();
+                        }
+//                        else if((this.donneCase(case0,1).comparaison(casearrivee))||(this.donneCase(case0,2).comparaison(casearrivee))||(this.donneCase(case0,3).comparaison(casearrivee))||(this.donneCase(case0,4).comparaison(casearrivee))){//la case arrivee est a cote: normalement inutile
+//                            c=true;
 //                        }
-//                        else{//si impossible, efface derniere case
-//                            boolean w=true;
-//                            while(w & (!casarret)){
-//                                System.out.println("test fonction Solve 3 bis");
-//                                this.affiche();
-//                                if(case0.nb_marked==-1){//si la derniere case0 actuelle est une case depart (ou arrivee possible?)
-//                                    if(case0.comparaison(this.FindStart(1))){//si c'est la case depart de la couleur 1
-//                                        casarret=true;//cas d arret algo : on revient case depart et pas d autre direction possible
-//                                        System.out.println("test fonction Solve casarret");
-//                                    }
-//                                    else{//sinon
-//                                        while(this.directionCaseAvt(case0)>3){//tant que la direction de la case d avant est West (4)
-//                                            case1=this.CaseAvt(case0);
-//                                            System.out.println("test fonction Solve erase bis");
-//                                            this.eraseCase(case0);//effacer derniere case marquee
-//                                            //changer case0 et direction
-//                                            case0=case1;
-//                                            this.nb_cases_marked=this.nb_cases_marked-1;
-//                                            color1=color1-1;//changer couleur
-//                                            this.nb_color_linked=this.nb_color_linked-1;//delier derniere couleur
-//                                            casedepart = this.FindStart(color1);
-//                                            casearrivee = this.FindEnd(color1);
-//                                        }
-//                                        //changer direction
-//                                        direction=this.directionCaseAvt(case0)+1;
-//                                        w=false;
-//                                    }
-//                                }
-//                                else{//sinon
-//                                    //effacer dernieres cases marquees jusqu a nouvelle direction possible
-//                                    System.out.println("test fonction Solve erase 0");
-//                                    System.out.println("case0");
-//                                    if(this.directionCaseAvt(case0)<=3){//tant que la direction de la case d avant est West (4)
-//                                        direction=this.directionCaseAvt(case1)+1;
-//                                        case1=this.CaseAvt(case0);
-//                                        System.out.println("test fonction Solve erase");
-//                                        this.eraseCase(case0);
-//                                        this.affiche();
-//                                        //changer case0 et direction
-//                                        case0=case1;
-//                                        
-//                                        this.nb_cases_marked=this.nb_cases_marked-1;
-//                                        w=false;
-//                                        
-//                                    }
-//                                    else{
-//                                        while(this.directionCaseAvt(case0)>3){//tant que la direction de la case d avant est West (4)
-//                                            direction=this.directionCaseAvt(case1)+1;
-//                                            case1=this.CaseAvt(case0);
-//                                            System.out.println("test fonction Solve erase");
-//                                            this.eraseCase(case0);
-//                                            this.affiche();
-//                                            //changer case0 et direction
-//                                            case0=case1;
-//                                            this.nb_cases_marked=this.nb_cases_marked-1;
-//                                        }
-//                                    }
-//                                    
-//                                    //d
-//                                    System.out.println("direction :"+direction);
-//                                }
-//                            }
-//                        }
-//                    }
-//                }
-//            }//sinon changer de couleur color1 (si possible)
-//            this.nb_color_linked=color1;
-//            if (color1+1<=this.nb_color){
-//                color1=color1+1;//on passe a la couleur suivante
-//                direction=1;//on reinitialise la direction à 1(North)
-//                //on reinitialie les cases depart,arrivee et case0 pour l algo :
-//                casedepart = this.FindStart(color1);
-//                casearrivee = this.FindEnd(color1);
-//                case0 = casedepart;
-//                //case1=case0 ?
-//            }
-//        }//sinon fini
-//        //this.sucess=true:pas forcement
-//    }
+                        //mark path
+
+                    }
+
+                    //Turn to unmarked path
+                    //deja fait ds etape avt en editant direction
+                    //Mark path
+                    //? deja fait
+                    //
+                } else if (case0.nb_marked != -1) {//ie pas d'obstacle donc pas de prise de decision hors case depart
+
+                    decision[case0.i - 1][case0.j - 1] = 0;//on a suivi la direction de la case d avant
+
+                }
+
+                //System.out.println("avant add1");
+                //case0.affiche();
+                //Move forward
+                if ((this.donneCase(case0, 1).comparaison(casearrivee)) || (this.donneCase(case0, 2).comparaison(casearrivee)) || (this.donneCase(case0, 3).comparaison(casearrivee)) || (this.donneCase(case0, 4).comparaison(casearrivee))) {
+                    this.parcours[color].add(casearrivee);
+                    System.out.println("add1");
+                } else {
+                    //System.out.println("mark");
+                    this.mark(this.donneCase(case0, direction), color);
+                    case0 = this.donneCase(case0, direction);
+                    if ((this.donneCase(case0, 1).comparaison(casearrivee)) || (this.donneCase(case0, 2).comparaison(casearrivee)) || (this.donneCase(case0, 3).comparaison(casearrivee)) || (this.donneCase(case0, 4).comparaison(casearrivee))) {
+                        this.parcours[color].add(casearrivee);
+                        System.out.println("add2");
+                        this.parcours[color].getFirst().affiche();
+                        this.parcours[color].getLast().affiche();
+                    }
+                }
+                this.affiche();
+
+                //Number is found ?
+                if (this.parcours[color].getLast().comparaison(casearrivee)) {//if(this.colorLinked2(color)){   
+                    //Yes
+                    //End *color
+                    color = color + 1;
+                    b = false;
+                    System.out.println("color " + (color - 1) + " linked ");
+
+                    //this.afficheparcours(0);
+                    casedepart = this.FindStart(color);//case depart
+                    casearrivee = this.FindEnd(color);//case arrivee
+                    casedepart.affiche();
+                    casearrivee.affiche();
+                } else {
+                    //No
+                    //again  
+                    //this.affiche();
+                }
+            }//End
+
+        }//Big End
+
+    }
+
 }
