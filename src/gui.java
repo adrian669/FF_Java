@@ -1,11 +1,18 @@
 
+
 package main;
+import java.awt.event.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.*;
 
 
-public class gui extends javax.swing.JPanel {
+public class Gui extends javax.swing.JFrame {
 
-
-    public gui() {
+    public Gui() {
+        this.choixAleatoire = false;
+        this.choixtaille = 1;
+        grille = new Grille(2);
         initComponents();
     }
 
@@ -18,53 +25,234 @@ public class gui extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        buttonGroup1 = new javax.swing.ButtonGroup();
-        buttonGroup2 = new javax.swing.ButtonGroup();
-        jPanel1 = new javax.swing.JPanel();
+        jPanel1 = new DrawPanel(this);
+        Demarrer = new javax.swing.JButton();
+        jComboBox1 = new javax.swing.JComboBox();
+        jLabel1 = new javax.swing.JLabel();
+        jCheckBox1 = new javax.swing.JCheckBox();
 
-        jPanel1.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jPanel1MouseClicked(evt);
-            }
-        });
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setPreferredSize(new java.awt.Dimension(600, 500));
+
+        jPanel1.setPreferredSize(new java.awt.Dimension(100, 100));
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 509, Short.MAX_VALUE)
+            .addGap(0, 315, Short.MAX_VALUE)
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 382, Short.MAX_VALUE)
+            .addGap(0, 371, Short.MAX_VALUE)
         );
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-        this.setLayout(layout);
+        Demarrer.setText("Démarrer partie");
+        Demarrer.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                DemarrerActionPerformed(evt);
+            }
+        });
+
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "5x5", "6x6", "7x7", "8x8", "9x9" }));
+        jComboBox1.setActionCommand("");
+        jComboBox1.setName("choixTaille"); // NOI18N
+        jComboBox1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBox1ActionPerformed(evt);
+            }
+        });
+
+        jLabel1.setText("Choix de la taille");
+        jLabel1.setName("choixTailleLabel"); // NOI18N
+
+        jCheckBox1.setText("Grillle aléatoire");
+        jCheckBox1.setName("ifGrilleAleatoire"); // NOI18N
+        jCheckBox1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jCheckBox1ActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(185, 185, 185)
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(426, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(Demarrer)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jCheckBox1))
+                .addGap(36, 36, 36)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 315, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(51, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(164, 164, 164)
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(198, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(Demarrer)
+                        .addGap(27, 27, 27)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel1))
+                        .addGap(18, 18, 18)
+                        .addComponent(jCheckBox1))
+                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 371, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(46, 46, 46))
         );
+
+        pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jPanel1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel1MouseClicked
-        System.out.println(evt.getLocationOnScreen());
-    }//GEN-LAST:event_jPanel1MouseClicked
+    private void DemarrerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DemarrerActionPerformed
+        System.out.println("Tu as cliqué");
+        
+        //Pour actualiser !
+        jPanel1.setVisible(false);
+        jPanel1.setVisible(true);
+        
+        if (choixAleatoire == true) {
+            grille = new Grille(choixtaille);
+            jPanel1.repaint();
+        } else {
+            switch (choixtaille) {
+                case 5:
 
+                    try {
+                        grille = new Grille("test5x5.csv", 1);
+                    } catch (Exception ex) {
+                        Logger.getLogger(Gui.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    break;
+                case 6:
+                    try {
+                        grille = new Grille("test6x6.csv", 1);
+                    } catch (Exception ex) {
+                        Logger.getLogger(Gui.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    break;
+                case 7:
+                    try {
+                        grille = new Grille("test7x7.csv", 1);
+                    } catch (Exception ex) {
+                        Logger.getLogger(Gui.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    break;
+                case 8:
+                    try {
+                        grille = new Grille("test8x8.csv", 1);
+                    } catch (Exception ex) {
+                        Logger.getLogger(Gui.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    break;
+                case 9:
+                    try {
+                        grille = new Grille("test9x9.csv", 1);
+                    } catch (Exception ex) {
+                        Logger.getLogger(Gui.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    break;
+            }
+            jPanel1.repaint();
+        }
+    }//GEN-LAST:event_DemarrerActionPerformed
+
+    private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
+        JComboBox comboBox = (JComboBox) evt.getSource();
+        Object selected = comboBox.getSelectedItem();
+        String temp = selected.toString();
+        choixtaille = choixTaille(temp);
+    }//GEN-LAST:event_jComboBox1ActionPerformed
+
+    public static int choixTaille(String temp) {
+        int choixUser = 0;
+                switch (temp) {
+            case "5x5" :
+                choixUser = 5;
+                break;
+            case "6x6" :
+                choixUser = 6;
+                break;
+            case "7x7" :
+                choixUser = 7;
+                break;
+            case "8x8" :
+                choixUser = 8;
+                break;
+            case "9x9" :
+                choixUser = 9;
+                break;
+                
+        }
+        System.out.println(choixUser);
+        return choixUser;
+    }
+    
+    private void jCheckBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox1ActionPerformed
+        AbstractButton  abstractButton = (AbstractButton) evt.getSource(); 
+        boolean select = abstractButton.getModel().isSelected();
+        choixAleatoire = choixAleatoire(select);
+    }//GEN-LAST:event_jCheckBox1ActionPerformed
+
+    public static boolean choixAleatoire(boolean temp) {
+       boolean choixAleatoire = true;
+        if (temp == true) {
+            choixAleatoire = true;
+        } else {
+            choixAleatoire = false;
+        }
+        System.out.println(choixAleatoire);
+        return choixAleatoire;
+    }
+       
+    public static void main(String args[]) {
+        /* Set the Nimbus look and feel */
+        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         */
+        try {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (ClassNotFoundException ex) {
+            java.util.logging.Logger.getLogger(Gui.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            java.util.logging.Logger.getLogger(Gui.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            java.util.logging.Logger.getLogger(Gui.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(Gui.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
+        //</editor-fold>
+
+     
+        /* Create and display the form */
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                new Gui().setVisible(true);
+            }
+        });
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.ButtonGroup buttonGroup1;
-    private javax.swing.ButtonGroup buttonGroup2;
+    private javax.swing.JButton Demarrer;
+    private javax.swing.JCheckBox jCheckBox1;
+    private javax.swing.JComboBox jComboBox1;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     // End of variables declaration//GEN-END:variables
+    public int choixtaille;
+    public Grille grille;
+    public boolean choixAleatoire;
 }
