@@ -1,0 +1,9 @@
+blanc = 1
+rouge = 2
+rose = 3
+marron = 4
+vert = 5
+orange = 6
+violet = 7
+cyan = 8
+gris = 9

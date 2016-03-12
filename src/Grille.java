@@ -121,7 +121,7 @@ public class Grille {
             Scanner scanner = new Scanner(
                     new BufferedReader(
                             new FileReader(
-                                    new File(nom_fich))));
+                                    new File("input/" + nom_fich)))); // Fichier dans le dossier input !
 
             nb_ligne = choix_nb_ligne;
             this.matrice = new Case[nb_ligne][nb_ligne];
@@ -245,7 +245,7 @@ public class Grille {
         System.out.print("\n");
     }
 
-     //fonction FindStart
+    //fonction FindStart
     //trouve la case de depart d'une couleur
     //arguments: color,
     //sorties: case
@@ -272,7 +272,7 @@ public class Grille {
         return start;
     }
 
-     //fonction FindEnd
+    //fonction FindEnd
     //trouve la case d'arrivee d'une couleur
     //arguments: color,
     //sorties: case
@@ -299,7 +299,7 @@ public class Grille {
         return end;
     }
 
-     //fonction donneCase
+    //fonction donneCase
     //retourne la case au Nord (1), a l'Est (2) ,au Sud (3) ou a l'Ouest (4) de la case donnee
     //arguments : 1 case et 1 position
     //sortie: 1 case (la meme si l'autre n'existe pas)
@@ -318,7 +318,7 @@ public class Grille {
         return end;
     }
 
-     //fonction canMark
+    //fonction canMark
     //dit si on peut marquer une case par une couleur (ie case vide(?) a cote de la derniere case marquee par cette couleur )
     //arguments : 1 case, 1 couleur
     //sortie : boolean
@@ -343,7 +343,7 @@ public class Grille {
         return ((!(case1.nb_marked == -1)) & (!(case1.comparaison(donneCase(case1, 1))) & (donneCase(case1, 1).color == color1) & (donneCase(case1, 1).nb_marked == nb)) || ((!(case1.comparaison(donneCase(case1, 2)))) & (donneCase(case1, 2).color == color1) & (donneCase(case1, 2).nb_marked == nb)) || ((!(case1.comparaison(donneCase(case1, 3))) & (donneCase(case1, 3).color == color1) & (donneCase(case1, 3).nb_marked == nb))) || ((!(case1.comparaison(donneCase(case1, 4))) & (donneCase(case1, 4).color == color1) & (donneCase(case1, 4).nb_marked == nb))));
     }
 
-     //fonction mark
+    //fonction mark
     //on marque une cellule dans la grille (! verifier dans algo avt avec canMark!)
     //rmq: si on marque une case par la couleur 1 deja marquee pour une couleur 2 alors toutes les cases marquees par 2 se vident (sauf les cases depart)
     //si on marque une case par la couleur 1 deja marquee pour cette couleur alors on efface les cases seulement marquee par cette couleur et apres cette case
@@ -468,7 +468,7 @@ public class Grille {
         }
     }
 
-     //fonction colorLinked (ancienne methode)
+    //fonction colorLinked (ancienne methode)
     //arguments : 1 couleur
     //sortie: boolean
     //vrai si la couleur est liee, faux sinon
@@ -540,7 +540,7 @@ public class Grille {
         return end;
     }
 
-     //fonction colorLinked2 (avec liste)
+    //fonction colorLinked2 (avec liste)
     //arguments : 1 couleur
     //sortie: boolean
     //vrai si la couleur est liee, faux sinon
@@ -557,7 +557,7 @@ public class Grille {
         }
     }
 
-     //fonction solved
+    //fonction solved
     //arguments : none
     //sortie : boolean
     //dit si la partie est finie (pour le joueur)
@@ -596,7 +596,7 @@ public class Grille {
         return this.sucess;
     }
 
-     //fonction solved2
+    //fonction solved2
     //arguments : none
     //sortie : boolean
     //dit si la partie est finie (pour le joueur)
@@ -620,7 +620,7 @@ public class Grille {
         return ((nbempty == 0) & this.solvedAlgo2());
     }
 
-     //fonction solvedAlgo2
+    //fonction solvedAlgo2
     //arguments : none
     //sortie : boolean
     //dit si la partie est finie (pour l'Algo donc ss compter cases vides)
@@ -632,7 +632,7 @@ public class Grille {
         return s;
     }
 
-     //fonction solvedAlgo
+    //fonction solvedAlgo
     //arguments : none
     //sortie : boolean
     //dit si la partie est finie (pour l'Algo donc ss compter cases vides)
@@ -655,7 +655,7 @@ public class Grille {
         return this.sucess;
     }
 
-     //fonction eraseAllCasesColor
+    //fonction eraseAllCasesColor
     //arguments: 1 color
     //efface toutes les cases marquees par la couleur color1
     void eraseAllCasesColor(int color1) {
@@ -684,7 +684,7 @@ public class Grille {
         }
     }
 
-     //fonction eraseCase
+    //fonction eraseCase
     //arguments : 1 case
     //efface cette case (ie reinitialise a vide si pas case depart) et rectifie bien les nb_marked des autres cases
     void eraseCase(Case case1) {
@@ -716,7 +716,7 @@ public class Grille {
         }
     }
 
-     //fonction directionCaseAvt (ancienne methode)
+    //fonction directionCaseAvt (ancienne methode)
     //arguments: 1 case
     //sortie : int (direction)
     //donne la direction utilisee par la case marquee avant celle-ci par la meme couleur
@@ -770,7 +770,7 @@ public class Grille {
         return direction;
     }
 
-     //fonction directionCaseAvt2 (avec listes)
+    //fonction directionCaseAvt2 (avec listes)
     //arguments: 1 case
     //sortie : int (direction)
     //donne la direction utilisee par la case avant celle-ci (marquee ou case depart ?)
@@ -816,7 +816,7 @@ public class Grille {
         return direction;
     }
 
-     //fonction CaseAvt (ancienne methode)
+    //fonction CaseAvt (ancienne methode)
     //arguments : 1 case
     //sortie: case
     //donne la case precedemment marquee ou la case depart (pas forcement de la mm couleur)
@@ -844,7 +844,7 @@ public class Grille {
         return case2;
     }
 
-     //fonction CaseAvt2 (avec listes)
+    //fonction CaseAvt2 (avec listes)
     //arguments : 1 case
     //sortie: case
     //donne la case precedemment marquee (pas forcement de la mm couleur) 
@@ -859,7 +859,7 @@ public class Grille {
 
     }
 
-     //fonction Solve2 (avec listes)
+    //fonction Solve2 (avec listes)
     //arguments : none
     //sortie: none
     //resout la grille (avec possiblement des cases vides) 

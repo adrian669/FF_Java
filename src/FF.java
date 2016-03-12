@@ -1,9 +1,5 @@
 package main;
 
-import java.awt.Graphics;
-import java.util.*;
-import java.io.*;
-
 public class FF {
 
     public static void main(String[] args) {
@@ -30,9 +26,9 @@ public class FF {
 //        grille1.remplir(case31);
 //        grille1.remplir(case32);
 //        grille1.remplir(case33);
-
-        //test fonction affiche
-        // grille1.affiche();
+//
+//        test fonction affiche
+//         grille1.affiche();
 //        grille1.FindStart(1).affiche();
 //        grille1.parcours();
 //        grille1.parcours[1].getFirst().affiche();
@@ -102,12 +98,12 @@ public class FF {
 //        System.out.println("test fonction Solve");
 //
 //        grille1.Solve2();
-        //grille1.mark(case12, 1);
+//        grille1.mark(case12, 1);
 //        grille1.affiche();
-
+//
 //        //test constructeur Adrian par txt
 //        try {
-//            Grille grille2 = new Grille("test5x5.csv", 2);
+//            Grille grille2 = new Grille("input/test5x5.csv", 2);
 //            grille2.affiche();
 //            System.out.println(grille2.length);
 //            System.out.println(grille2.nb_color + " ");
@@ -151,17 +147,12 @@ public class FF {
 //        //test parcours  constructeur aleatoire
 //        grille3.affiche();
 //        grille3.parcours[1].getFirst().affiche();
-
+//
 //       
 
             Gui essai = new Gui();
             essai.setVisible(true);
 
-  //      essai.height = essai.getHeight() - 1;
-//        essai.width = essai.getWidth() - 1;
-         // DrawPanel panel = new DrawPanel();
-         // panel.paintComponent(essai.getGraphics());
-         // panel.setVisible(true);
     }
 
 }

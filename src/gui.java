@@ -1,18 +1,17 @@
-
-
 package main;
-import java.awt.event.*;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.swing.*;
 
+import javax.swing.*;
 
 public class Gui extends javax.swing.JFrame {
 
+    public int choixTaille;
+    public Grille grille;
+    public boolean choixAleatoire;
+
     public Gui() {
         this.choixAleatoire = false;
-        this.choixtaille = 1;
-        grille = new Grille(2);
+        this.choixTaille = 1;
+        this.grille = new Grille(0);
         initComponents();
     }
 
@@ -27,24 +26,37 @@ public class Gui extends javax.swing.JFrame {
 
         jPanel1 = new DrawPanel(this);
         Demarrer = new javax.swing.JButton();
-        jComboBox1 = new javax.swing.JComboBox();
-        jLabel1 = new javax.swing.JLabel();
-        jCheckBox1 = new javax.swing.JCheckBox();
+        jComboBoxChoixTaille = new javax.swing.JComboBox();
+        jLabelChoixTaille = new javax.swing.JLabel();
+        jCheckBoxChoixAleatoire = new javax.swing.JCheckBox();
+        jLabelChoixCouleur = new javax.swing.JLabel();
+        jComboBoxChoixCouleur = new javax.swing.JComboBox();
+        ImageIcon imageIcon = new ImageIcon("img/numberlink.png");
+        jLabelNumberlink = new javax.swing.JLabel(imageIcon);
+        jButtonSolution = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setPreferredSize(new java.awt.Dimension(600, 500));
+        setTitle("Numberlink");
+        setPreferredSize(new java.awt.Dimension(1100, 1300));
+        setResizable(false);
+        setSize(new java.awt.Dimension(1100, 1300));
 
-        jPanel1.setPreferredSize(new java.awt.Dimension(100, 100));
+        jPanel1.setPreferredSize(new java.awt.Dimension(901, 901));
+        jPanel1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jPanel1MouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 315, Short.MAX_VALUE)
+            .addGap(0, 901, Short.MAX_VALUE)
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 371, Short.MAX_VALUE)
+            .addGap(0, 901, Short.MAX_VALUE)
         );
 
         Demarrer.setText("Démarrer partie");
@@ -54,23 +66,40 @@ public class Gui extends javax.swing.JFrame {
             }
         });
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "5x5", "6x6", "7x7", "8x8", "9x9" }));
-        jComboBox1.setActionCommand("");
-        jComboBox1.setName("choixTaille"); // NOI18N
-        jComboBox1.addActionListener(new java.awt.event.ActionListener() {
+        jComboBoxChoixTaille.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "5x5", "6x6", "7x7", "8x8", "9x9" }));
+        jComboBoxChoixTaille.setActionCommand("");
+        jComboBoxChoixTaille.setName("choixTaille"); // NOI18N
+        jComboBoxChoixTaille.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jComboBox1ActionPerformed(evt);
+                jComboBoxChoixTailleActionPerformed(evt);
             }
         });
 
-        jLabel1.setText("Choix de la taille");
-        jLabel1.setName("choixTailleLabel"); // NOI18N
+        jLabelChoixTaille.setText("Choix de la taille");
+        jLabelChoixTaille.setName("choixTailleLabel"); // NOI18N
 
-        jCheckBox1.setText("Grillle aléatoire");
-        jCheckBox1.setName("ifGrilleAleatoire"); // NOI18N
-        jCheckBox1.addActionListener(new java.awt.event.ActionListener() {
+        jCheckBoxChoixAleatoire.setText("Grillle aléatoire");
+        jCheckBoxChoixAleatoire.setName("ifGrilleAleatoire"); // NOI18N
+        jCheckBoxChoixAleatoire.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jCheckBox1ActionPerformed(evt);
+                jCheckBoxChoixAleatoireActionPerformed(evt);
+            }
+        });
+
+        jLabelChoixCouleur.setText("Choix de la couleur");
+        jLabelChoixCouleur.setName("choixCouleurLabel"); // NOI18N
+
+        jComboBoxChoixCouleur.setName("choixCouleur"); // NOI18N
+        jComboBoxChoixCouleur.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBoxChoixCouleurActionPerformed(evt);
+            }
+        });
+
+        jButtonSolution.setText("Solution");
+        jButtonSolution.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonSolutionActionPerformed(evt);
             }
         });
 
@@ -79,139 +108,190 @@ public class Gui extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap()
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jCheckBoxChoixAleatoire)
                     .addComponent(Demarrer)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jCheckBox1))
-                .addGap(36, 36, 36)
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 315, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(51, Short.MAX_VALUE))
+                        .addComponent(jLabelChoixTaille)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jComboBoxChoixTaille, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabelChoixCouleur)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jComboBoxChoixCouleur, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(jButtonSolution)
+                        .addGap(49, 49, 49))))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(262, 262, 262)
+                .addComponent(jLabelNumberlink, javax.swing.GroupLayout.PREFERRED_SIZE, 540, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
+                        .addGap(40, 40, 40)
                         .addComponent(Demarrer)
-                        .addGap(27, 27, 27)
+                        .addGap(40, 40, 40)
+                        .addComponent(jCheckBoxChoixAleatoire)
+                        .addGap(28, 28, 28)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel1))
+                            .addComponent(jLabelChoixTaille)
+                            .addComponent(jComboBoxChoixTaille, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabelChoixCouleur)
+                            .addComponent(jComboBoxChoixCouleur, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
-                        .addComponent(jCheckBox1))
-                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 371, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(46, 46, 46))
+                        .addComponent(jButtonSolution)))
+                .addGap(28, 28, 28)
+                .addComponent(jLabelNumberlink, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(26, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void DemarrerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DemarrerActionPerformed
-        System.out.println("Tu as cliqué");
-        
-        //Pour actualiser !
+        System.out.println("Bouton démarrer");
+
+        // Pour actualiser !
         jPanel1.setVisible(false);
         jPanel1.setVisible(true);
         
         if (choixAleatoire == true) {
-            grille = new Grille(choixtaille);
-            jPanel1.repaint();
+            grille = new Grille(choixTaille);
         } else {
-            switch (choixtaille) {
+            switch (choixTaille) { // Pas besoin de spécifier input/nomdufichier car pris en compte dans Grille
                 case 5:
-
                     try {
                         grille = new Grille("test5x5.csv", 1);
-                    } catch (Exception ex) {
-                        Logger.getLogger(Gui.class.getName()).log(Level.SEVERE, null, ex);
+                    } catch (Exception e) {
+                        e.printStackTrace();
                     }
                     break;
                 case 6:
                     try {
                         grille = new Grille("test6x6.csv", 1);
-                    } catch (Exception ex) {
-                        Logger.getLogger(Gui.class.getName()).log(Level.SEVERE, null, ex);
+                    } catch (Exception e) {
+                        e.printStackTrace();
                     }
                     break;
                 case 7:
                     try {
                         grille = new Grille("test7x7.csv", 1);
-                    } catch (Exception ex) {
-                        Logger.getLogger(Gui.class.getName()).log(Level.SEVERE, null, ex);
+                    } catch (Exception e) {
                     }
                     break;
                 case 8:
                     try {
                         grille = new Grille("test8x8.csv", 1);
-                    } catch (Exception ex) {
-                        Logger.getLogger(Gui.class.getName()).log(Level.SEVERE, null, ex);
+                    } catch (Exception e) {
+                        e.printStackTrace();
                     }
                     break;
                 case 9:
                     try {
                         grille = new Grille("test9x9.csv", 1);
-                    } catch (Exception ex) {
-                        Logger.getLogger(Gui.class.getName()).log(Level.SEVERE, null, ex);
+                    } catch (Exception e) {
+                        e.printStackTrace();
                     }
                     break;
             }
-            jPanel1.repaint();
         }
+
+        refreshComboBoxChoixCouleur();
     }//GEN-LAST:event_DemarrerActionPerformed
 
-    private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
+    private void jComboBoxChoixTailleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxChoixTailleActionPerformed
         JComboBox comboBox = (JComboBox) evt.getSource();
         Object selected = comboBox.getSelectedItem();
         String temp = selected.toString();
-        choixtaille = choixTaille(temp);
-    }//GEN-LAST:event_jComboBox1ActionPerformed
-
-    public static int choixTaille(String temp) {
-        int choixUser = 0;
-                switch (temp) {
-            case "5x5" :
-                choixUser = 5;
+        switch (temp) {
+            case "5x5":
+                choixTaille = 5;
                 break;
-            case "6x6" :
-                choixUser = 6;
+            case "6x6":
+                choixTaille = 6;
                 break;
-            case "7x7" :
-                choixUser = 7;
+            case "7x7":
+                choixTaille = 7;
                 break;
-            case "8x8" :
-                choixUser = 8;
+            case "8x8":
+                choixTaille = 8;
                 break;
-            case "9x9" :
-                choixUser = 9;
+            case "9x9":
+                choixTaille = 9;
                 break;
-                
         }
-        System.out.println(choixUser);
-        return choixUser;
-    }
-    
-    private void jCheckBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox1ActionPerformed
-        AbstractButton  abstractButton = (AbstractButton) evt.getSource(); 
-        boolean select = abstractButton.getModel().isSelected();
-        choixAleatoire = choixAleatoire(select);
-    }//GEN-LAST:event_jCheckBox1ActionPerformed
+        System.out.println(temp);
+    }//GEN-LAST:event_jComboBoxChoixTailleActionPerformed
 
-    public static boolean choixAleatoire(boolean temp) {
-       boolean choixAleatoire = true;
-        if (temp == true) {
+    private void jCheckBoxChoixAleatoireActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBoxChoixAleatoireActionPerformed
+        AbstractButton abstractButton = (AbstractButton) evt.getSource();
+        boolean select = abstractButton.getModel().isSelected();
+        if (select == true) {
             choixAleatoire = true;
         } else {
             choixAleatoire = false;
         }
-        System.out.println(choixAleatoire);
-        return choixAleatoire;
+        System.out.println(select);
+    }//GEN-LAST:event_jCheckBoxChoixAleatoireActionPerformed
+
+    private void jPanel1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel1MouseClicked
+        System.out.println(evt.getX());
+        System.out.println(evt.getY());
+    }//GEN-LAST:event_jPanel1MouseClicked
+
+    private void jComboBoxChoixCouleurActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxChoixCouleurActionPerformed
+        JComboBox comboBox = (JComboBox) evt.getSource();
+        Object selected = comboBox.getSelectedItem();
+        String temp = selected.toString();
+    }//GEN-LAST:event_jComboBoxChoixCouleurActionPerformed
+
+    private void jButtonSolutionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSolutionActionPerformed
+            System.out.println("Bouton solution");
+
+    }//GEN-LAST:event_jButtonSolutionActionPerformed
+
+    public void refreshComboBoxChoixCouleur() {
+        switch (grille.nb_color) {
+            case 1 :
+            jComboBoxChoixCouleur.setModel(new javax.swing.DefaultComboBoxModel(new String[] {"Blanc (1)"}));
+            break;
+            case 2 :
+            jComboBoxChoixCouleur.setModel(new javax.swing.DefaultComboBoxModel(new String[] {"Blanc (1)", "Rouge (2)", "Rose (3)"}));
+            break;
+            case 3 :
+            jComboBoxChoixCouleur.setModel(new javax.swing.DefaultComboBoxModel(new String[] {"Blanc (1)", "Rouge (2)", "Rose (3)"}));
+            break;
+            case 4 :
+            jComboBoxChoixCouleur.setModel(new javax.swing.DefaultComboBoxModel(new String[] {"Blanc (1)", "Rouge (2)", "Rose (3)", "Marron (4)" }));
+            break;
+            case 5 :
+            jComboBoxChoixCouleur.setModel(new javax.swing.DefaultComboBoxModel(new String[] {"Blanc (1)", "Rouge (2)", "Rose (3)",  "Marron (4)", "Vert (5)"}));
+            break;
+            case 6 :
+            jComboBoxChoixCouleur.setModel(new javax.swing.DefaultComboBoxModel(new String[] {"Blanc (1)", "Rouge (2)", "Rose (3)" , "Marron (4)", "Vert (5)", "Orange (6)"}));
+            break;
+            case 7 :
+            jComboBoxChoixCouleur.setModel(new javax.swing.DefaultComboBoxModel(new String[] {"Blanc (1)", "Rouge (2)", "Rose (3)", "Marron (4)", "Vert (5)", "Orange (6)", "Violet(7)"}));
+            break;
+            case 8 :
+            jComboBoxChoixCouleur.setModel(new javax.swing.DefaultComboBoxModel(new String[] {"Blanc (1)", "Rouge (2)", "Rose (3)", "Marron (4)", "Vert (5)", "Orange (6)", "Violet(7)", "Cyan(8)"}));
+            break;
+            case 9 :
+            jComboBoxChoixCouleur.setModel(new javax.swing.DefaultComboBoxModel(new String[] {"Blanc (1)", "Rouge (2)", "Rose (3)", "Marron (4)", "Vert (5)", "Orange (6)", "Violet(7)", "Cyan(8)", "Gris(9)"}));
+            break;
+        }
     }
-       
+    
+    
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -236,7 +316,6 @@ public class Gui extends javax.swing.JFrame {
         }
         //</editor-fold>
 
-     
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
@@ -247,12 +326,14 @@ public class Gui extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton Demarrer;
-    private javax.swing.JCheckBox jCheckBox1;
-    private javax.swing.JComboBox jComboBox1;
-    private javax.swing.JLabel jLabel1;
+    private javax.swing.JButton jButtonSolution;
+    private javax.swing.JCheckBox jCheckBoxChoixAleatoire;
+    private javax.swing.JComboBox jComboBoxChoixCouleur;
+    private javax.swing.JComboBox jComboBoxChoixTaille;
+    private javax.swing.JLabel jLabelChoixCouleur;
+    private javax.swing.JLabel jLabelChoixTaille;
+    private javax.swing.JLabel jLabelNumberlink;
     private javax.swing.JPanel jPanel1;
     // End of variables declaration//GEN-END:variables
-    public int choixtaille;
-    public Grille grille;
-    public boolean choixAleatoire;
+
 }

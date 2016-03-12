@@ -1,62 +1,76 @@
 package main;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.swing.JPanel;
 
-public class DrawPanel extends JPanel  {
+import java.awt.Graphics;
+import javax.swing.JPanel;
+import java.awt.Image;
+import javax.imageio.ImageIO;
+import java.io.*;
+
+public class DrawPanel extends JPanel {
+
     Gui gui;
-    
+
     DrawPanel(Gui g) {
         super();
         this.gui = g;
     }
-    
+
     @Override
     public void paintComponent(Graphics g) {
-       
-       super.paintComponents(g);
-             
-     System.out.println("Est rentre ds paintcomponent");
-   
-     Graphics2D g2 = (Graphics2D)g;
-     initialize(g);
-     
-     g2.drawString("1", 40,40);
-       
-    
-    }
-    
-    public void initialize(Graphics g) {
-     int height = getHeight() - 1;
-     int width =  getWidth() - 1;
- 
-     //g.drawLine(0, 0, width, 0);
-     //g.drawLine(0, 0, 0, height);
-     g.drawLine(width, 0, width, height);
-     g.drawLine(0, height, width, height);
-     
-     
 
-     int tx = height/gui.grille.length + 1;
-     int ty = width/gui.grille.length + 1;
-     
-     System.out.println(gui.grille.matrice[1][1].color);
-     
-     for (int i = 0; i < height; i = i + tx) {
-         g.drawLine(0, i, width, i);
-     }
-     
-     for (int i = 0; i < width; i = i + ty) {
-         g.drawLine(i, 0, i, height);
-     }
+        super.paintComponents(g);
+
+        System.out.println("Rentre ds paintcomponent");
+
+        //Graphics2D g2 = (Graphics2D)g;
+        try {
+            initialize(g);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        //String[] test = {"0"};
+       // test[2] = "1";
+    
         
     }
-            
-    
-    public static void main (String args[]) {
-        
+
+    public void initialize(Graphics g) throws Exception {
+
+        int temp = 0;
+        for (int i = 0; i <= gui.grille.length; i = i + 1) {
+            g.drawLine(0, temp, gui.grille.length * 100, temp);
+            temp = temp + 100;
+        }
+        temp = 0;
+        for (int i = 0; i <= gui.grille.length; i = i + 1) {
+            g.drawLine(temp, 0, temp, gui.grille.length * 100);
+            temp = temp + 100;
+        }
+
+        for (int i = 0; i < gui.grille.length; i++) {
+            for (int j = 0; j < gui.grille.length; j++) {
+                if (gui.grille.matrice[i][j].color == 0) {
+                    try {
+                        Image img = ImageIO.read(new File("img/noir.png"));
+                        g.drawImage(img, j * 100, i * 100, this);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                } else {
+                    try {
+                        int tempcol = gui.grille.matrice[i][j].color;
+                        Image img = ImageIO.read(new File("img/" + tempcol + "start.png"));
+                        g.drawImage(img, j * 100, i * 100, this);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+
+                }
+            }
+        }
+
+        gui.grille.affiche();
     }
-    
+
 }
