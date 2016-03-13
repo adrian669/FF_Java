@@ -29,23 +29,20 @@ public class DrawPanel extends JPanel {
             e.printStackTrace();
         }
 
-        //String[] test = {"0"};
-       // test[2] = "1";
-    
         
     }
 
     public void initialize(Graphics g) throws Exception {
 
         int temp = 0;
-        for (int i = 0; i <= gui.grille.length; i = i + 1) {
+        for (int i = 0; i <= gui.grille.length; i += 1) {
             g.drawLine(0, temp, gui.grille.length * 100, temp);
-            temp = temp + 100;
+            temp += 100;
         }
         temp = 0;
-        for (int i = 0; i <= gui.grille.length; i = i + 1) {
+        for (int i = 0; i <= gui.grille.length; i += 1) {
             g.drawLine(temp, 0, temp, gui.grille.length * 100);
-            temp = temp + 100;
+            temp += 100;
         }
 
         for (int i = 0; i < gui.grille.length; i++) {
