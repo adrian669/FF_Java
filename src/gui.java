@@ -165,39 +165,40 @@ public class Gui extends javax.swing.JFrame {
         jPanel1.setVisible(true);
         
         if (choixAleatoire == true) {
-            grille = new Grille(choixTaille);
+            this.grille = new Grille(this.choixTaille);
+           //this.grille.aleaGrille(choixTaille, 10000);
         } else {
-            switch (choixTaille) { // Pas besoin de spécifier input/nomdufichier car pris en compte dans Grille
+            switch (this.choixTaille) { // Pas besoin de spécifier input/nomdufichier car pris en compte dans Grille
                 case 5:
                     try {
-                        grille = new Grille("test5x5.csv", 1);
+                        this.grille = new Grille("test5x5.csv", 1);
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
                     break;
                 case 6:
                     try {
-                        grille = new Grille("test6x6.csv", 1);
+                        this.grille = new Grille("test6x6.csv", 1);
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
                     break;
                 case 7:
                     try {
-                        grille = new Grille("test7x7.csv", 1);
+                        this.grille = new Grille("test7x7.csv", 1);
                     } catch (Exception e) {
                     }
                     break;
                 case 8:
                     try {
-                        grille = new Grille("test8x8.csv", 1);
+                        this.grille = new Grille("test8x8.csv", 1);
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
                     break;
                 case 9:
                     try {
-                        grille = new Grille("test9x9.csv", 1);
+                        this.grille = new Grille("test9x9.csv", 1);
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -214,19 +215,19 @@ public class Gui extends javax.swing.JFrame {
         String temp = selected.toString();
         switch (temp) {
             case "5x5":
-                choixTaille = 5;
+                this.choixTaille = 5;
                 break;
             case "6x6":
-                choixTaille = 6;
+                this.choixTaille = 6;
                 break;
             case "7x7":
-                choixTaille = 7;
+                this.choixTaille = 7;
                 break;
             case "8x8":
-                choixTaille = 8;
+                this.choixTaille = 8;
                 break;
             case "9x9":
-                choixTaille = 9;
+                this.choixTaille = 9;
                 break;
         }
         System.out.println(temp);
@@ -235,7 +236,7 @@ public class Gui extends javax.swing.JFrame {
     private void jCheckBoxChoixAleatoireActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBoxChoixAleatoireActionPerformed
         AbstractButton abstractButton = (AbstractButton) evt.getSource();
         boolean select = abstractButton.getModel().isSelected();
-        choixAleatoire = select == true;
+        this.choixAleatoire = select == true;
         System.out.println(select);
     }//GEN-LAST:event_jCheckBoxChoixAleatoireActionPerformed
 
@@ -255,8 +256,11 @@ public class Gui extends javax.swing.JFrame {
 
     }//GEN-LAST:event_jButtonSolutionActionPerformed
 
+    /**
+     * Actualise le choix des couleurs
+     */
     public void refreshComboBoxChoixCouleur() {
-        switch (grille.nb_color) {
+        switch (this.grille.nb_color) {
             case 1 :
             jComboBoxChoixCouleur.setModel(new javax.swing.DefaultComboBoxModel(new String[] {"Blanc (1)"}));
             break;

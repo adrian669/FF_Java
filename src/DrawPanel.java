@@ -10,11 +10,15 @@ public class DrawPanel extends JPanel {
 
     Gui gui;
 
-    DrawPanel(Gui g) {
+    public DrawPanel(Gui g) {
         super();
         this.gui = g;
     }
 
+    /**
+     * Surchage de paintComponent
+     * @param g Graphics
+     */
     @Override
     public void paintComponent(Graphics g) {
 
@@ -32,22 +36,27 @@ public class DrawPanel extends JPanel {
         
     }
 
+    /**
+     * Initialise la grille et l'affichage
+     * @param g Graphics
+     * @throws Exception IOException
+     */
     public void initialize(Graphics g) throws Exception {
 
         int temp = 0;
-        for (int i = 0; i <= gui.grille.length; i += 1) {
-            g.drawLine(0, temp, gui.grille.length * 100, temp);
+        for (int i = 0; i <= this.gui.grille.length; i += 1) {
+            g.drawLine(0, temp, this.gui.grille.length * 100, temp);
             temp += 100;
         }
         temp = 0;
-        for (int i = 0; i <= gui.grille.length; i += 1) {
-            g.drawLine(temp, 0, temp, gui.grille.length * 100);
+        for (int i = 0; i <= this.gui.grille.length; i += 1) {
+            g.drawLine(temp, 0, temp, this.gui.grille.length * 100);
             temp += 100;
         }
 
-        for (int i = 0; i < gui.grille.length; i++) {
-            for (int j = 0; j < gui.grille.length; j++) {
-                if (gui.grille.matrice[i][j].color == 0) {
+        for (int i = 0; i < this.gui.grille.length; i++) {
+            for (int j = 0; j < this.gui.grille.length; j++) {
+                if (this.gui.grille.matrice[i][j].color == 0) {
                     try {
                         Image img = ImageIO.read(new File("img/noir.png"));
                         g.drawImage(img, j * 100, i * 100, this);
@@ -56,7 +65,7 @@ public class DrawPanel extends JPanel {
                     }
                 } else {
                     try {
-                        int tempcol = gui.grille.matrice[i][j].color;
+                        int tempcol = this.gui.grille.matrice[i][j].color;
                         Image img = ImageIO.read(new File("img/" + tempcol + "start.png"));
                         g.drawImage(img, j * 100, i * 100, this);
                     } catch (IOException e) {
@@ -66,8 +75,8 @@ public class DrawPanel extends JPanel {
                 }
             }
         }
-
-        gui.grille.affiche();
+        
+        this.gui.grille.affiche();
     }
 
 }
