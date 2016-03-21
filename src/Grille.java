@@ -262,37 +262,28 @@ public class Grille {
         boolean temp = true;
         if ((this.matrice[0][1].color != this.matrice[1][0].color) && (this.matrice[0][0].color == 0)) {
             temp = false;
-            System.out.println("1er if " + temp);
         }
         if ((this.matrice[this.length - 2][0].color != this.matrice[this.length - 1][1].color) && (this.matrice[this.length - 1][0].color == 0)) {
             temp = false;
-            System.out.println("2er if " + temp);
         }
         if ((this.matrice[this.length - 2][this.length - 1].color != this.matrice[this.length - 1][this.length - 2].color) && (this.matrice[this.length - 1][this.length - 1].color == 0)) {
             temp = false;
-            System.out.println("3 if " + temp);
         }
         if ((this.matrice[0][this.length - 2].color != this.matrice[1][this.length - 1].color) && (this.matrice[0][this.length - 1].color == 0)) {
             temp = false;
-            System.out.println("4 if " + temp);
         }
         if ((this.matrice[0][1].color != this.matrice[1][0].color) && (this.matrice[0][1].color != this.matrice[0][0].color) && (this.matrice[0][0].color != this.matrice[1][0].color)) {
             temp = false;
-            System.out.println("5 if " + temp);
         }
         if ((this.matrice[this.length - 2][0].color != this.matrice[this.length - 1][1].color) && (this.matrice[this.length - 2][0].color != this.matrice[this.length - 1][0].color) && (this.matrice[this.length - 1][1].color != this.matrice[this.length - 1][0].color)) {
             temp = false;
-            System.out.println("6 if " + temp);
         }
         if ((this.matrice[this.length - 1][this.length - 2].color != this.matrice[this.length - 2][this.length - 1].color) && (this.matrice[this.length - 1][this.length - 2].color != this.matrice[this.length - 1][this.length - 1].color) && (this.matrice[this.length - 2][this.length - 1].color != this.matrice[this.length - 1][this.length - 1].color)) {
             temp = false;
-            System.out.println("7 if " + temp);
         }
         if ((this.matrice[0][this.length - 2].color != this.matrice[1][this.length - 1].color) && (this.matrice[0][this.length - 2].color != this.matrice[0][this.length - 1].color) && (this.matrice[1][this.length - 1].color != this.matrice[0][this.length - 1].color)) {
             temp = false;
-            System.out.println("8 if " + temp);
         }
-        System.out.println("fin bloquercoin " + temp);
         return temp;
     }
 
