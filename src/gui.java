@@ -9,7 +9,7 @@ public class Gui extends javax.swing.JFrame {
     public boolean choixAleatoire;
     public boolean aDemarrer = false; // Pour empecher le joueur de cliquer au mauvais endroit
     public boolean effaceCase = false;
-    public int choixCouleur; // Quelle couleur a été choisie par l'utilisateur
+    public int choixCouleur; // Quelle couleur a été choisi par l'utilisateur
 
     public Gui() {
         this.choixAleatoire = false;
@@ -364,9 +364,9 @@ public class Gui extends javax.swing.JFrame {
     }//GEN-LAST:event_jButtonEffaceCaseActionPerformed
 
     /**
-     * Retourne la case sur laquelle l'utilisateur à cliqué
+     * Retourne la case sur laquelle l'utilisateur à cliquer
      * @param x Coordonnée en x
-     * @param y Coordonnée en y
+     * @param y Coordonnée en u
      * @return Case 
      */
         public Case getCase(int x, int y) {
