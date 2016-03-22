@@ -19,7 +19,7 @@ public class FF {
 //        Grille grille1 = new Grille(3, 2);
 //       
 //        System.out.println(case11.comparaison(case11));
-        
+
 //        //System.out.println(grille1.length);
 //
 //        grille1.remplir(case11);
@@ -31,7 +31,6 @@ public class FF {
 //        grille1.remplir(case31);
 //        grille1.remplir(case32);
 //        grille1.remplir(case33);
-
         //test fonction affiche
 //        grille1.affiche();
 //        grille1.FindStart(1).affiche();
@@ -100,13 +99,11 @@ public class FF {
 //        grille1.affiche();
 //        System.out.println(grille1.directionCaseAvt(case21)+" 21");
 ////        
-
 //        System.out.println("test fonction Solve");
 //
         //grille1.Solve2(10000);
 //        //grille1.mark(case12, 1);
 //        grille1.affiche();
-
         //test constructeur Adrian par txt
 //        try{
 //        Grille grille2= new Grille("test7x7.csv" , 1);
@@ -147,7 +144,6 @@ public class FF {
 //            e.printStackTrace();
 //            System.out.println("Exception de FF");
 //        }
-
 //        try {
 //            Grille grille3 = new Grille("test5x5.csv", 1);
 //            grille3.affiche();
@@ -174,12 +170,11 @@ public class FF {
 //            e.printStackTrace();
 //            System.out.println("Exception de FF");
 //        }
-
 //        try {
 //           long t = 10000;
 //            Grille grille6 = new Grille(5);
 //            grille6.affiche();
-   //         grille6.Solve2(t);
+        //         grille6.Solve2(t);
 //////            //boolean test = !grille6.solved();
 //           grille6.aleaGrille(5, t);
 //            grille6.affiche();
@@ -220,7 +215,6 @@ public class FF {
 //        //test parcours  constructeur aleatoire
 //        grille3.affiche();
 //        grille3.parcours[1].getFirst().affiche();
-
 //       
 //        
 //  
@@ -239,9 +233,6 @@ public class FF {
         // test 6 new Grille("test6x6.csv", 6);
         // test 7 new Grille("test6x6.csv", 7);
         // test ex new Grille("test8x8.csv", 4);
-        
-        
-        
         // Lancement de l'interface graphique
         Gui essai = new Gui();
         essai.setVisible(true);

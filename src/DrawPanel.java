@@ -17,6 +17,7 @@ public class DrawPanel extends JPanel {
 
     /**
      * Surchage de paintComponent
+     *
      * @param g Graphics
      */
     @Override
@@ -33,11 +34,11 @@ public class DrawPanel extends JPanel {
             e.printStackTrace();
         }
 
-        
     }
 
     /**
      * Initialise la grille et l'affichage
+     *
      * @param g Graphics
      * @throws Exception IOException
      */
@@ -75,9 +76,8 @@ public class DrawPanel extends JPanel {
                 }
             }
         }
-        
+
         this.gui.grille.affiche();
     }
-     
-    
+
 }

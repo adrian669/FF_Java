@@ -41,6 +41,8 @@ public class Gui extends javax.swing.JFrame {
         jLabelStatutEffaceCase = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTextArea1 = new javax.swing.JTextArea();
+        ImageIcon imageIcon2 = new ImageIcon("img/exemple.png");
+        jLabelExemple = new javax.swing.JLabel(imageIcon2);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Numberlink");
@@ -130,7 +132,7 @@ public class Gui extends javax.swing.JFrame {
         jTextArea1.setFont(new java.awt.Font("Monospaced", 0, 14)); // NOI18N
         jTextArea1.setLineWrap(true);
         jTextArea1.setRows(2);
-        jTextArea1.setText("Les règles sont simples ! Remplissez entièrement la grille en reliant les couleurs deux à deux sans que les chemins ne se croisent. Bonne chance !");
+        jTextArea1.setText("Les règles sont simples ! Remplissez entièrement la grille en reliant les couleurs deux à deux sans que les chemins ne se croisent. Bonne chance !\nExemple :");
         jTextArea1.setWrapStyleWord(true);
         jTextArea1.setAutoscrolls(false);
         jTextArea1.setBorder(null);
@@ -147,7 +149,7 @@ public class Gui extends javax.swing.JFrame {
                 .addComponent(jLabelNumberlink, javax.swing.GroupLayout.PREFERRED_SIZE, 540, javax.swing.GroupLayout.PREFERRED_SIZE))
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jCheckBoxChoixAleatoire)
                     .addComponent(Demarrer)
@@ -165,7 +167,10 @@ public class Gui extends javax.swing.JFrame {
                             .addComponent(jButtonSolution)
                             .addComponent(jButtonEffaceCase)))
                     .addComponent(jLabelStatutEffaceCase, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 275, Short.MAX_VALUE)))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 275, Short.MAX_VALUE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(104, 104, 104)
+                        .addComponent(jLabelExemple))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -192,7 +197,9 @@ public class Gui extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jButtonSolution)
                         .addGap(18, 18, 18)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabelExemple)))
                 .addGap(28, 28, 28)
                 .addComponent(jLabelNumberlink, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(278, Short.MAX_VALUE))
@@ -205,14 +212,14 @@ public class Gui extends javax.swing.JFrame {
         System.out.println("Bouton démarrer");
 
         aDemarrer = true;
-        
+
         // Pour actualiser !
         jPanel1.setVisible(false);
         jPanel1.setVisible(true);
-        
+
         if (choixAleatoire == true) {
             this.grille = new Grille(this.choixTaille);
-           //this.grille.aleaGrille(choixTaille, 10000);
+            //this.grille.aleaGrille(choixTaille, 10000);
         } else {
             switch (this.choixTaille) { // Pas besoin de spécifier input/nomdufichier car pris en compte dans Grille
                 case 5:
@@ -293,10 +300,9 @@ public class Gui extends javax.swing.JFrame {
             Case casetemp = getCase(evt.getY(), evt.getX());
             casetemp.affiche();
             int tempCouleur = choixCouleur;
-            if (effaceCase){
-                
-            }
-            else {
+            if (effaceCase) {
+
+            } else {
                 changeCouleur(casetemp);
                 //casetemp.color;
             }
@@ -306,13 +312,13 @@ public class Gui extends javax.swing.JFrame {
     public void changeCouleur(Case case1) {
         if (case1.nb_marked != -1) {
             this.grille.matrice[case1.i - 1][case1.j - 1].color = this.choixCouleur;
-            if( this.grille.matrice[case1.i - 1][case1.j - 1].color == 0) {
+            if (this.grille.matrice[case1.i - 1][case1.j - 1].color == 0) {
                 this.grille.matrice[case1.i - 1][case1.j - 1].marked = false;
             }
         }
     }
-    
-    
+
+
     private void jComboBoxChoixCouleurActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxChoixCouleurActionPerformed
         JComboBox comboBox = (JComboBox) evt.getSource();
         Object selected = comboBox.getSelectedItem();
@@ -320,33 +326,33 @@ public class Gui extends javax.swing.JFrame {
         this.effaceCase = false;
         refreshjLabelStatutEffaceCase();
         switch (temp) {
-            case "Blanc" :
+            case "Blanc":
                 this.choixCouleur = 1;
                 break;
-            case "Rouge" :
+            case "Rouge":
                 this.choixCouleur = 2;
                 break;
-            case "Rose" :
+            case "Rose":
                 this.choixCouleur = 3;
                 break;
-            case "Marron" :
+            case "Marron":
                 this.choixCouleur = 4;
                 break;
-            case "Vert" :
+            case "Vert":
                 this.choixCouleur = 5;
                 break;
-            case "Orange" :
+            case "Orange":
                 this.choixCouleur = 6;
                 break;
-            case "Violet" :
+            case "Violet":
                 this.choixCouleur = 7;
                 break;
-            case "Cyan" :
+            case "Cyan":
                 this.choixCouleur = 8;
                 break;
-            case "Gris" :
+            case "Gris":
                 this.choixCouleur = 9;
-                break;               
+                break;
         }
     }//GEN-LAST:event_jComboBoxChoixCouleurActionPerformed
 
@@ -357,70 +363,71 @@ public class Gui extends javax.swing.JFrame {
     }//GEN-LAST:event_jButtonSolutionActionPerformed
 
     private void jButtonEffaceCaseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonEffaceCaseActionPerformed
-      if(this.aDemarrer) {
-          this.effaceCase = true;
-          refreshjLabelStatutEffaceCase();
-      }
+        if (this.aDemarrer) {
+            this.effaceCase = true;
+            refreshjLabelStatutEffaceCase();
+        }
     }//GEN-LAST:event_jButtonEffaceCaseActionPerformed
 
     /**
-     * Retourne la case sur laquelle l'utilisateur à cliquer
+     * Retourne la case sur laquelle l'utilisateur à cliqué
+     *
      * @param x Coordonnée en x
      * @param y Coordonnée en u
-     * @return Case 
+     * @return Case
      */
-        public Case getCase(int x, int y) {
-         int tempX = x/100;
-         int tempY = y/100;
-         System.out.println(tempX);
-         System.out.println(tempY);
-         return this.grille.matrice[tempX][tempY];
+    public Case getCase(int x, int y) {
+        int tempX = x / 100;
+        int tempY = y / 100;
+        System.out.println(tempX);
+        System.out.println(tempY);
+        return this.grille.matrice[tempX][tempY];
     }
-     
+
     /**
      * Actualise la liste de choix des couleurs
      */
     public void refreshComboBoxChoixCouleur() {
         switch (this.grille.nb_color) {
-            case 1 :
-            jComboBoxChoixCouleur.setModel(new javax.swing.DefaultComboBoxModel(new String[] {"Blanc"}));
-            break;
-            case 2 :
-            jComboBoxChoixCouleur.setModel(new javax.swing.DefaultComboBoxModel(new String[] {"Blanc", "Rouge", "Rose"}));
-            break;
-            case 3 :
-            jComboBoxChoixCouleur.setModel(new javax.swing.DefaultComboBoxModel(new String[] {"Blanc", "Rouge", "Rose"}));
-            break;
-            case 4 :
-            jComboBoxChoixCouleur.setModel(new javax.swing.DefaultComboBoxModel(new String[] {"Blanc", "Rouge", "Rose", "Marron" }));
-            break;
-            case 5 :
-            jComboBoxChoixCouleur.setModel(new javax.swing.DefaultComboBoxModel(new String[] {"Blanc", "Rouge", "Rose",  "Marron", "Vert"}));
-            break;
-            case 6 :
-            jComboBoxChoixCouleur.setModel(new javax.swing.DefaultComboBoxModel(new String[] {"Blanc", "Rouge", "Rose" , "Marron", "Vert", "Orange"}));
-            break;
-            case 7 :
-            jComboBoxChoixCouleur.setModel(new javax.swing.DefaultComboBoxModel(new String[] {"Blanc", "Rouge", "Rose", "Marron", "Vert", "Orange", "Violet"}));
-            break;
-            case 8 :
-            jComboBoxChoixCouleur.setModel(new javax.swing.DefaultComboBoxModel(new String[] {"Blanc", "Rouge", "Rose", "Marron", "Vert", "Orange", "Violet", "Cyan"}));
-            break;
-            case 9 :
-            jComboBoxChoixCouleur.setModel(new javax.swing.DefaultComboBoxModel(new String[] {"Blanc", "Rouge", "Rose", "Marron", "Vert", "Orange", "Violet", "Cyan", "Gris"}));
-            break;
+            case 1:
+                jComboBoxChoixCouleur.setModel(new javax.swing.DefaultComboBoxModel(new String[]{"Blanc"}));
+                break;
+            case 2:
+                jComboBoxChoixCouleur.setModel(new javax.swing.DefaultComboBoxModel(new String[]{"Blanc", "Rouge", "Rose"}));
+                break;
+            case 3:
+                jComboBoxChoixCouleur.setModel(new javax.swing.DefaultComboBoxModel(new String[]{"Blanc", "Rouge", "Rose"}));
+                break;
+            case 4:
+                jComboBoxChoixCouleur.setModel(new javax.swing.DefaultComboBoxModel(new String[]{"Blanc", "Rouge", "Rose", "Marron"}));
+                break;
+            case 5:
+                jComboBoxChoixCouleur.setModel(new javax.swing.DefaultComboBoxModel(new String[]{"Blanc", "Rouge", "Rose", "Marron", "Vert"}));
+                break;
+            case 6:
+                jComboBoxChoixCouleur.setModel(new javax.swing.DefaultComboBoxModel(new String[]{"Blanc", "Rouge", "Rose", "Marron", "Vert", "Orange"}));
+                break;
+            case 7:
+                jComboBoxChoixCouleur.setModel(new javax.swing.DefaultComboBoxModel(new String[]{"Blanc", "Rouge", "Rose", "Marron", "Vert", "Orange", "Violet"}));
+                break;
+            case 8:
+                jComboBoxChoixCouleur.setModel(new javax.swing.DefaultComboBoxModel(new String[]{"Blanc", "Rouge", "Rose", "Marron", "Vert", "Orange", "Violet", "Cyan"}));
+                break;
+            case 9:
+                jComboBoxChoixCouleur.setModel(new javax.swing.DefaultComboBoxModel(new String[]{"Blanc", "Rouge", "Rose", "Marron", "Vert", "Orange", "Violet", "Cyan", "Gris"}));
+                break;
         }
     }
-    
+
     /**
      * Mets à jour le jLabel de status d'efface case
      */
     public void refreshjLabelStatutEffaceCase() {
         jLabelStatutEffaceCase.setText("Statut d'efface case : " + this.effaceCase);
     }
-    
+
     public static void main(String args[]) {
-       /* Set the Nimbus look and feel */
+        /* Set the Nimbus look and feel */
 //        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
 //        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
 //         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
@@ -442,7 +449,7 @@ public class Gui extends javax.swing.JFrame {
             java.util.logging.Logger.getLogger(Gui.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
 //        //</editor-fold>
-  
+
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
@@ -460,6 +467,7 @@ public class Gui extends javax.swing.JFrame {
     private javax.swing.JComboBox jComboBoxChoixTaille;
     private javax.swing.JLabel jLabelChoixCouleur;
     private javax.swing.JLabel jLabelChoixTaille;
+    private javax.swing.JLabel jLabelExemple;
     private javax.swing.JLabel jLabelNumberlink;
     private javax.swing.JLabel jLabelStatutEffaceCase;
     private javax.swing.JPanel jPanel1;

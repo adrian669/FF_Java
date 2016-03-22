@@ -16,11 +16,13 @@ public class Grille {
     LinkedList<Case>[] parcours;//liste des cases marquees pour chaque couleur (avec depart et arrivee) et la premiere liste contient toutes les cases marquees couleurs confondues
 
     /**
-     * Constructeur d'une grille vide de taille donnée et avec un nb de couleur donné
+     * Constructeur d'une grille vide de taille donnée et avec un nb de couleur
+     * donné
+     *
      * @param length1 taille
      * @param nb_color1 nombre de couleur
      */
-        public Grille(int length1, int nb_color1) {
+    public Grille(int length1, int nb_color1) {
         this.matrice = new Case[length1][length1];
         this.length = length1;
         this.nb_color = nb_color1;
@@ -33,9 +35,10 @@ public class Grille {
 
     /**
      * Constructeur de grille aléatoire
+     *
      * @param length1 taille de la grille en lligne
      */
-        public Grille(int length1) {
+    public Grille(int length1) {
         this.matrice = new Case[length1][length1];
         this.length = length1;
         this.nb_color = length1 - 1;
@@ -145,11 +148,12 @@ public class Grille {
 
     /**
      * Constructeur à partir d'un fichier csv contenant des grilles
+     *
      * @param nom_fich nom du fichier en .csv
      * @param choix_input choix de la grille parmi celle presente dans le .csv
      * @throws Exception Exception si le fichier n'existe pas
      */
-        public Grille(String nom_fich, int choix_input) throws Exception {
+    public Grille(String nom_fich, int choix_input) throws Exception {
         int tempo = 0; // Va prendre le int dans le scanner.
         int nb_ligne = 0; // Nombre de ligne pour une grille
         int max = 0; // Pour connaitre le numéro de la plus grande couleur dans le fichier. On en déduit le nombre de couleur.
@@ -240,9 +244,10 @@ public class Grille {
 
     /**
      * Conjstructeur de copie
+     *
      * @param gr Grille
      */
-        public Grille(Grille gr) {
+    public Grille(Grille gr) {
         this.matrice = gr.matrice;
         this.length = gr.length;
         this.nb_cases_marked = gr.nb_cases_marked;
@@ -289,10 +294,10 @@ public class Grille {
 
     /**
      * Créer une grille aléatoire qui est resolu par l'algorithme et qui véfifie
-     * les règles du jeu
+     * les règles du jeu.
      *
      * @param length1 nombre de case sur une ligne
-     * @param time1 temps maximum pour résoudre une grille
+     * @param time1 temps maximum par couleur pour résoudre une grille
      * @return Grille solution
      */
     public Grille aleaGrille(int length1, long time1) {
@@ -335,7 +340,6 @@ public class Grille {
                 System.out.println("dans le else");
             }
         }
-        System.out.println("sortie du while");
         this.matrice = grille1.matrice;
         this.length = grille1.length;
         this.nb_cases_marked = grille1.nb_cases_marked;
@@ -377,7 +381,7 @@ public class Grille {
     }
 
     /**
-     * Reinitialisse la grille au départ
+     * Reinitialise la grille au départ
      */
     public void reinitialize() {
         //on vide la grille             
@@ -430,7 +434,7 @@ public class Grille {
     }
 
     /**
-     * Affiche toute la liste. Couleur ou 0 pour ttes les cases marquees
+     * Affiche toute la liste. Couleur ou 0 pour toutes les cases marquees
      *
      * @param col1 couleur
      */
@@ -485,13 +489,13 @@ public class Grille {
         System.out.print("\n");
     }
 
-
     /**
      * Trouve la case de depart d'une couleur
+     *
      * @param color1 couleur
      * @return case
      */
-        public Case FindStart(int color1) {
+    public Case FindStart(int color1) {
         Case start;
         int ligne = 0;
         int col = 0;
@@ -515,11 +519,12 @@ public class Grille {
     }
 
     /**
-     * Trouve la case d'arrivee d'une couleur
+     * Trouve la case d'arrivée d'une couleur
+     *
      * @param color1 couelur
      * @return case case
      */
-        public Case FindEnd(int color1) {
+    public Case FindEnd(int color1) {
         Case end;
         int ligne = this.length - 1;
         int col = this.length - 1;
@@ -542,14 +547,15 @@ public class Grille {
         return end;
     }
 
-
     /**
-     * retourne la case au Nord (1), a l'Est (2) ,au Sud (3) ou a l'Ouest (4) de la case donnee
+     * retourne la case au Nord (1), a l'Est (2) ,au Sud (3) ou a l'Ouest (4) de
+     * la case donnee
+     *
      * @param case1 case
      * @param pos position
      * @return case (la meme si l'autre n'existe pas)
      */
-        public Case donneCase(Case case1, int pos) {
+    public Case donneCase(Case case1, int pos) {
         Case end = case1;
         if ((pos == 1) & ((case1.i - 2) > -1) & ((case1.i - 2) < this.length)) {
             end = this.matrice[case1.i - 2][case1.j - 1];//coeff doivent toujou etre rectifie par - 1
@@ -1093,10 +1099,12 @@ public class Grille {
 
     /**
      * CaseAvt (ancienne methode)
+     *
      * @param case1 case
-     * @return case precedemment marquee ou la case depart (pas forcement de la mm couleur)
+     * @return case precedemment marquee ou la case depart (pas forcement de la
+     * mm couleur)
      */
-        public Case CaseAvt(Case case1) {
+    public Case CaseAvt(Case case1) {
         int nb1 = case1.nb_marked;
         int nb2 = 0;
         Case case2;
@@ -1120,13 +1128,13 @@ public class Grille {
         return case2;
     }
 
-
     /**
      * CaseAvt2 (avec listes)
+     *
      * @param case1 case
      * @return case precedemment marquee (pas forcement de la mm couleur)
      */
-        public Case CaseAvt2(Case case1) {
+    public Case CaseAvt2(Case case1) {
 
         int index = this.parcours[0].indexOf(case1);
         if (index <= 0) {//la case n'est pas marquee ou c est la premiere a l etre
@@ -1137,7 +1145,7 @@ public class Grille {
 
     }
 
-     //fonction Solve2 (avec listes)
+    //fonction Solve2 (avec listes)
     //arguments : none
     //sortie: none
     //resout la grille (avec possiblement des cases vides) 
