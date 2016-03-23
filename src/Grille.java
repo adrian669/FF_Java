@@ -111,7 +111,6 @@ public class Grille {
             }
             // Si on arrive à une situation irrésoluble dans un coin on recommence depuis le début
             if (!bloquerCoin()) {
-                System.out.println("!bloquercoin");
                 for (int k = 0; k < this.length; k++) {
                     for (int j = 0; j < this.length; j++) {
                         this.matrice[k][j].i = k + 1;
@@ -310,24 +309,24 @@ public class Grille {
         //Grille grille1copie = new Grille(grille1);       
         while (b) {
             try {
-                System.out.println("debut while");
-                grille1.Solve2(time1);
+                //  System.out.println("debut while");
+                grille1.solve2(time1);
 
                 //grille1.affiche();
-                System.out.println("debut solved");
+                // System.out.println("debut solved");
                 b = !grille1.solved();
-                System.out.println("valeur de b ds le try " + b);
+                //  System.out.println("valeur de b ds le try " + b);
             } catch (NoSuchElementException e) {
                 //e.printStackTrace();
                 b = true;
-                System.out.println("valeur de b ds le catch NoSuchElement : " + b);
+                // System.out.println("valeur de b ds le catch NoSuchElement : " + b);
             } catch (ArrayIndexOutOfBoundsException e) {
                 b = true;
-                System.out.println("valeur de b ds le catch Array :  " + b);
+                //   System.out.println("valeur de b ds le catch Array :  " + b);
             } catch (Exception e) {
                 e.printStackTrace();
                 b = true;
-                System.out.println("valeur de b ds le catch Exception :  " + b);
+                //  System.out.println("valeur de b ds le catch Exception :  " + b);
             }
 
             if (b) {
@@ -335,9 +334,9 @@ public class Grille {
                 grille1.affiche();
                 //grille1copie = grille1;
                 //grille1copie = new Grille(grille1); 
-                System.out.println("dans le if");
+                //  System.out.println("dans le if");
             } else {
-                System.out.println("dans le else");
+                // System.out.println("dans le else");
             }
         }
         this.matrice = grille1.matrice;
@@ -427,7 +426,7 @@ public class Grille {
     public void parcours() {
         int i = 1;
         while (i <= this.nb_color) {
-            Case d = this.FindStart(i);
+            Case d = this.findStart(i);
             this.parcours[i].add(d);
             i += 1;
         }
@@ -495,7 +494,7 @@ public class Grille {
      * @param color1 couleur
      * @return case
      */
-    public Case FindStart(int color1) {
+    public Case findStart(int color1) {
         Case start;
         int ligne = 0;
         int col = 0;
@@ -521,10 +520,10 @@ public class Grille {
     /**
      * Trouve la case d'arrivée d'une couleur
      *
-     * @param color1 couelur
-     * @return case case
+     * @param color1 couleur
+     * @return the main.Case
      */
-    public Case FindEnd(int color1) {
+    public Case findEnd(int color1) {
         Case end;
         int ligne = this.length - 1;
         int col = this.length - 1;
@@ -538,7 +537,6 @@ public class Grille {
                 if (col - 1 > -1) {
                     col -= 1;
                 } else {
-
                     ligne -= 1;
                     col = this.length - 1;
                 }
@@ -738,9 +736,9 @@ public class Grille {
     public boolean colorLinked(int color1) {
         boolean end = false;
         boolean while0 = true;
-        Case case0 = this.FindStart(color1);
-        Case case1 = this.FindStart(color1);
-        Case caseend = this.FindEnd(color1);
+        Case case0 = this.findStart(color1);
+        Case case1 = this.findStart(color1);
+        Case caseend = this.findEnd(color1);
         int nb = 0;//future case doit etre >
         int nb2 = 100;//doit etre <
         int ligne = this.length - 1;
@@ -760,12 +758,12 @@ public class Grille {
             }
         }
         //on trouve de quelle case elle est partie
-        if ((this.donneCase(case1, 1).comparaison(this.FindStart(color1))) || (this.donneCase(case1, 2).comparaison(this.FindStart(color1))) || (this.donneCase(case1, 3).comparaison(this.FindStart(color1))) || (this.donneCase(case1, 4).comparaison(this.FindStart(color1)))) {
-            case0 = this.FindStart(color1);
-            caseend = this.FindEnd(color1);
-        } else if ((this.donneCase(case1, 1).comparaison(this.FindEnd(color1))) || (this.donneCase(case1, 2).comparaison(this.FindEnd(color1))) || (this.donneCase(case1, 3).comparaison(this.FindEnd(color1))) || (this.donneCase(case1, 4).comparaison(this.FindEnd(color1)))) {
-            case0 = this.FindEnd(color1);
-            caseend = this.FindStart(color1);
+        if ((this.donneCase(case1, 1).comparaison(this.findStart(color1))) || (this.donneCase(case1, 2).comparaison(this.findStart(color1))) || (this.donneCase(case1, 3).comparaison(this.findStart(color1))) || (this.donneCase(case1, 4).comparaison(this.findStart(color1)))) {
+            case0 = this.findStart(color1);
+            caseend = this.findEnd(color1);
+        } else if ((this.donneCase(case1, 1).comparaison(this.findEnd(color1))) || (this.donneCase(case1, 2).comparaison(this.findEnd(color1))) || (this.donneCase(case1, 3).comparaison(this.findEnd(color1))) || (this.donneCase(case1, 4).comparaison(this.findEnd(color1)))) {
+            case0 = this.findEnd(color1);
+            caseend = this.findStart(color1);
         }
 //        else{
 //            System.out.println("case0 :  i:" +case0.i+"   j:"+case0.j);
@@ -816,7 +814,7 @@ public class Grille {
         } else {//sinon
             case1 = (Case) this.parcours[color1].getLast();//derniere case pour la couleur 
             //case2=(Case)this.parcours[color1].getFirst();//premiere case pour la couleur 
-            return ((case1.nb_marked == -1) & (!case1.comparaison(this.FindStart(color1))));
+            return ((case1.nb_marked == -1) & (!case1.comparaison(this.findStart(color1))));
             //vrai si la premiere case est la case de depart et si la derniere est la case d arrivee
         }
     }
@@ -884,7 +882,7 @@ public class Grille {
                 col = this.length - 1;
             }
         }
-        System.out.println("solved2");
+        // System.out.println("solved2");
         return ((nbempty == 0) & this.solvedAlgo2());
     }
 
@@ -898,12 +896,12 @@ public class Grille {
         for (int i = 1; i <= this.nb_color; i++) {
             s = (s & this.colorLinked2(i));//couleurs de 1 a i liees ?
         }
-        System.out.println("solvedAlgo2");
+        // System.out.println("solvedAlgo2");
         return s;
     }
 
     /**
-     * dit si la partie est finie (pour l'Algo donc ss compter cases vides)
+     * dit si la partie est finie (pour l'algo donc ss compter cases vides)
      *
      * @return boolean
      */
@@ -1025,7 +1023,7 @@ public class Grille {
                 }
             }
             if (nb2 == -1) {
-                case2 = this.FindStart(case1.color);
+                case2 = this.findStart(case1.color);
             }
             if (case2.i == case1.i) {//East (2) or West (4)
                 if (case1.j == case2.j - 1) {
@@ -1058,10 +1056,10 @@ public class Grille {
      */
     public int directionCaseAvt2(Case case1) {
         int direction;
-        Case case2 = this.CaseAvt2(case1);
+        Case case2 = this.caseAvt2(case1);
         if (case2.comparaison(case1)) {//premiere case marquee
             //direction=1;
-            case2 = this.FindStart(case1.color);
+            case2 = this.findStart(case1.color);
             if (case2.i == case1.i) {//East (2) or West (4)
                 if (case1.j == case2.j - 1) {
                     direction = 4;
@@ -1077,7 +1075,7 @@ public class Grille {
             }
         } else {
             if (case2.color != case1.color) {//pas de la meme couleur
-                case2 = this.FindStart(case1.color);
+                case2 = this.findStart(case1.color);
             }
             if (case2.i == case1.i) {//East (2) or West (4)
                 if (case1.j == case2.j - 1) {
@@ -1101,10 +1099,9 @@ public class Grille {
      * CaseAvt (ancienne methode)
      *
      * @param case1 case
-     * @return case precedemment marquee ou la case depart (pas forcement de la
-     * mm couleur)
+     * @return the main.Case
      */
-    public Case CaseAvt(Case case1) {
+    public Case caseAvt(Case case1) {
         int nb1 = case1.nb_marked;
         int nb2 = 0;
         Case case2;
@@ -1132,9 +1129,9 @@ public class Grille {
      * CaseAvt2 (avec listes)
      *
      * @param case1 case
-     * @return case precedemment marquee (pas forcement de la mm couleur)
+     * @return the main.Case
      */
-    public Case CaseAvt2(Case case1) {
+    public Case caseAvt2(Case case1) {
 
         int index = this.parcours[0].indexOf(case1);
         if (index <= 0) {//la case n'est pas marquee ou c est la premiere a l etre
@@ -1158,7 +1155,7 @@ public class Grille {
      *
      * @param limit temps maximum pour la résolution d'une grille
      */
-    public void Solve2(long limit) {
+    public void solve2(long limit) {
         //Big Start
         int color = 1;// on commence par la couleur 1
         Case case0;//case marquee
@@ -1183,21 +1180,21 @@ public class Grille {
 
         System.out.println(this.nb_color);
         while (!this.solvedAlgo2() && (time < this.nb_color * limit)) {
-            System.out.println("debut while 1");
-            casedepart = this.FindStart(color);//case depart
-            casearrivee = this.FindEnd(color);//case arrivee
+            // System.out.println("debut while 1");
+            casedepart = this.findStart(color);//case depart
+            casearrivee = this.findEnd(color);//case arrivee
             direction = 1;//on commence par la direction 1 (North)
             case0 = casedepart;
             decision[casedepart.i - 1][casedepart.j - 1] = 1;//prise de decision ?
             //this.parcours[0].add(casedepart);//cases depart ds ttes cases marquees? NON
             time = System.currentTimeMillis() - timeBefore;
-            System.out.println("time1 " + time + " " + this.nb_color * limit);
+            //System.out.println("time1 " + time + " " + this.nb_color * limit);
             b = true;
             //this.afficheparcours(0);
             while (b && (time < this.nb_color * limit)) {//Start
-                System.out.println("debut while 2");
+                //System.out.println("debut while 2");
                 time = System.currentTimeMillis() - timeBefore;
-                System.out.println("time2 " + time + " " + this.nb_color * limit);
+                // System.out.println("time2 " + time + " " + this.nb_color * limit);
                 //Any obstacles ?
                 if ((case0.comparaison(this.donneCase(case0, direction))) || ((this.donneCase(case0, direction).color != 0) & (!this.donneCase(case0, direction).comparaison(casearrivee)))) {//derniere case dans cette direction ou case non vide (hors case arrivee)
                     //Yes
@@ -1230,22 +1227,22 @@ public class Grille {
 //                    }
                     while (!c) {// While No
                         //Turn one cell back
-                        System.out.println("debut while 3");
-                        System.out.println("time3 " + time + " " + this.nb_color * limit);
-                        if (case0.comparaison(this.FindStart(case0.color))) {//on a change de couleur
+                        //System.out.println("debut while 3");
+                        // System.out.println("time3 " + time + " " + this.nb_color * limit);
+                        if (case0.comparaison(this.findStart(case0.color))) {//on a change de couleur
                             case0 = this.parcours[0].getLast();//derniere case marquee
                             color -= 1;//on retourne a la couleur d avant
-                            casedepart = this.FindStart(color);//case depart
-                            casearrivee = this.FindEnd(color);//case arrivee
+                            casedepart = this.findStart(color);//case depart
+                            casearrivee = this.findEnd(color);//case arrivee
 //                            System.out.println("couleur :"+color+" cases d et a :");
 //                            casedepart.affiche();
 //                            casearrivee.affiche();
                         }
-                        case1 = this.CaseAvt2(case0);
+                        case1 = this.caseAvt2(case0);
 
                         //on adapte :
                         if (case1.comparaison(case0)) {//premiere case marquee
-                            case1 = this.FindStart(case0.color);
+                            case1 = this.findStart(case0.color);
 //                            System.out.println("pb1 :");
                         }
 
@@ -1268,8 +1265,8 @@ public class Grille {
                             //retour couleur avant
 //                            System.out.println("retour couleur avt");
                             color -= 1;
-                            casedepart = this.FindStart(color);//case depart
-                            casearrivee = this.FindEnd(color);//case arrivee
+                            casedepart = this.findStart(color);//case depart
+                            casearrivee = this.findEnd(color);//case arrivee
                         } //on acualise c : else ?
                         else if (((directionavt != 1) & (this.donneCase(case0, 1).color == 0)) || ((directionavt != 2) & (this.donneCase(case0, 2).color == 0)) || ((directionavt != 3) & (this.donneCase(case0, 3).color == 0)) || ((directionavt != 4) & (this.donneCase(case0, 4).color == 0))) {//une case vide a cote autre que celle qu'on vient d effacer
                             c = true;
@@ -1361,8 +1358,8 @@ public class Grille {
                         // System.out.print("end ");
                     } else {
                         //this.afficheparcours(0);
-                        casedepart = this.FindStart(color);//case depart
-                        casearrivee = this.FindEnd(color);//case arrivee
+                        casedepart = this.findStart(color);//case depart
+                        casearrivee = this.findEnd(color);//case arrivee
 //                        System.out.print("cases depart et arrivee ");
 //                        casedepart.affiche();
 //                        System.out.print("col 4 "+this.matrice[4][0].nb_marked);
@@ -1375,7 +1372,7 @@ public class Grille {
                     //this.affiche();
                 }
             }//End
-            System.out.println("solve2");
+            // System.out.println("solve2");
         }//Big End
 
     }
@@ -1432,4 +1429,136 @@ public class Grille {
         }
 
     }
+
+    String traduction(int dir) {
+        if (dir == 1) {
+            return "N";
+        } else if (dir == 2) {
+            return "E";
+        } else if (dir == 3) {
+            return "S";
+        } else {
+            return "O";
+        }
+    }
+
+    String traduction2(String s) {
+        if (s == "SN") {
+            return "NS";
+        } else if (s == "EO") {
+            return "OE";
+        } else if (s == "SE") {
+            return "ES";
+        } else if (s == "NO") {
+            return "ON";
+        } else if (s == "OS") {
+            return "SO";
+        } else if (s == "EN") {
+            return "NE";
+        } else {
+            return s;
+        }
+    }
+
+    String[][] images() {
+        //this.rectif();//on rectifie les nb_marked
+        String[][] tab = new String[this.length][this.length];
+        Case case0;//case avt
+        Case casecompl;//"case arrivee"
+        Case der;//derniere case d un parcours
+        Case casemin;//case image
+        Case casemin2;//case apres
+        int min;//nb_marked case min
+        int min2;//nb marked case min2
+        int pos = 0;
+        int dir, dir1, dir2;
+        for (int c = 1; c <= this.nb_color; c++) {//pour chaque couleur
+            case0 = this.findStart(c);//la case depart
+            casecompl = this.findEnd(c);//la case arrivee
+            if (this.parcours[c].isEmpty()) {//pas de cases marquees pour cette couleur
+                tab[this.findEnd(c).i - 1][this.findEnd(c).j - 1] = "img/" + c + "start.png";
+                tab[this.findStart(c).i - 1][this.findStart(c).j - 1] = "img/" + c + "start.png";
+            } else {
+                der = this.parcours[c].getLast();
+                if ((Math.abs(der.i - this.findEnd(c).i) > 1) || (Math.abs(der.j - this.findEnd(c).j) > 1)) {//on est parti de la case arrivee
+                    case0 = this.findEnd(c);
+                    casecompl = this.findStart(c);
+                }
+                pos = 0;
+                casemin = this.parcours[c].get(pos);
+                if ((pos + 1) < parcours[c].size()) {
+                    casemin2 = this.parcours[c].get(pos + 1);
+                    pos = pos + 1;
+                } else {
+                    casemin2 = casecompl;
+                }
+
+                if (case0.j == casemin.j) {//case depart
+                    if (case0.i == casemin.i + 1) {
+                        tab[case0.i - 1][case0.j - 1] = "img/" + c + "N.png";
+                        dir = 1;
+                    } else {
+                        tab[case0.i - 1][case0.j - 1] = "img/" + c + "S.png";
+                        dir = 3;
+                    }
+                } else if (case0.j == casemin.j + 1) {
+                    tab[case0.i - 1][case0.j - 1] = "img/" + c + "O.png";
+                    dir = 4;
+                } else {
+                    tab[case0.i - 1][case0.j - 1] = "img/" + c + "E.png";
+                    dir = 2;
+                }
+                while (casemin.nb_marked != -1) {//pas case arrivee
+                    dir1 = (dir + 2) % 4;
+                    if (dir1 == 0) {
+                        dir1 = 4;
+                    }
+                    if (casemin.j == casemin2.j) {//mm colonne
+                        if (casemin.i == casemin2.i + 1) {
+                            dir2 = 1;
+                        } else {
+                            dir2 = 3;
+                        }
+                    } else if (casemin.j == casemin2.j + 1) {
+                        dir2 = 4;
+                    } else {
+                        dir2 = 2;
+                    }
+                    tab[casemin.i - 1][casemin.j - 1] = "img/" + c + this.traduction2(this.traduction(dir1) + this.traduction(dir2)) + ".png";
+
+                    //etape suivante
+                    dir = dir2;
+                    casemin = casemin2;
+                    if ((pos + 1) < parcours[c].size()) {
+                        casemin2 = this.parcours[c].get(pos + 1);
+                        pos = pos + 1;
+                    } else {
+                        casemin2 = casecompl;//this.findEnd(c);
+                    }
+                }
+                //case arrivee
+                dir = (dir + 2) % 4;
+                if (dir == 0) {
+                    dir = 4;
+                }
+                if (this.colorLinked(c)) {
+                    tab[casecompl.i - 1][casecompl.j - 1] = "img/" + c + this.traduction(dir)  + ".png";//tab[this.FindEnd(c).i-1][this.FindEnd(c).j-1]="img/"+c+this.traduction(dir);
+                } else {//couleur pas liee
+                    tab[casecompl.i - 1][casecompl.j - 1] = "img/" + c + "start" + ".png";//tab[this.FindEnd(c).i-1][this.FindEnd(c).j-1]="img/"+c+"start";
+                }
+            }
+        }
+        for (int i = 0; i < this.length; i++) {//cases vides
+            for (int j = 0; j < this.length; j++) {
+                if (this.matrice[i][j].color == 0) {
+                    tab[i][j] = "img/noir.png";
+                }
+                 System.out.print("|" + tab[i][j]);
+            }
+             System.out.println("");
+        }
+
+        return tab;
+    }
+
 }

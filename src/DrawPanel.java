@@ -29,9 +29,11 @@ public class DrawPanel extends JPanel {
 
         //Graphics2D g2 = (Graphics2D)g;
         try {
-            initialize(g);
+           initialize(g);
+           // affichage(g);
         } catch (Exception e) {
-            e.printStackTrace();
+            System.out.println("exception paintcomponent");
+            //e.printStackTrace();
         }
 
     }
@@ -80,4 +82,24 @@ public class DrawPanel extends JPanel {
         this.gui.grille.affiche();
     }
 
+    public void affichage(Graphics g) throws Exception {
+        String[][] image = this.gui.grille.images();
+        System.out.println("affichage");
+        this.gui.grille.affichenbmarked();
+         this.gui.grille.afficheparcours(3);
+        for (int i = 0; i < this.gui.grille.length; i++) {
+            for (int j = 0; j < this.gui.grille.length; j++) {
+                try{
+                Image img = ImageIO.read(new File(image[i][j]));
+                g.drawImage(img, j * 100, i * 100, this);
+                } catch(IOException e) {
+                    System.out.println("IOException");
+                } catch (Exception e) {
+                     System.out.println("Exception affichage");
+                }
+            }
+        }
+        this.gui.grille.affiche();
+    }
+  
 }

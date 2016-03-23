@@ -171,9 +171,9 @@ public class FF {
 //            System.out.println("Exception de FF");
 //        }
 //        try {
-//           long t = 10000;
+//           long t = 100;
 //            Grille grille6 = new Grille(5);
-//            grille6.affiche();
+           // grille6.affiche();
         //         grille6.Solve2(t);
 //////            //boolean test = !grille6.solved();
 //           grille6.aleaGrille(5, t);
@@ -233,7 +233,7 @@ public class FF {
         // test 6 new Grille("test6x6.csv", 6);
         // test 7 new Grille("test6x6.csv", 7);
         // test ex new Grille("test8x8.csv", 4);
-        // Lancement de l'interface graphique
+//         Lancement de l'interface graphique
         Gui essai = new Gui();
         essai.setVisible(true);
 

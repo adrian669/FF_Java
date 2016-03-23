@@ -28,7 +28,7 @@ public class Gui extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanel1 = new DrawPanel(this);
-        Demarrer = new javax.swing.JButton();
+        jButtonDemarrer = new javax.swing.JButton();
         jComboBoxChoixTaille = new javax.swing.JComboBox();
         jLabelChoixTaille = new javax.swing.JLabel();
         jCheckBoxChoixAleatoire = new javax.swing.JCheckBox();
@@ -40,7 +40,7 @@ public class Gui extends javax.swing.JFrame {
         jButtonEffaceCase = new javax.swing.JButton();
         jLabelStatutEffaceCase = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
+        jTextAreaExemple = new javax.swing.JTextArea();
         ImageIcon imageIcon2 = new ImageIcon("img/exemple.png");
         jLabelExemple = new javax.swing.JLabel(imageIcon2);
 
@@ -68,10 +68,10 @@ public class Gui extends javax.swing.JFrame {
             .addGap(0, 901, Short.MAX_VALUE)
         );
 
-        Demarrer.setText("Démarrer partie");
-        Demarrer.addActionListener(new java.awt.event.ActionListener() {
+        jButtonDemarrer.setText("Démarrer une partie");
+        jButtonDemarrer.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                DemarrerActionPerformed(evt);
+                jButtonDemarrerActionPerformed(evt);
             }
         });
 
@@ -126,19 +126,19 @@ public class Gui extends javax.swing.JFrame {
         jScrollPane1.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
         jScrollPane1.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
 
-        jTextArea1.setEditable(false);
-        jTextArea1.setBackground(new java.awt.Color(240, 240, 240));
-        jTextArea1.setColumns(40);
-        jTextArea1.setFont(new java.awt.Font("Monospaced", 0, 14)); // NOI18N
-        jTextArea1.setLineWrap(true);
-        jTextArea1.setRows(2);
-        jTextArea1.setText("Les règles sont simples ! Remplissez entièrement la grille en reliant les couleurs deux à deux sans que les chemins ne se croisent. Bonne chance !\nExemple :");
-        jTextArea1.setWrapStyleWord(true);
-        jTextArea1.setAutoscrolls(false);
-        jTextArea1.setBorder(null);
-        jTextArea1.setCaretColor(new java.awt.Color(240, 240, 240));
-        jTextArea1.setFocusable(false);
-        jScrollPane1.setViewportView(jTextArea1);
+        jTextAreaExemple.setEditable(false);
+        jTextAreaExemple.setBackground(new java.awt.Color(240, 240, 240));
+        jTextAreaExemple.setColumns(40);
+        jTextAreaExemple.setFont(new java.awt.Font("Monospaced", 0, 14)); // NOI18N
+        jTextAreaExemple.setLineWrap(true);
+        jTextAreaExemple.setRows(2);
+        jTextAreaExemple.setText("Les règles sont simples ! Remplissez entièrement la grille en reliant les couleurs deux à deux sans que les chemins ne se croisent. Bonne chance !\nExemple :");
+        jTextAreaExemple.setWrapStyleWord(true);
+        jTextAreaExemple.setAutoscrolls(false);
+        jTextAreaExemple.setBorder(null);
+        jTextAreaExemple.setCaretColor(new java.awt.Color(240, 240, 240));
+        jTextAreaExemple.setFocusable(false);
+        jScrollPane1.setViewportView(jTextAreaExemple);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -152,7 +152,7 @@ public class Gui extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jCheckBoxChoixAleatoire)
-                    .addComponent(Demarrer)
+                    .addComponent(jButtonDemarrer)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabelChoixTaille)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -179,7 +179,7 @@ public class Gui extends javax.swing.JFrame {
                     .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(40, 40, 40)
-                        .addComponent(Demarrer)
+                        .addComponent(jButtonDemarrer)
                         .addGap(40, 40, 40)
                         .addComponent(jCheckBoxChoixAleatoire)
                         .addGap(28, 28, 28)
@@ -208,14 +208,13 @@ public class Gui extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void DemarrerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DemarrerActionPerformed
+    private void jButtonDemarrerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonDemarrerActionPerformed
         System.out.println("Bouton démarrer");
 
         aDemarrer = true;
 
         // Pour actualiser !
-        jPanel1.setVisible(false);
-        jPanel1.setVisible(true);
+        refreshjPanel();
 
         if (choixAleatoire == true) {
             this.grille = new Grille(this.choixTaille);
@@ -260,7 +259,7 @@ public class Gui extends javax.swing.JFrame {
         }
 
         refreshComboBoxChoixCouleur();
-    }//GEN-LAST:event_DemarrerActionPerformed
+    }//GEN-LAST:event_jButtonDemarrerActionPerformed
 
     private void jComboBoxChoixTailleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxChoixTailleActionPerformed
         JComboBox comboBox = (JComboBox) evt.getSource();
@@ -295,29 +294,64 @@ public class Gui extends javax.swing.JFrame {
 
     private void jPanel1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel1MouseClicked
         if (aDemarrer) {
-            System.out.println(evt.getX());
-            System.out.println(evt.getY());
-            Case casetemp = getCase(evt.getY(), evt.getX());
-            casetemp.affiche();
-            int tempCouleur = choixCouleur;
-            if (effaceCase) {
-
+                System.out.println(this.grille.solved());
+                Case casetemp = getCase(evt.getY(), evt.getX());
+                casetemp.affiche();
+                if (effaceCase) {
+                    effaceCase(casetemp);
+                    refreshjPanel();
+                } else {
+                    if (casetemp.nb_marked != -1) {
+                        changeCouleur(casetemp);
+                        //this.grille.mark(casetemp, choixCouleur); // Pb avec mark ??
+                        refreshjPanel();
+                    } else {
+                        this.grille.eraseAllCasesColor(casetemp.color);
+                        refreshjPanel();
+                    }
+                }
             } else {
-                changeCouleur(casetemp);
-                //casetemp.color;
+                JOptionPane.showMessageDialog(this,
+                        "Démarre une partie avant de cliquer de partout !",
+                        "Error",
+                        JOptionPane.ERROR_MESSAGE
+                );
             }
-        }
+        
     }//GEN-LAST:event_jPanel1MouseClicked
 
+    /**
+     * Pour chaner la couleur d'une case
+     *
+     * @param case1 case selectionné par l'utilisateur
+     */
     public void changeCouleur(Case case1) {
         if (case1.nb_marked != -1) {
             this.grille.matrice[case1.i - 1][case1.j - 1].color = this.choixCouleur;
-            if (this.grille.matrice[case1.i - 1][case1.j - 1].color == 0) {
-                this.grille.matrice[case1.i - 1][case1.j - 1].marked = false;
-            }
+        } else {
+            JOptionPane.showMessageDialog(this,
+                    "Tu ne peux pas changer la couleur d'une case depart !",
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE);
         }
     }
 
+    /**
+     * Pour effacer une case
+     *
+     * @param case1 case selectionné par l'utilisateur
+     */
+    public void effaceCase(Case case1) {
+        if (case1.nb_marked != -1) {
+            this.grille.matrice[case1.i - 1][case1.j - 1].color = 0;
+            this.grille.matrice[case1.i - 1][case1.j - 1].marked = false;
+        } else {
+            JOptionPane.showMessageDialog(this,
+                    "Tu ne peux pas effacer une case depart",
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE);
+        }
+    }
 
     private void jComboBoxChoixCouleurActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxChoixCouleurActionPerformed
         JComboBox comboBox = (JComboBox) evt.getSource();
@@ -359,6 +393,12 @@ public class Gui extends javax.swing.JFrame {
     private void jButtonSolutionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSolutionActionPerformed
         if (aDemarrer) {
             System.out.println("Bouton solution");
+            this.grille.solve2(100);
+        } else {
+            JOptionPane.showMessageDialog(this,
+                    "Tu ne peux pas demander une solution si tu n'as pas de grille !",
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_jButtonSolutionActionPerformed
 
@@ -366,7 +406,13 @@ public class Gui extends javax.swing.JFrame {
         if (this.aDemarrer) {
             this.effaceCase = true;
             refreshjLabelStatutEffaceCase();
+        } else {
+            JOptionPane.showMessageDialog(this,
+                    "Ne demande pas d'effacer une case si tu n'as pas de grille !",
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE);
         }
+
     }//GEN-LAST:event_jButtonEffaceCaseActionPerformed
 
     /**
@@ -377,11 +423,7 @@ public class Gui extends javax.swing.JFrame {
      * @return Case
      */
     public Case getCase(int x, int y) {
-        int tempX = x / 100;
-        int tempY = y / 100;
-        System.out.println(tempX);
-        System.out.println(tempY);
-        return this.grille.matrice[tempX][tempY];
+        return this.grille.matrice[x / 100][y / 100];
     }
 
     /**
@@ -426,6 +468,14 @@ public class Gui extends javax.swing.JFrame {
         jLabelStatutEffaceCase.setText("Statut d'efface case : " + this.effaceCase);
     }
 
+    /**
+     * Actualise le jPanel
+     */
+    public void refreshjPanel() {
+        jPanel1.setVisible(false);
+        jPanel1.setVisible(true);
+    }
+
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
 //        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -459,7 +509,7 @@ public class Gui extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton Demarrer;
+    private javax.swing.JButton jButtonDemarrer;
     private javax.swing.JButton jButtonEffaceCase;
     private javax.swing.JButton jButtonSolution;
     private javax.swing.JCheckBox jCheckBoxChoixAleatoire;
@@ -472,7 +522,7 @@ public class Gui extends javax.swing.JFrame {
     private javax.swing.JLabel jLabelStatutEffaceCase;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextArea jTextArea1;
+    private javax.swing.JTextArea jTextAreaExemple;
     // End of variables declaration//GEN-END:variables
 
 }
