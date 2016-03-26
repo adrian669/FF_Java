@@ -10,6 +10,7 @@ public class Gui extends javax.swing.JFrame {
     public boolean aDemarrer = false; // Pour empecher le joueur de cliquer au mauvais endroit
     public boolean effaceCase = false;
     public int choixCouleur; // Quelle couleur a été choisi par l'utilisateur
+    public int choixNumeroGrille = -1;
 
     public Gui() {
         this.choixAleatoire = false;
@@ -31,7 +32,6 @@ public class Gui extends javax.swing.JFrame {
         jButtonDemarrer = new javax.swing.JButton();
         jComboBoxChoixTaille = new javax.swing.JComboBox();
         jLabelChoixTaille = new javax.swing.JLabel();
-        jCheckBoxChoixAleatoire = new javax.swing.JCheckBox();
         jLabelChoixCouleur = new javax.swing.JLabel();
         jComboBoxChoixCouleur = new javax.swing.JComboBox();
         ImageIcon imageIcon = new ImageIcon("img/numberlink.png");
@@ -43,12 +43,16 @@ public class Gui extends javax.swing.JFrame {
         jTextAreaExemple = new javax.swing.JTextArea();
         ImageIcon imageIcon2 = new ImageIcon("img/exemple.png");
         jLabelExemple = new javax.swing.JLabel(imageIcon2);
+        jButtonRecommenezGrille = new javax.swing.JButton();
+        jLabelChoixInput = new javax.swing.JLabel();
+        jComboBoxChoixNumeroGrille = new javax.swing.JComboBox();
+        jCheckBoxChoixAleatoire = new javax.swing.JCheckBox();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Numberlink");
-        setPreferredSize(new java.awt.Dimension(1300, 1300));
+        setPreferredSize(new java.awt.Dimension(1443, 1300));
         setResizable(false);
-        setSize(new java.awt.Dimension(1300, 1300));
+        setSize(new java.awt.Dimension(1443, 1300));
 
         jPanel1.setPreferredSize(new java.awt.Dimension(901, 901));
         jPanel1.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -68,14 +72,14 @@ public class Gui extends javax.swing.JFrame {
             .addGap(0, 901, Short.MAX_VALUE)
         );
 
-        jButtonDemarrer.setText("Démarrer une partie");
+        jButtonDemarrer.setText("Démarrer");
         jButtonDemarrer.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonDemarrerActionPerformed(evt);
             }
         });
 
-        jComboBoxChoixTaille.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "5x5", "6x6", "7x7", "8x8", "9x9" }));
+        jComboBoxChoixTaille.setModel(new javax.swing.DefaultComboBoxModel(new String[] { " ", "5x5", "6x6", "7x7", "8x8", "9x9" }));
         jComboBoxChoixTaille.setActionCommand("");
         jComboBoxChoixTaille.setName("choixTaille"); // NOI18N
         jComboBoxChoixTaille.addActionListener(new java.awt.event.ActionListener() {
@@ -84,16 +88,8 @@ public class Gui extends javax.swing.JFrame {
             }
         });
 
-        jLabelChoixTaille.setText("Choix de la taille");
+        jLabelChoixTaille.setText("Choix de la taille de la grille");
         jLabelChoixTaille.setName("choixTailleLabel"); // NOI18N
-
-        jCheckBoxChoixAleatoire.setText("Grillle aléatoire");
-        jCheckBoxChoixAleatoire.setName("ifGrilleAleatoire"); // NOI18N
-        jCheckBoxChoixAleatoire.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jCheckBoxChoixAleatoireActionPerformed(evt);
-            }
-        });
 
         jLabelChoixCouleur.setText("Choix de la couleur");
         jLabelChoixCouleur.setName("choixCouleurLabel"); // NOI18N
@@ -106,6 +102,7 @@ public class Gui extends javax.swing.JFrame {
         });
 
         jButtonSolution.setText("Solution");
+        jButtonSolution.setToolTipText("Génère la solution de la grille et l'affiche. Peut prendre du temps pour de grandes grilles");
         jButtonSolution.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonSolutionActionPerformed(evt);
@@ -113,14 +110,14 @@ public class Gui extends javax.swing.JFrame {
         });
 
         jButtonEffaceCase.setText("Effacer une case");
+        jButtonEffaceCase.setToolTipText("Efface la case choisie et les suivantes");
         jButtonEffaceCase.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonEffaceCaseActionPerformed(evt);
             }
         });
 
-        jLabelStatutEffaceCase.setText("Status d'efface case : ");
-        jLabelStatutEffaceCase.setText("Statut d'efface case : " + effaceCase);
+        jLabelStatutEffaceCase.setText("Le boutton efface case est : désactivé");
 
         jScrollPane1.setBorder(null);
         jScrollPane1.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
@@ -140,37 +137,91 @@ public class Gui extends javax.swing.JFrame {
         jTextAreaExemple.setFocusable(false);
         jScrollPane1.setViewportView(jTextAreaExemple);
 
+        jButtonRecommenezGrille.setText("Recommencez la grille actuelle");
+        jButtonRecommenezGrille.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButtonRecommenezGrilleMouseClicked(evt);
+            }
+        });
+
+        jLabelChoixInput.setText("Choix du numéro de grille");
+
+        jComboBoxChoixNumeroGrille.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBoxChoixNumeroGrilleActionPerformed(evt);
+            }
+        });
+
+        jCheckBoxChoixAleatoire.setText("Cocher si vous voulez une grille aléatoire");
+        jCheckBoxChoixAleatoire.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
+        jCheckBoxChoixAleatoire.setName("ifGrilleAleatoire"); // NOI18N
+        jCheckBoxChoixAleatoire.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jCheckBoxChoixAleatoireActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(262, 262, 262)
-                .addComponent(jLabelNumberlink, javax.swing.GroupLayout.PREFERRED_SIZE, 540, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(jLabelNumberlink, javax.swing.GroupLayout.PREFERRED_SIZE, 540, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jCheckBoxChoixAleatoire)
-                    .addComponent(jButtonDemarrer)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabelChoixTaille)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jComboBoxChoixTaille, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabelChoixCouleur)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jComboBoxChoixCouleur, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(20, 20, 20)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jButtonSolution)
-                            .addComponent(jButtonEffaceCase)))
-                    .addComponent(jLabelStatutEffaceCase, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 275, Short.MAX_VALUE)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(27, 27, 27)
+                                .addComponent(jButtonSolution))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(4, 4, 4)
+                                .addComponent(jLabelChoixCouleur)
+                                .addGap(18, 18, 18)
+                                .addComponent(jComboBoxChoixCouleur, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabelExemple)
+                        .addGap(165, 945, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(104, 104, 104)
-                        .addComponent(jLabelExemple))))
+                        .addGap(4, 4, 4)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabelChoixTaille)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jComboBoxChoixTaille, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(252, 252, 252)
+                                .addComponent(jButtonEffaceCase)))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(6, 6, 6)
+                        .addComponent(jButtonDemarrer)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jButtonRecommenezGrille)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabelStatutEffaceCase)
+                        .addGap(135, 135, 135))
+                    .addGroup(layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(6, 6, 6)
+                                .addComponent(jLabelChoixInput)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jComboBoxChoixNumeroGrille, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jCheckBoxChoixAleatoire))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 430, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(582, Short.MAX_VALUE))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -179,26 +230,31 @@ public class Gui extends javax.swing.JFrame {
                     .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(40, 40, 40)
-                        .addComponent(jButtonDemarrer)
-                        .addGap(40, 40, 40)
-                        .addComponent(jCheckBoxChoixAleatoire)
-                        .addGap(28, 28, 28)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabelChoixTaille)
-                            .addComponent(jComboBoxChoixTaille, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                            .addComponent(jButtonRecommenezGrille)
+                            .addComponent(jButtonDemarrer))
+                        .addGap(91, 91, 91)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jComboBoxChoixTaille, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabelChoixTaille))
+                        .addGap(18, 18, 18)
+                        .addComponent(jCheckBoxChoixAleatoire)
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabelChoixInput)
+                            .addComponent(jComboBoxChoixNumeroGrille, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(57, 57, 57)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabelChoixCouleur)
-                            .addComponent(jComboBoxChoixCouleur, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jComboBoxChoixCouleur, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jButtonEffaceCase))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jButtonEffaceCase)
-                        .addGap(20, 20, 20)
                         .addComponent(jLabelStatutEffaceCase)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGap(30, 30, 30)
                         .addComponent(jButtonSolution)
-                        .addGap(18, 18, 18)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGap(30, 30, 30)
                         .addComponent(jLabelExemple)))
                 .addGap(28, 28, 28)
                 .addComponent(jLabelNumberlink, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -206,12 +262,15 @@ public class Gui extends javax.swing.JFrame {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButtonDemarrerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonDemarrerActionPerformed
 
         aDemarrer = true;
 
+//        jCheckBoxChoixAleatoire.setVisible(false);
+//        jComboBoxChoixTaille.setVisible(false);      
         if (choixTaille == 0) {
             JOptionPane.showMessageDialog(this,
                     "Choisis une taille de grille avant de démarrer une partie",
@@ -223,45 +282,54 @@ public class Gui extends javax.swing.JFrame {
         // Pour actualiser !
         refreshjPanel();
 
+        System.out.println(this.choixNumeroGrille);
+
         if (choixAleatoire == true) {
             this.grille = new Grille(this.choixTaille);
             //this.grille.aleaGrille(choixTaille, 10000);
         } else {
-            switch (this.choixTaille) { // Pas besoin de spécifier input/nomdufichier car pris en compte dans Grille
-                case 5:
-                    try {
-                        this.grille = new Grille("test5x5.csv", 1);
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                    break;
-                case 6:
-                    try {
-                        this.grille = new Grille("test6x6.csv", 1);
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                    break;
-                case 7:
-                    try {
-                        this.grille = new Grille("test7x7.csv", 1);
-                    } catch (Exception e) {
-                    }
-                    break;
-                case 8:
-                    try {
-                        this.grille = new Grille("test8x8.csv", 1);
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                    break;
-                case 9:
-                    try {
-                        this.grille = new Grille("test9x9.csv", 1);
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                    break;
+            if (this.choixNumeroGrille != -1 || this.choixTaille == 0) {
+                switch (this.choixTaille) { // Pas besoin de spécifier input/nomdufichier car pris en compte dans Grille
+                    case 5:
+                        try {
+                            this.grille = new Grille("test5x5.csv", this.choixNumeroGrille);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                        break;
+                    case 6:
+                        try {
+                            this.grille = new Grille("test6x6.csv", this.choixNumeroGrille);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                        break;
+                    case 7:
+                        try {
+                            this.grille = new Grille("test7x7.csv", this.choixNumeroGrille);
+                        } catch (Exception e) {
+                        }
+                        break;
+                    case 8:
+                        try {
+                            this.grille = new Grille("test8x8.csv", this.choixNumeroGrille);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                        break;
+                    case 9:
+                        try {
+                            this.grille = new Grille("test9x9.csv", this.choixNumeroGrille);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                        break;
+                }
+            } else {
+                JOptionPane.showMessageDialog(this,
+                        "Choisis un numéro de grille",
+                        "Error",
+                        JOptionPane.ERROR_MESSAGE);
             }
         }
 
@@ -289,30 +357,34 @@ public class Gui extends javax.swing.JFrame {
                 this.choixTaille = 9;
                 break;
         }
+        this.choixNumeroGrille = -1;
+        refreshComboBoxChoixNumeroGrille();
     }//GEN-LAST:event_jComboBoxChoixTailleActionPerformed
 
     private void jCheckBoxChoixAleatoireActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBoxChoixAleatoireActionPerformed
         AbstractButton abstractButton = (AbstractButton) evt.getSource();
         boolean select = abstractButton.getModel().isSelected();
         this.choixAleatoire = select == true;
+        if (this.choixAleatoire) {
+            jComboBoxChoixNumeroGrille.setModel(new javax.swing.DefaultComboBoxModel(new String[]{" "}));
+            this.choixNumeroGrille = -1;
+        } else {
+            refreshComboBoxChoixNumeroGrille();
+        }
     }//GEN-LAST:event_jCheckBoxChoixAleatoireActionPerformed
 
     private void jPanel1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel1MouseClicked
         if (aDemarrer) {
             Case casetemp = getCase(evt.getY(), evt.getX());
-            // casetemp.affiche();
             if (effaceCase) {
-                // effaceCase(casetemp);
                 this.grille.eraseCasebis(casetemp);
-                //this.grille.affichenbmarked();
                 this.grille.sucess = false;
                 refreshjPanel();
             } else {
                 if (casetemp.nb_marked != -1) {
                     //changeCouleur(casetemp);
                     if (this.grille.canMark(casetemp, choixCouleur)) {
-                        this.grille.mark(casetemp, choixCouleur); // Pb avec mark ??
-                        //this.grille.affichenbmarked();
+                        this.grille.mark(casetemp, choixCouleur);
                         refreshjPanel();
                     }
                 } else {
@@ -322,8 +394,6 @@ public class Gui extends javax.swing.JFrame {
                 }
                 this.grille.sucess = false;
             }
-            //System.out.println("solved: " + this.grille.solved());
-            //  System.out.println("nc_color_linked : " + this.grille.nb_color_linked);
             if (this.grille.solved()) {
 
                 Object[] options = {"Continuez",
@@ -351,38 +421,6 @@ public class Gui extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jPanel1MouseClicked
 
-    /**
-     * Pour changer la couleur d'une case
-     *
-     * @param case1 case selectionné par l'utilisateur
-     */
-//    public void changeCouleur(Case case1) {
-//        if (case1.nb_marked != -1) {
-//            this.grille.matrice[case1.i - 1][case1.j - 1].color = this.choixCouleur;
-//        } else {
-//            JOptionPane.showMessageDialog(this,
-//                    "Tu ne peux pas changer la couleur d'une case depart !",
-//                    "Error",
-//                    JOptionPane.ERROR_MESSAGE);
-//        }
-//    }
-
-    /**
-     * Pour effacer une case
-     *
-     * @param case1 case selectionné par l'utilisateur
-     */
-//    public void effaceCase(Case case1) {
-//        if (case1.nb_marked != -1) {
-//            this.grille.matrice[case1.i - 1][case1.j - 1].color = 0;
-//            this.grille.matrice[case1.i - 1][case1.j - 1].marked = false;
-//        } else {
-//            JOptionPane.showMessageDialog(this,
-//                    "Tu ne peux pas effacer une case depart",
-//                    "Error",
-//                    JOptionPane.ERROR_MESSAGE);
-//        }
-//    }
 
     private void jComboBoxChoixCouleurActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxChoixCouleurActionPerformed
         JComboBox comboBox = (JComboBox) evt.getSource();
@@ -424,7 +462,7 @@ public class Gui extends javax.swing.JFrame {
     private void jButtonSolutionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSolutionActionPerformed
         if (aDemarrer) {
             //System.out.println("Bouton solution");
-            this.grille.solve2(1000);
+            this.grille.solve2(10000);
             refreshjPanel();
         } else {
             JOptionPane.showMessageDialog(this,
@@ -447,8 +485,55 @@ public class Gui extends javax.swing.JFrame {
 
     }//GEN-LAST:event_jButtonEffaceCaseActionPerformed
 
+    private void jButtonRecommenezGrilleMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButtonRecommenezGrilleMouseClicked
+        if (this.aDemarrer) {
+            this.grille.reinitialize();
+            refreshjPanel();
+        } else {
+            JOptionPane.showMessageDialog(this,
+                    "Demarre une partie avant",
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE);
+        }
+
+    }//GEN-LAST:event_jButtonRecommenezGrilleMouseClicked
+
+    private void jComboBoxChoixNumeroGrilleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxChoixNumeroGrilleActionPerformed
+        JComboBox comboBox = (JComboBox) evt.getSource();
+        Object selected = comboBox.getSelectedItem();
+        String temp = selected.toString();
+        switch (temp) {
+            case "1":
+                this.choixNumeroGrille = 1;
+                break;
+            case "2":
+                this.choixNumeroGrille = 2;
+                break;
+            case "3":
+                this.choixNumeroGrille = 3;
+                break;
+            case "4":
+                this.choixNumeroGrille = 4;
+                break;
+            case "5":
+                this.choixNumeroGrille = 5;
+                break;
+            case "6":
+                this.choixNumeroGrille = 6;
+                break;
+            case "7":
+                this.choixNumeroGrille = 7;
+                break;
+            case "8":
+                this.choixNumeroGrille = 8;
+                break;
+        }
+        this.choixAleatoire = false;
+        jCheckBoxChoixAleatoire.setSelected(false);
+    }//GEN-LAST:event_jComboBoxChoixNumeroGrilleActionPerformed
+
     /**
-     * Retourne la case sur laquelle l'utilisateur à cliqué
+     * Retourne la case sur laquelle l'utilisateur a cliqué
      *
      * @param x Coordonnée en x
      * @param y Coordonnée en u
@@ -494,10 +579,37 @@ public class Gui extends javax.swing.JFrame {
     }
 
     /**
+     * Mets à jour le combobox de choix de numéro de grill
+     */
+    public void refreshComboBoxChoixNumeroGrille() {
+        switch (this.choixTaille) {
+            case 5:
+                jComboBoxChoixNumeroGrille.setModel(new javax.swing.DefaultComboBoxModel(new String[]{" ", "1", "2", "3", "4", "5"}));
+                break;
+            case 6:
+                jComboBoxChoixNumeroGrille.setModel(new javax.swing.DefaultComboBoxModel(new String[]{" ", "1", "2", "3", "4", "5", "6", "7"}));
+                break;
+            case 7:
+                jComboBoxChoixNumeroGrille.setModel(new javax.swing.DefaultComboBoxModel(new String[]{" ", "1", "2", "3"}));
+                break;
+            case 8:
+                jComboBoxChoixNumeroGrille.setModel(new javax.swing.DefaultComboBoxModel(new String[]{" ", "1", "2", "3", "4"}));
+                break;
+            case 9:
+                jComboBoxChoixNumeroGrille.setModel(new javax.swing.DefaultComboBoxModel(new String[]{",", "1"}));
+        }
+
+    }
+
+    /**
      * Mets à jour le jLabel de status d'efface case
      */
     public void refreshjLabelStatutEffaceCase() {
-        jLabelStatutEffaceCase.setText("Statut d'efface case : " + this.effaceCase);
+        if (this.effaceCase) {
+            jLabelStatutEffaceCase.setText("Le bouton efface case est : activé ");
+        } else {
+            jLabelStatutEffaceCase.setText("Le bouton efface case est : désactivé ");
+        }
     }
 
     /**
@@ -543,11 +655,14 @@ public class Gui extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonDemarrer;
     private javax.swing.JButton jButtonEffaceCase;
+    private javax.swing.JButton jButtonRecommenezGrille;
     private javax.swing.JButton jButtonSolution;
     private javax.swing.JCheckBox jCheckBoxChoixAleatoire;
     private javax.swing.JComboBox jComboBoxChoixCouleur;
+    private javax.swing.JComboBox jComboBoxChoixNumeroGrille;
     private javax.swing.JComboBox jComboBoxChoixTaille;
     private javax.swing.JLabel jLabelChoixCouleur;
+    private javax.swing.JLabel jLabelChoixInput;
     private javax.swing.JLabel jLabelChoixTaille;
     private javax.swing.JLabel jLabelExemple;
     private javax.swing.JLabel jLabelNumberlink;

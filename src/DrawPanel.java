@@ -53,7 +53,6 @@ public class DrawPanel extends JPanel {
 //            g.drawLine(temp, 0, temp, this.gui.grille.length * 100);
 //            temp += 100;
 //        }
-
         for (int i = 0; i < this.gui.grille.length; i++) {
             for (int j = 0; j < this.gui.grille.length; j++) {
                 if (this.gui.grille.matrice[i][j].color == 0) {

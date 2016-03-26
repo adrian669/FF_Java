@@ -2,7 +2,7 @@ package main;
 
 import java.io.*;
 
-public class FF {
+public class FF{
 
     public static void main(String[] args) {
 //
@@ -238,5 +238,7 @@ public class FF {
         essai.setVisible(true);
 
     }
+
+
 
 }
