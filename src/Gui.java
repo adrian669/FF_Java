@@ -13,7 +13,7 @@ public class Gui extends javax.swing.JFrame {
 
     public Gui() {
         this.choixAleatoire = false;
-        this.choixTaille = 1;
+        this.choixTaille = 0;
         this.grille = new Grille(0);
         initComponents();
     }
@@ -209,9 +209,16 @@ public class Gui extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButtonDemarrerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonDemarrerActionPerformed
-        System.out.println("Bouton démarrer");
 
         aDemarrer = true;
+
+        if (choixTaille == 0) {
+            JOptionPane.showMessageDialog(this,
+                    "Choisis une taille de grille avant de démarrer une partie",
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE
+            );
+        }
 
         // Pour actualiser !
         refreshjPanel();
@@ -282,76 +289,100 @@ public class Gui extends javax.swing.JFrame {
                 this.choixTaille = 9;
                 break;
         }
-        System.out.println(temp);
     }//GEN-LAST:event_jComboBoxChoixTailleActionPerformed
 
     private void jCheckBoxChoixAleatoireActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBoxChoixAleatoireActionPerformed
         AbstractButton abstractButton = (AbstractButton) evt.getSource();
         boolean select = abstractButton.getModel().isSelected();
         this.choixAleatoire = select == true;
-        System.out.println(select);
     }//GEN-LAST:event_jCheckBoxChoixAleatoireActionPerformed
 
     private void jPanel1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel1MouseClicked
         if (aDemarrer) {
-                System.out.println(this.grille.solved());
-                Case casetemp = getCase(evt.getY(), evt.getX());
-                casetemp.affiche();
-                if (effaceCase) {
-                    effaceCase(casetemp);
-                    refreshjPanel();
-                } else {
-                    if (casetemp.nb_marked != -1) {
-                        changeCouleur(casetemp);
-                        //this.grille.mark(casetemp, choixCouleur); // Pb avec mark ??
-                        refreshjPanel();
-                    } else {
-                        this.grille.eraseAllCasesColor(casetemp.color);
+            Case casetemp = getCase(evt.getY(), evt.getX());
+            // casetemp.affiche();
+            if (effaceCase) {
+                // effaceCase(casetemp);
+                this.grille.eraseCasebis(casetemp);
+                //this.grille.affichenbmarked();
+                this.grille.sucess = false;
+                refreshjPanel();
+            } else {
+                if (casetemp.nb_marked != -1) {
+                    //changeCouleur(casetemp);
+                    if (this.grille.canMark(casetemp, choixCouleur)) {
+                        this.grille.mark(casetemp, choixCouleur); // Pb avec mark ??
+                        //this.grille.affichenbmarked();
                         refreshjPanel();
                     }
+                } else {
+                    this.grille.eraseAllCasesColor(casetemp.color);
+                    this.grille.sucess = false;
+                    refreshjPanel();
                 }
-            } else {
-                JOptionPane.showMessageDialog(this,
-                        "Démarre une partie avant de cliquer de partout !",
-                        "Error",
-                        JOptionPane.ERROR_MESSAGE
-                );
+                this.grille.sucess = false;
             }
-        
+            //System.out.println("solved: " + this.grille.solved());
+            //  System.out.println("nc_color_linked : " + this.grille.nb_color_linked);
+            if (this.grille.solved()) {
+
+                Object[] options = {"Continuez",
+                    "Recommencez",};
+                int n = JOptionPane.showOptionDialog(this,
+                        "Grille résolue ! ",
+                        "Bravo",
+                        JOptionPane.YES_NO_CANCEL_OPTION,
+                        JOptionPane.INFORMATION_MESSAGE,
+                        null,
+                        options,
+                        options[0]);
+                if (n == 1) {
+                    this.grille.reinitialize();
+                    refreshjPanel();
+                }
+            }
+        } else {
+            JOptionPane.showMessageDialog(this,
+                    "Démarre une partie avant de cliquer de partout !",
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE
+            );
+
+        }
     }//GEN-LAST:event_jPanel1MouseClicked
 
     /**
-     * Pour chaner la couleur d'une case
+     * Pour changer la couleur d'une case
      *
      * @param case1 case selectionné par l'utilisateur
      */
-    public void changeCouleur(Case case1) {
-        if (case1.nb_marked != -1) {
-            this.grille.matrice[case1.i - 1][case1.j - 1].color = this.choixCouleur;
-        } else {
-            JOptionPane.showMessageDialog(this,
-                    "Tu ne peux pas changer la couleur d'une case depart !",
-                    "Error",
-                    JOptionPane.ERROR_MESSAGE);
-        }
-    }
+//    public void changeCouleur(Case case1) {
+//        if (case1.nb_marked != -1) {
+//            this.grille.matrice[case1.i - 1][case1.j - 1].color = this.choixCouleur;
+//        } else {
+//            JOptionPane.showMessageDialog(this,
+//                    "Tu ne peux pas changer la couleur d'une case depart !",
+//                    "Error",
+//                    JOptionPane.ERROR_MESSAGE);
+//        }
+//    }
 
     /**
      * Pour effacer une case
      *
      * @param case1 case selectionné par l'utilisateur
      */
-    public void effaceCase(Case case1) {
-        if (case1.nb_marked != -1) {
-            this.grille.matrice[case1.i - 1][case1.j - 1].color = 0;
-            this.grille.matrice[case1.i - 1][case1.j - 1].marked = false;
-        } else {
-            JOptionPane.showMessageDialog(this,
-                    "Tu ne peux pas effacer une case depart",
-                    "Error",
-                    JOptionPane.ERROR_MESSAGE);
-        }
-    }
+//    public void effaceCase(Case case1) {
+//        if (case1.nb_marked != -1) {
+//            this.grille.matrice[case1.i - 1][case1.j - 1].color = 0;
+//            this.grille.matrice[case1.i - 1][case1.j - 1].marked = false;
+//        } else {
+//            JOptionPane.showMessageDialog(this,
+//                    "Tu ne peux pas effacer une case depart",
+//                    "Error",
+//                    JOptionPane.ERROR_MESSAGE);
+//        }
+//    }
 
     private void jComboBoxChoixCouleurActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxChoixCouleurActionPerformed
         JComboBox comboBox = (JComboBox) evt.getSource();
@@ -392,8 +423,9 @@ public class Gui extends javax.swing.JFrame {
 
     private void jButtonSolutionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSolutionActionPerformed
         if (aDemarrer) {
-            System.out.println("Bouton solution");
-            this.grille.solve2(100);
+            //System.out.println("Bouton solution");
+            this.grille.solve2(1000);
+            refreshjPanel();
         } else {
             JOptionPane.showMessageDialog(this,
                     "Tu ne peux pas demander une solution si tu n'as pas de grille !",

@@ -173,7 +173,7 @@ public class FF {
 //        try {
 //           long t = 100;
 //            Grille grille6 = new Grille(5);
-           // grille6.affiche();
+        // grille6.affiche();
         //         grille6.Solve2(t);
 //////            //boolean test = !grille6.solved();
 //           grille6.aleaGrille(5, t);

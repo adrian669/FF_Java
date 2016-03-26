@@ -25,15 +25,12 @@ public class DrawPanel extends JPanel {
 
         super.paintComponents(g);
 
-        System.out.println("Rentre ds paintcomponent");
-
-        //Graphics2D g2 = (Graphics2D)g;
         try {
-           initialize(g);
-           // affichage(g);
+            initialize(g);
+            // affichage(g);
         } catch (Exception e) {
             System.out.println("exception paintcomponent");
-            //e.printStackTrace();
+            e.printStackTrace();
         }
 
     }
@@ -46,16 +43,16 @@ public class DrawPanel extends JPanel {
      */
     public void initialize(Graphics g) throws Exception {
 
-        int temp = 0;
-        for (int i = 0; i <= this.gui.grille.length; i += 1) {
-            g.drawLine(0, temp, this.gui.grille.length * 100, temp);
-            temp += 100;
-        }
-        temp = 0;
-        for (int i = 0; i <= this.gui.grille.length; i += 1) {
-            g.drawLine(temp, 0, temp, this.gui.grille.length * 100);
-            temp += 100;
-        }
+//        int temp = 0;
+//        for (int i = 0; i <= this.gui.grille.length; i += 1) {
+//            g.drawLine(0, temp, this.gui.grille.length * 100, temp);
+//            temp += 100;
+//        }
+//        temp = 0;
+//        for (int i = 0; i <= this.gui.grille.length; i += 1) {
+//            g.drawLine(temp, 0, temp, this.gui.grille.length * 100);
+//            temp += 100;
+//        }
 
         for (int i = 0; i < this.gui.grille.length; i++) {
             for (int j = 0; j < this.gui.grille.length; j++) {
@@ -86,20 +83,22 @@ public class DrawPanel extends JPanel {
         String[][] image = this.gui.grille.images();
         System.out.println("affichage");
         this.gui.grille.affichenbmarked();
-         this.gui.grille.afficheparcours(3);
+        this.gui.grille.afficheparcours(1);
         for (int i = 0; i < this.gui.grille.length; i++) {
             for (int j = 0; j < this.gui.grille.length; j++) {
-                try{
-                Image img = ImageIO.read(new File(image[i][j]));
-                g.drawImage(img, j * 100, i * 100, this);
-                } catch(IOException e) {
+                try {
+                    Image img = ImageIO.read(new File(image[i][j]));
+                    g.drawImage(img, j * 100, i * 100, this);
+                } catch (IOException e) {
                     System.out.println("IOException");
+                    e.printStackTrace();
                 } catch (Exception e) {
-                     System.out.println("Exception affichage");
+                    System.out.println("Exception affichage");
+                    e.printStackTrace();
                 }
             }
         }
         this.gui.grille.affiche();
     }
-  
+
 }

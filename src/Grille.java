@@ -139,8 +139,7 @@ public class Grille {
 //                System.out.println(this.matrice[i][j].marked);
 //            }
 //        }
-        this.parcours();
-
+        // this.parcours();
         // System.out.println(this.matrice[1][1].color);
         //System.out.println(this.matrice[0][1].color);
     }
@@ -153,7 +152,7 @@ public class Grille {
      * @throws Exception Exception si le fichier n'existe pas
      */
     public Grille(String nom_fich, int choix_input) throws Exception {
-        int tempo = 0; // Va prendre le int dans le scanner.
+        int intTempScanner = 0; // Va prendre le int dans le scanner.
         int nb_ligne = 0; // Nombre de ligne pour une grille
         int max = 0; // Pour connaitre le numéro de la plus grande couleur dans le fichier. On en déduit le nombre de couleur.
         int compteur = 0; // Pour parcourir une par une les cases contenus dans le vector de case
@@ -194,15 +193,15 @@ public class Grille {
             // On remplit les attributs des cases comme il faut (couleur, case départ ou non , marqué ou non)
             for (int i = 1; i <= nb_ligne * nb_ligne + nb_ligne; i++) { //  Nombre de case +  nombre de ligne
                 if (scanner.hasNextInt()) {
-                    tempo = scanner.nextInt();
-                    if (tempo > max) {
-                        max = tempo;
+                    intTempScanner = scanner.nextInt();
+                    if (intTempScanner > max) {
+                        max = intTempScanner;
                     }
-                    if (tempo == 0) {
-                        vector.elementAt(compteur).color = tempo;
+                    if (intTempScanner == 0) {
+                        vector.elementAt(compteur).color = intTempScanner;
                         compteur++;
                     } else {
-                        vector.elementAt(compteur).color = tempo; // Change la couleur
+                        vector.elementAt(compteur).color = intTempScanner; // Change la couleur
                         vector.elementAt(compteur).nb_marked = -1; // Change nb_marked en -1
                         vector.elementAt(compteur).marked = true; //  Change marked en true
                         compteur++;
@@ -224,7 +223,7 @@ public class Grille {
                 LinkedList<Case> l = new LinkedList<Case>();
                 this.parcours[j] = l;
             }
-            this.parcours();
+            // this.parcours();
 
             scanner.close();
 
@@ -442,7 +441,9 @@ public class Grille {
         System.out.println("affiche parcours, couleur :" + col1);
         LinkedList l = this.parcours[col1];
         for (int j = 0; j < l.size(); j++) {
-            this.parcours[col1].get(j).affiche();
+            if (!this.parcours[col1].isEmpty()) {
+                this.parcours[col1].get(j).affiche();
+            }
         }
         System.out.println("FIN affiche parcours, couleur :" + col1);
         System.out.println("\n");
@@ -856,7 +857,6 @@ public class Grille {
         if ((nbempty == 0) & (this.nb_color_linked == this.nb_color)) {
             this.sucess = true;
         }
-        System.out.println("solved");
         return this.sucess;
     }
 
@@ -986,6 +986,32 @@ public class Grille {
                     ligne -= 1;
                     col = this.length - 1;
                 }
+            }
+        }
+    }
+
+    /*EraseCase bis:
+     Erase Case et celle d'apres pour la couleur*/
+    public void eraseCasebis(Case case1) {
+        int nb = case1.nb_marked;
+        int col1 = case1.color;
+        eraseCase(case1);
+        nb = nb - 1;
+        int ligne = this.length - 1;
+        int col = this.length - 1;
+
+        //on efface les case d'apres
+        while ((ligne > -1) & (col > -1)) {
+            if ((this.matrice[ligne][col].nb_marked > nb) & (this.matrice[ligne][col].color == col1)) {
+                eraseCase(this.matrice[ligne][col]);
+                //nb=nb-1;
+            }
+            //on change de case
+            if (col - 1 > -1) {
+                col -= 1;
+            } else {
+                ligne -= 1;
+                col = this.length - 1;
             }
         }
     }
@@ -1542,7 +1568,7 @@ public class Grille {
                     dir = 4;
                 }
                 if (this.colorLinked(c)) {
-                    tab[casecompl.i - 1][casecompl.j - 1] = "img/" + c + this.traduction(dir)  + ".png";//tab[this.FindEnd(c).i-1][this.FindEnd(c).j-1]="img/"+c+this.traduction(dir);
+                    tab[casecompl.i - 1][casecompl.j - 1] = "img/" + c + this.traduction(dir) + ".png";//tab[this.FindEnd(c).i-1][this.FindEnd(c).j-1]="img/"+c+this.traduction(dir);
                 } else {//couleur pas liee
                     tab[casecompl.i - 1][casecompl.j - 1] = "img/" + c + "start" + ".png";//tab[this.FindEnd(c).i-1][this.FindEnd(c).j-1]="img/"+c+"start";
                 }
@@ -1553,9 +1579,9 @@ public class Grille {
                 if (this.matrice[i][j].color == 0) {
                     tab[i][j] = "img/noir.png";
                 }
-                 System.out.print("|" + tab[i][j]);
+                System.out.print("|" + tab[i][j]);
             }
-             System.out.println("");
+            System.out.println("");
         }
 
         return tab;
