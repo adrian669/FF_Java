@@ -2,7 +2,7 @@ package main;
 
 import java.io.*;
 
-public class FF{
+public abstract class FF {
 
     public static void main(String[] args) {
 //
@@ -19,7 +19,7 @@ public class FF{
 //        Grille grille1 = new Grille(3, 2);
 //       
 //        System.out.println(case11.comparaison(case11));
-
+//
 //        //System.out.println(grille1.length);
 //
 //        grille1.remplir(case11);
@@ -31,7 +31,7 @@ public class FF{
 //        grille1.remplir(case31);
 //        grille1.remplir(case32);
 //        grille1.remplir(case33);
-        //test fonction affiche
+//        test fonction affiche
 //        grille1.affiche();
 //        grille1.FindStart(1).affiche();
 //        grille1.parcours();
@@ -101,10 +101,10 @@ public class FF{
 ////        
 //        System.out.println("test fonction Solve");
 //
-        //grille1.Solve2(10000);
+//        grille1.solve2(10000);
 //        //grille1.mark(case12, 1);
 //        grille1.affiche();
-        //test constructeur Adrian par txt
+//        //test constructeur Adrian par txt
 //        try{
 //        Grille grille2= new Grille("test7x7.csv" , 1);
 //        grille2.affiche();
@@ -113,7 +113,7 @@ public class FF{
 //        grille2.afficheparcours(1);
 //        grille2.parcours[1].getFirst().affiche();
 //        System.out.println(grille2.parcours[0].size()+" ");
-//        grille2.Solve2(10000);
+//        grille2.solve2(10000);
 //        grille2.affiche();
 //        }
 //        catch(NullPointerException e){
@@ -134,7 +134,7 @@ public class FF{
 //            grille3.afficheparcours(1);
 //            grille3.parcours[1].getFirst().affiche();
 //            System.out.println(grille3.parcours[0].size() + " ");
-//            grille3.Solve2(10000);
+//            grille3.solve2(10000);
 //            grille3.affiche();
 //        } catch (NullPointerException e) {
 //            System.out.println("NullPoinerException de FF");
@@ -152,7 +152,7 @@ public class FF{
 //            grille3.afficheparcours(1);
 //            grille3.parcours[1].getFirst().affiche();
 //            System.out.println(grille3.parcours[0].size() + " ");
-//            grille3.Solve2(10000);
+//            grille3.solve2(10000);
 //            grille3.affiche();
 //            grille3.affichenbmarked();
 //            grille3.rectif();
@@ -173,8 +173,8 @@ public class FF{
 //        try {
 //           long t = 100;
 //            Grille grille6 = new Grille(5);
-        // grille6.affiche();
-        //         grille6.Solve2(t);
+//         grille6.affiche();
+//                 grille6.solve2(t);
 //////            //boolean test = !grille6.solved();
 //           grille6.aleaGrille(5, t);
 //            grille6.affiche();
@@ -225,18 +225,18 @@ public class FF{
 //        } catch (Exception e) {
 //
 //        }
-        // Pour reconnaitre tes fichiers de test :
-        // test  new Grille("test6x6", 4);
-        // test2 new Grille("test6x6.csv", 5);
-        // test4  new Grille("test5x5.csv", 4);
-        // test5 new Grille("test5x5.csv", 5);
-        // test 6 new Grille("test6x6.csv", 6);
-        // test 7 new Grille("test6x6.csv", 7);
-        // test ex new Grille("test8x8.csv", 4);
+//         Pour reconnaitre tes fichiers de test :
+//         test  new Grille("test6x6", 4);
+//         test2 new Grille("test6x6.csv", 5);
+//         test4  new Grille("test5x5.csv", 4);
+//         test5 new Grille("test5x5.csv", 5);
+//         test 6 new Grille("test6x6.csv", 6);
+//         test 7 new Grille("test6x6.csv", 7);
+//         test ex new Grille("test8x8.csv", 4);
 //         Lancement de l'interface graphique
         Gui essai = new Gui();
         essai.setVisible(true);
-
+        
     }
 
 

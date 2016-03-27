@@ -6,14 +6,14 @@ import java.io.*;
 public class Grille {
 
     //Attributs
-    Case[][] matrice; //la grille (indices commencent à 0)
-    int length;//taille de la grille (length*length)
-    int nb_color; //nombre de couleurs à relier
-    int nb_cases_marked = 0;//nombre de cases marquées
-    int nb_color_linked = 0;// nombre de couleurs liées
-    boolean arret = false;//vrai si on arrete de chercher une solution, faux si on continue
-    boolean sucess = false;//vrai si une solution existe; faux sinon
-    LinkedList<Case>[] parcours;//liste des cases marquees pour chaque couleur (avec depart et arrivee) et la premiere liste contient toutes les cases marquees couleurs confondues
+    public Case[][] matrice; //la grille (indices commencent à 0)
+    public int length;//taille de la grille (length*length)
+    public int nb_color; //nombre de couleurs à relier
+    private int nb_cases_marked = 0;//nombre de cases marquées
+    private int nb_color_linked = 0;// nombre de couleurs liées
+    public boolean arret = false;//vrai si on arrete de chercher une solution, faux si on continue
+    public boolean sucess = false;//vrai si une solution existe; faux sinon
+    private LinkedList<Case>[] parcours;//liste des cases marquees pour chaque couleur (avec depart et arrivee) et la premiere liste contient toutes les cases marquees couleurs confondues
 
     /**
      * Constructeur d'une grille vide de taille donnée et avec un nb de couleur
@@ -261,7 +261,7 @@ public class Grille {
      *
      * @return vrai si on n'est pas bloqué faux sinon
      */
-    public boolean bloquerCoin() {
+    private boolean bloquerCoin() {
         boolean temp = true;
         if ((this.matrice[0][1].color != this.matrice[1][0].color) && (this.matrice[0][0].color == 0)) {
             temp = false;
@@ -301,7 +301,7 @@ public class Grille {
     public Grille aleaGrille(int length1, long time1) {
         boolean b = true;
         Grille grille1 = new Grille(length1);
-        grille1.affiche();
+        //grille1.affiche();
 
         //grille1.affiche();
         //Grille grille1copie = grille1;
@@ -347,7 +347,7 @@ public class Grille {
         this.nb_color_linked = grille1.nb_color_linked;
         this.parcours = grille1.parcours;
 
-        System.out.println("fin aleagrille");
+        //System.out.println("fin aleagrille");
         return grille1;
 
 //        //on vide la grille             
@@ -415,7 +415,7 @@ public class Grille {
      *
      * @param case1 case
      */
-    public void remplir(Case case1) {
+    private void remplir(Case case1) {
         this.matrice[case1.i - 1][case1.j - 1] = case1;
     }
 
@@ -495,7 +495,7 @@ public class Grille {
      * @param color1 couleur
      * @return case
      */
-    public Case findStart(int color1) {
+    private Case findStart(int color1) {
         Case start;
         int ligne = 0;
         int col = 0;
@@ -524,7 +524,7 @@ public class Grille {
      * @param color1 couleur
      * @return the main.Case
      */
-    public Case findEnd(int color1) {
+    private Case findEnd(int color1) {
         Case end;
         int ligne = this.length - 1;
         int col = this.length - 1;
@@ -554,7 +554,7 @@ public class Grille {
      * @param pos position
      * @return case (la meme si l'autre n'existe pas)
      */
-    public Case donneCase(Case case1, int pos) {
+    private Case donneCase(Case case1, int pos) {
         Case end = case1;
         if ((pos == 1) & ((case1.i - 2) > -1) & ((case1.i - 2) < this.length)) {
             end = this.matrice[case1.i - 2][case1.j - 1];//coeff doivent toujou etre rectifie par - 1
@@ -734,7 +734,7 @@ public class Grille {
      * @param color1 couleur
      * @return vrai si la couleur est liee, faux sinon
      */
-    public boolean colorLinked(int color1) {
+    private boolean colorLinked(int color1) {
         boolean end = false;
         boolean while0 = true;
         Case case0 = this.findStart(color1);
@@ -807,7 +807,7 @@ public class Grille {
      * @param color1 couleur
      * @return vrai si la couleur est liee, faux sinon
      */
-    public boolean colorLinked2(int color1) {
+    private boolean colorLinked2(int color1) {
         Case case1;
         Case case2;
         if (this.parcours[color1].size() <= 1) {// si le parcours de la couleur est vide (pas <1 ?)
@@ -865,7 +865,7 @@ public class Grille {
      *
      * @return boolean
      */
-    public boolean solved2() {
+    private boolean solved2() {
         //calcul du nombre de cases vides
         int nbempty = 0;
         int ligne = this.length - 1;
@@ -891,7 +891,7 @@ public class Grille {
      *
      * @return boolean
      */
-    public boolean solvedAlgo2() {
+    private boolean solvedAlgo2() {
         boolean s = true;
         for (int i = 1; i <= this.nb_color; i++) {
             s = (s & this.colorLinked2(i));//couleurs de 1 a i liees ?
@@ -905,7 +905,7 @@ public class Grille {
      *
      * @return boolean
      */
-    public boolean solvedAlgo() {
+    private boolean solvedAlgo() {
         //calcul du nombre de couleurs liees
         int nblinked = 0;
         int colori = 1;
@@ -996,7 +996,7 @@ public class Grille {
         int nb = case1.nb_marked;
         int col1 = case1.color;
         eraseCase(case1);
-        nb = nb - 1;
+        nb -= 1;
         int ligne = this.length - 1;
         int col = this.length - 1;
 
@@ -1023,7 +1023,7 @@ public class Grille {
      * @param case1 case
      * @return int (direction)
      */
-    public int directionCaseAvt(Case case1) {
+    private int directionCaseAvt(Case case1) {
         int direction;
         if ((case1.color == 0) || (case1.nb_marked == -1)) {
             direction = 0;
@@ -1080,7 +1080,7 @@ public class Grille {
      * @param case1 case
      * @return int (direction)
      */
-    public int directionCaseAvt2(Case case1) {
+    private int directionCaseAvt2(Case case1) {
         int direction;
         Case case2 = this.caseAvt2(case1);
         if (case2.comparaison(case1)) {//premiere case marquee
@@ -1127,7 +1127,7 @@ public class Grille {
      * @param case1 case
      * @return the main.Case
      */
-    public Case caseAvt(Case case1) {
+    private Case caseAvt(Case case1) {
         int nb1 = case1.nb_marked;
         int nb2 = 0;
         Case case2;
@@ -1157,7 +1157,7 @@ public class Grille {
      * @param case1 case
      * @return the main.Case
      */
-    public Case caseAvt2(Case case1) {
+    private Case caseAvt2(Case case1) {
 
         int index = this.parcours[0].indexOf(case1);
         if (index <= 0) {//la case n'est pas marquee ou c est la premiere a l etre
@@ -1218,7 +1218,7 @@ public class Grille {
             b = true;
             //this.afficheparcours(0);
             while (b && (time < this.nb_color * limit)) {//Start
-                //System.out.println("debut while 2");
+                //System.out.println("debut while 2");              
                 time = System.currentTimeMillis() - timeBefore;
                 // System.out.println("time2 " + time + " " + this.nb_color * limit);
                 //Any obstacles ?
@@ -1407,7 +1407,7 @@ public class Grille {
      * Fonction rectif (nb_marked et parcours) Rectifie l'erreur ds les
      * nb_marked
      */
-    public void rectif() {
+    private void rectif() {
         //parcours
         for (int c = 0; c <= this.nb_color; c++) {
             this.parcours[c].clear();

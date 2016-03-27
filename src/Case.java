@@ -1,13 +1,15 @@
 package main;
 
+import static java.lang.System.out;
+
 public class Case {
 
     //Attributs
-    int i; //position ligne
-    int j; //position colonne
-    int color; //couleur (>=1) ou vide (0)
-    boolean marked; //vrai si la case est remplie faux si elle est vide
-    int nb_marked = 0; //0 si la case est vide, -1 si c'est une case départ, ou "h" pour h-ieme case marquée
+    public int i; //position ligne
+    public int j; //position colonne
+    public int color; //couleur (>=1) ou vide (0)
+    public boolean marked; //vrai si la case est remplie faux si elle est vide
+    public int nb_marked = 0; //0 si la case est vide, -1 si c'est une case départ, ou "h" pour h-ieme case marquée
 
     /**
      *
@@ -30,8 +32,8 @@ public class Case {
      * affiche la couleur la ligne et la colonne
      */
     public void affiche() {
-        System.out.println("\n");
-        System.out.println("couleur : " + this.color + " ,  ligne : " + this.i + " , colonne : " + this.j);
+        out.println("\n");
+        out.println("couleur : " + this.color + " ,  ligne : " + this.i + " , colonne : " + this.j);
     }
 
     /**

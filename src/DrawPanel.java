@@ -8,7 +8,7 @@ import java.io.*;
 
 public class DrawPanel extends JPanel {
 
-    Gui gui;
+    private final Gui gui;
 
     public DrawPanel(Gui g) {
         super();
@@ -41,7 +41,7 @@ public class DrawPanel extends JPanel {
      * @param g Graphics
      * @throws Exception IOException
      */
-    public void initialize(Graphics g) throws Exception {
+    private void initialize(Graphics g) throws Exception {
 
 //        int temp = 0;
 //        for (int i = 0; i <= this.gui.grille.length; i += 1) {
@@ -78,7 +78,12 @@ public class DrawPanel extends JPanel {
         this.gui.grille.affiche();
     }
 
-    public void affichage(Graphics g) throws Exception {
+    /**
+     * Affiche la grille sur je panel
+     * @param g graphics
+     * @throws Exception
+     */
+    private void affichage(Graphics g) throws Exception {
         String[][] image = this.gui.grille.images();
         System.out.println("affichage");
         this.gui.grille.affichenbmarked();

@@ -4,18 +4,21 @@ import javax.swing.*;
 
 public class Gui extends javax.swing.JFrame {
 
-    public int choixTaille;
+    private int choixTaille;
     public Grille grille;
-    public boolean choixAleatoire;
-    public boolean aDemarrer = false; // Pour empecher le joueur de cliquer au mauvais endroit
-    public boolean effaceCase = false;
-    public int choixCouleur; // Quelle couleur a été choisi par l'utilisateur
-    public int choixNumeroGrille = -1;
+    private boolean choixAleatoire;
+    private boolean aDemarrer = false; // Pour empecher le joueur de cliquer au mauvais endroit
+    private boolean effaceCase = false;
+    private int choixCouleur; // Quelle couleur a été choisi par l'utilisateur
+    private int choixNumeroGrille = -1;
+    private int compteurCoup = 0;
 
     public Gui() {
         this.choixAleatoire = false;
         this.choixTaille = 0;
         this.grille = new Grille(0);
+        ImageIcon imageIcon = new ImageIcon("img/exemple.png");
+        this.setIconImage(imageIcon.getImage());
         initComponents();
     }
 
@@ -47,6 +50,9 @@ public class Gui extends javax.swing.JFrame {
         jLabelChoixInput = new javax.swing.JLabel();
         jComboBoxChoixNumeroGrille = new javax.swing.JComboBox();
         jCheckBoxChoixAleatoire = new javax.swing.JCheckBox();
+        jSeparator1 = new javax.swing.JSeparator();
+        jSeparator2 = new javax.swing.JSeparator();
+        jSeparator3 = new javax.swing.JSeparator();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Numberlink");
@@ -161,6 +167,8 @@ public class Gui extends javax.swing.JFrame {
             }
         });
 
+        jSeparator1.setFont(new java.awt.Font("Tahoma", 0, 48)); // NOI18N
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -173,41 +181,15 @@ public class Gui extends javax.swing.JFrame {
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(27, 27, 27)
-                                .addComponent(jButtonSolution))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(4, 4, 4)
-                                .addComponent(jLabelChoixCouleur)
-                                .addGap(18, 18, 18)
-                                .addComponent(jComboBoxChoixCouleur, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(4, 4, 4)
+                        .addComponent(jLabelChoixCouleur)
+                        .addGap(18, 18, 18)
+                        .addComponent(jComboBoxChoixCouleur, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jLabelExemple)
                         .addGap(165, 945, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(4, 4, 4)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabelChoixTaille)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jComboBoxChoixTaille, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(252, 252, 252)
-                                .addComponent(jButtonEffaceCase)))
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(6, 6, 6)
-                        .addComponent(jButtonDemarrer)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jButtonRecommenezGrille)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jLabelStatutEffaceCase)
-                        .addGap(135, 135, 135))
                     .addGroup(layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -217,11 +199,47 @@ public class Gui extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(jComboBoxChoixNumeroGrille, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(jCheckBoxChoixAleatoire))
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addContainerGap())
                     .addGroup(layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 430, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(582, Short.MAX_VALUE))))
+                        .addContainerGap(582, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(6, 6, 6)
+                        .addComponent(jButtonDemarrer)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jButtonRecommenezGrille)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jSeparator2)
+                        .addContainerGap())
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(4, 4, 4)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jSeparator1)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(jLabelChoixTaille)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(jComboBoxChoixTaille, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGap(252, 252, 252)
+                                        .addComponent(jButtonEffaceCase)))
+                                .addGap(0, 643, Short.MAX_VALUE)))
+                        .addContainerGap())
+                    .addGroup(layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jSeparator3)
+                                .addContainerGap())
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jButtonSolution)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jLabelStatutEffaceCase)
+                                .addGap(135, 135, 135))))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -233,7 +251,9 @@ public class Gui extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jButtonRecommenezGrille)
                             .addComponent(jButtonDemarrer))
-                        .addGap(91, 91, 91)
+                        .addGap(49, 49, 49)
+                        .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(40, 40, 40)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jComboBoxChoixTaille, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabelChoixTaille))
@@ -243,15 +263,22 @@ public class Gui extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabelChoixInput)
                             .addComponent(jComboBoxChoixNumeroGrille, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(57, 57, 57)
+                        .addGap(29, 29, 29)
+                        .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabelChoixCouleur)
                             .addComponent(jComboBoxChoixCouleur, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jButtonEffaceCase))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jLabelStatutEffaceCase)
-                        .addGap(30, 30, 30)
-                        .addComponent(jButtonSolution)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jLabelStatutEffaceCase))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(20, 20, 20)
+                                .addComponent(jButtonSolution)))
+                        .addGap(25, 25, 25)
+                        .addComponent(jSeparator3, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(30, 30, 30)
@@ -267,11 +294,11 @@ public class Gui extends javax.swing.JFrame {
 
     private void jButtonDemarrerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonDemarrerActionPerformed
 
-        aDemarrer = true;
-
-//        jCheckBoxChoixAleatoire.setVisible(false);
-//        jComboBoxChoixTaille.setVisible(false);      
-        if (choixTaille == 0) {
+        this.aDemarrer = true;
+        this.compteurCoup = 0;
+        //this.grille.bloquerCoin();
+        
+        if (this.choixTaille == 0) {
             JOptionPane.showMessageDialog(this,
                     "Choisis une taille de grille avant de démarrer une partie",
                     "Error",
@@ -282,11 +309,10 @@ public class Gui extends javax.swing.JFrame {
         // Pour actualiser !
         refreshjPanel();
 
-        System.out.println(this.choixNumeroGrille);
-
         if (choixAleatoire == true) {
             this.grille = new Grille(this.choixTaille);
-            //this.grille.aleaGrille(choixTaille, 10000);
+            //this.grille.aleaGrille(choixTaille, 100);
+            //this.grille.reinitialize();
         } else {
             if (this.choixNumeroGrille != -1 || this.choixTaille == 0) {
                 switch (this.choixTaille) { // Pas besoin de spécifier input/nomdufichier car pris en compte dans Grille
@@ -327,7 +353,7 @@ public class Gui extends javax.swing.JFrame {
                 }
             } else {
                 JOptionPane.showMessageDialog(this,
-                        "Choisis un numéro de grille",
+                        "Choisis un numéro de grille ou coche grille aléatoire",
                         "Error",
                         JOptionPane.ERROR_MESSAGE);
             }
@@ -357,8 +383,8 @@ public class Gui extends javax.swing.JFrame {
                 this.choixTaille = 9;
                 break;
         }
-        this.choixNumeroGrille = -1;
-        refreshComboBoxChoixNumeroGrille();
+        //this.choixNumeroGrille = -1;
+       refreshComboBoxChoixNumeroGrille();
     }//GEN-LAST:event_jComboBoxChoixTailleActionPerformed
 
     private void jCheckBoxChoixAleatoireActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBoxChoixAleatoireActionPerformed
@@ -368,7 +394,9 @@ public class Gui extends javax.swing.JFrame {
         if (this.choixAleatoire) {
             jComboBoxChoixNumeroGrille.setModel(new javax.swing.DefaultComboBoxModel(new String[]{" "}));
             this.choixNumeroGrille = -1;
+            jComboBoxChoixNumeroGrille.setEnabled(false);
         } else {
+             jComboBoxChoixNumeroGrille.setEnabled(true);
             refreshComboBoxChoixNumeroGrille();
         }
     }//GEN-LAST:event_jCheckBoxChoixAleatoireActionPerformed
@@ -379,27 +407,29 @@ public class Gui extends javax.swing.JFrame {
             if (effaceCase) {
                 this.grille.eraseCasebis(casetemp);
                 this.grille.sucess = false;
+                this.compteurCoup += 1;
                 refreshjPanel();
             } else {
                 if (casetemp.nb_marked != -1) {
                     //changeCouleur(casetemp);
                     if (this.grille.canMark(casetemp, choixCouleur)) {
                         this.grille.mark(casetemp, choixCouleur);
+                        this.compteurCoup += 1;
                         refreshjPanel();
                     }
                 } else {
                     this.grille.eraseAllCasesColor(casetemp.color);
                     this.grille.sucess = false;
+                    this.compteurCoup += 1;
                     refreshjPanel();
                 }
                 this.grille.sucess = false;
             }
             if (this.grille.solved()) {
-
                 Object[] options = {"Continuez",
-                    "Recommencez",};
+                    "Recommencez cette grille",};
                 int n = JOptionPane.showOptionDialog(this,
-                        "Grille résolue ! ",
+                        "Grille résolue en " + this.compteurCoup + " coups",
                         "Bravo",
                         JOptionPane.YES_NO_CANCEL_OPTION,
                         JOptionPane.INFORMATION_MESSAGE,
@@ -408,16 +438,17 @@ public class Gui extends javax.swing.JFrame {
                         options[0]);
                 if (n == 1) {
                     this.grille.reinitialize();
+                    this.compteurCoup = 0;
                     refreshjPanel();
                 }
             }
+            System.out.println(compteurCoup);
         } else {
             JOptionPane.showMessageDialog(this,
                     "Démarre une partie avant de cliquer de partout !",
                     "Error",
                     JOptionPane.ERROR_MESSAGE
             );
-
         }
     }//GEN-LAST:event_jPanel1MouseClicked
 
@@ -462,7 +493,7 @@ public class Gui extends javax.swing.JFrame {
     private void jButtonSolutionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSolutionActionPerformed
         if (aDemarrer) {
             //System.out.println("Bouton solution");
-            this.grille.solve2(10000);
+           this.grille.solve2(100);
             refreshjPanel();
         } else {
             JOptionPane.showMessageDialog(this,
@@ -476,6 +507,7 @@ public class Gui extends javax.swing.JFrame {
         if (this.aDemarrer) {
             this.effaceCase = true;
             refreshjLabelStatutEffaceCase();
+            this.compteurCoup = 0;
         } else {
             JOptionPane.showMessageDialog(this,
                     "Ne demande pas d'effacer une case si tu n'as pas de grille !",
@@ -488,6 +520,7 @@ public class Gui extends javax.swing.JFrame {
     private void jButtonRecommenezGrilleMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButtonRecommenezGrilleMouseClicked
         if (this.aDemarrer) {
             this.grille.reinitialize();
+            this.compteurCoup = 0;
             refreshjPanel();
         } else {
             JOptionPane.showMessageDialog(this,
@@ -502,6 +535,7 @@ public class Gui extends javax.swing.JFrame {
         JComboBox comboBox = (JComboBox) evt.getSource();
         Object selected = comboBox.getSelectedItem();
         String temp = selected.toString();
+        if (!choixAleatoire) {
         switch (temp) {
             case "1":
                 this.choixNumeroGrille = 1;
@@ -528,8 +562,12 @@ public class Gui extends javax.swing.JFrame {
                 this.choixNumeroGrille = 8;
                 break;
         }
+        } else {
+            jComboBoxChoixNumeroGrille.setEnabled(false);
+        }
         this.choixAleatoire = false;
         jCheckBoxChoixAleatoire.setSelected(false);
+       // refreshComboBoxChoixNumeroGrille();
     }//GEN-LAST:event_jComboBoxChoixNumeroGrilleActionPerformed
 
     /**
@@ -539,14 +577,14 @@ public class Gui extends javax.swing.JFrame {
      * @param y Coordonnée en u
      * @return Case
      */
-    public Case getCase(int x, int y) {
+    private Case getCase(int x, int y) {
         return this.grille.matrice[x / 100][y / 100];
     }
 
     /**
      * Actualise la liste de choix des couleurs
      */
-    public void refreshComboBoxChoixCouleur() {
+    private void refreshComboBoxChoixCouleur() {
         switch (this.grille.nb_color) {
             case 1:
                 jComboBoxChoixCouleur.setModel(new javax.swing.DefaultComboBoxModel(new String[]{"Blanc"}));
@@ -581,7 +619,7 @@ public class Gui extends javax.swing.JFrame {
     /**
      * Mets à jour le combobox de choix de numéro de grill
      */
-    public void refreshComboBoxChoixNumeroGrille() {
+    private void refreshComboBoxChoixNumeroGrille() {
         switch (this.choixTaille) {
             case 5:
                 jComboBoxChoixNumeroGrille.setModel(new javax.swing.DefaultComboBoxModel(new String[]{" ", "1", "2", "3", "4", "5"}));
@@ -596,15 +634,15 @@ public class Gui extends javax.swing.JFrame {
                 jComboBoxChoixNumeroGrille.setModel(new javax.swing.DefaultComboBoxModel(new String[]{" ", "1", "2", "3", "4"}));
                 break;
             case 9:
-                jComboBoxChoixNumeroGrille.setModel(new javax.swing.DefaultComboBoxModel(new String[]{",", "1"}));
+                jComboBoxChoixNumeroGrille.setModel(new javax.swing.DefaultComboBoxModel(new String[]{" ", "1", "2"}));
+                break;
         }
-
     }
 
     /**
      * Mets à jour le jLabel de status d'efface case
      */
-    public void refreshjLabelStatutEffaceCase() {
+    private void refreshjLabelStatutEffaceCase() {
         if (this.effaceCase) {
             jLabelStatutEffaceCase.setText("Le bouton efface case est : activé ");
         } else {
@@ -615,7 +653,7 @@ public class Gui extends javax.swing.JFrame {
     /**
      * Actualise le jPanel
      */
-    public void refreshjPanel() {
+    private void refreshjPanel() {
         jPanel1.setVisible(false);
         jPanel1.setVisible(true);
     }
@@ -669,6 +707,9 @@ public class Gui extends javax.swing.JFrame {
     private javax.swing.JLabel jLabelStatutEffaceCase;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JSeparator jSeparator1;
+    private javax.swing.JSeparator jSeparator2;
+    private javax.swing.JSeparator jSeparator3;
     private javax.swing.JTextArea jTextAreaExemple;
     // End of variables declaration//GEN-END:variables
 
