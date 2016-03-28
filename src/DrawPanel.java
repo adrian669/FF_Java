@@ -26,8 +26,8 @@ public class DrawPanel extends JPanel {
         super.paintComponents(g);
 
         try {
-            initialize(g);
-            // affichage(g);
+            //initialize(g);
+            affichage(g);
         } catch (Exception e) {
             System.out.println("exception paintcomponent");
             e.printStackTrace();
@@ -84,7 +84,7 @@ public class DrawPanel extends JPanel {
      * @throws Exception
      */
     private void affichage(Graphics g) throws Exception {
-        String[][] image = this.gui.grille.images();
+        String[][] image = this.gui.grille.images2();
         System.out.println("affichage");
         this.gui.grille.affichenbmarked();
         this.gui.grille.afficheparcours(1);

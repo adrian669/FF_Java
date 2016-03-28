@@ -1456,7 +1456,7 @@ public class Grille {
 
     }
 
-    String traduction(int dir) {
+    private String traduction(int dir) {
         if (dir == 1) {
             return "N";
         } else if (dir == 2) {
@@ -1468,25 +1468,25 @@ public class Grille {
         }
     }
 
-    String traduction2(String s) {
-        if (s == "SN") {
+    private String traduction2(String s) {
+        if (s.equals("SN")) {
             return "NS";
-        } else if (s == "EO") {
+        } else if (s.equals("EO")) {
             return "OE";
-        } else if (s == "SE") {
+        } else if (s.equals("SE")) {
             return "ES";
-        } else if (s == "NO") {
+        } else if (s.equals("NO")) {
             return "ON";
-        } else if (s == "OS") {
+        } else if (s.equals("OS")) {
             return "SO";
-        } else if (s == "EN") {
+        } else if (s.equals("EN")) {
             return "NE";
         } else {
             return s;
         }
     }
 
-    String[][] images() {
+    public String[][] images() {
         //this.rectif();//on rectifie les nb_marked
         String[][] tab = new String[this.length][this.length];
         Case case0;//case avt
@@ -1585,6 +1585,254 @@ public class Grille {
         }
 
         return tab;
+    }
+
+    public String[][] images2() {
+        //this.rectif();//on rectifie les nb_marked
+        String[][] tab = new String[this.length][this.length];
+        Case casemin;//case ?
+        Case casemax;//case ?
+        Case start;
+        Case end;
+        Case comp, comp1;
+        int color1;//couleur de la case
+        int ligne = this.length - 1;
+        int col = this.length - 1;
+        int dir = 0, dir2 = 0;
+        int nb1;//nb_marked case
+
+        //
+        while ((ligne > -1) & (col > -1)) {
+            if (this.matrice[ligne][col].nb_marked == -1) {//case depart ou arrivee
+                color1 = this.matrice[ligne][col].color;
+                casemin = casemin(0, color1);//case marquee min par couleur
+                casemax = casemax(10000, color1);//case marquee max
+                start = this.findStart(color1);//find start
+                end = this.findEnd(color1);//find end
+                if (start.comparaison(this.matrice[ligne][col])) {//on est a case depart
+                    comp = end;
+                    comp1 = start;
+                } else {//on est a case arrivee
+                    comp = start;
+                    comp1 = start;
+                }
+                if (!casemin.comparaison(start)) {//il y a une case marquee pour cette couleur
+                    comp = casemin;
+                    comp1 = casemax;
+                }
+                if ((!this.donneCase(this.matrice[ligne][col], 1).comparaison(this.matrice[ligne][col])) & ((comp.comparaison(this.donneCase(this.matrice[ligne][col], 1))) || (comp1.comparaison(this.donneCase(this.matrice[ligne][col], 1))))) {
+                    dir = 1;//Nord
+                    tab[ligne][col] = "img/" + color1 + traduction(dir) + ".png";
+                } else if ((!this.donneCase(this.matrice[ligne][col], 3).comparaison(this.matrice[ligne][col])) & ((comp.comparaison(this.donneCase(this.matrice[ligne][col], 3))) || (comp1.comparaison(this.donneCase(this.matrice[ligne][col], 3))))) {
+                    dir = 3;//Sud
+                    tab[ligne][col] = "img/" + color1 + traduction(dir) + ".png";
+                } else if ((!this.donneCase(this.matrice[ligne][col], 2).comparaison(this.matrice[ligne][col])) & ((comp.comparaison(this.donneCase(this.matrice[ligne][col], 2))) || (comp1.comparaison(this.donneCase(this.matrice[ligne][col], 2))))) {
+                    dir = 2;//Est
+                    tab[ligne][col] = "img/" + color1 + traduction(dir) + ".png";
+                } else if ((!this.donneCase(this.matrice[ligne][col], 4).comparaison(this.matrice[ligne][col])) & ((comp.comparaison(this.donneCase(this.matrice[ligne][col], 4))) || (comp1.comparaison(this.donneCase(this.matrice[ligne][col], 4))))) {
+                    dir = 4;//Ouest
+                    tab[ligne][col] = "img/" + color1 + traduction(dir) + ".png";
+                } else {
+                    tab[ligne][col] = "img/" + color1 + "start.png";
+                }
+
+//                else{//une case marquee pour cette couleur
+//                    pris en compte plus haut
+//                }
+            }//fin case start
+            else if (this.matrice[ligne][col].nb_marked == 0) {//case vide
+                tab[ligne][col] = "img/noir.png";
+            }//fin case vide
+            else {//case marquee
+                color1 = this.matrice[ligne][col].color;
+                nb1 = this.matrice[ligne][col].nb_marked;
+                casemin = casemin(nb1, color1);// case apres
+                casemax = casemax(nb1, color1);// case avant
+                if (casemin.comparaison(this.findStart(color1))) {//la case est la derniere case marquee par cette couleur
+                    //trouver case avant
+                    if (casemax.comparaison(this.findStart(color1))) {//la case est la seule case marquee donc on recharche case depart et arrivee
+                        comp = this.findStart(color1);
+                        comp1 = this.findEnd(color1);
+                    } else {//case avant existe
+                        comp = casemax(nb1, color1);
+                        comp1 = casemax(nb1, color1);
+                    }
+                    if ((comp.comparaison(this.donneCase(this.matrice[ligne][col], 1))) || (comp1.comparaison(this.donneCase(this.matrice[ligne][col], 1)))) {
+                        dir = 1;//Nord
+                        if ((this.findStart(color1).comparaison(this.donneCase(this.matrice[ligne][col], 2))) || (this.findEnd(color1).comparaison(this.donneCase(this.matrice[ligne][col], 2)))) {
+                            dir2 = 2;
+                        } else if ((this.findStart(color1).comparaison(this.donneCase(this.matrice[ligne][col], 3))) || (this.findEnd(color1).comparaison(this.donneCase(this.matrice[ligne][col], 3)))) {
+                            dir2 = 3;
+                        } else if ((this.findStart(color1).comparaison(this.donneCase(this.matrice[ligne][col], 4))) || (this.findEnd(color1).comparaison(this.donneCase(this.matrice[ligne][col], 4)))) {
+                            dir2 = 4;
+                        } else {
+                            dir2 = (dir + 2) % 4;
+                            if (dir2 == 0) {
+                                dir2 = 4;
+                            }
+                        }
+
+                        tab[ligne][col] = "img/" + color1 + traduction2(traduction(dir) + traduction(dir2)) + ".png";
+                    } else if ((comp.comparaison(this.donneCase(this.matrice[ligne][col], 3))) || (comp1.comparaison(this.donneCase(this.matrice[ligne][col], 3)))) {
+                        dir = 3;//Sud
+                        if ((this.findStart(color1).comparaison(this.donneCase(this.matrice[ligne][col], 2))) || (this.findEnd(color1).comparaison(this.donneCase(this.matrice[ligne][col], 2)))) {
+                            dir2 = 2;
+                        } else if ((this.findStart(color1).comparaison(this.donneCase(this.matrice[ligne][col], 1))) || (this.findEnd(color1).comparaison(this.donneCase(this.matrice[ligne][col], 1)))) {
+                            dir2 = 1;
+                        } else if ((this.findStart(color1).comparaison(this.donneCase(this.matrice[ligne][col], 4))) || (this.findEnd(color1).comparaison(this.donneCase(this.matrice[ligne][col], 4)))) {
+                            dir2 = 4;
+                        } else {
+                            dir2 = (dir + 2) % 4;
+                            if (dir2 == 0) {
+                                dir2 = 4;
+                            }
+                        }
+                        tab[ligne][col] = "img/" + color1 + traduction2(traduction(dir) + traduction(dir2)) + ".png";
+                    } else if ((comp.comparaison(this.donneCase(this.matrice[ligne][col], 2))) || (comp1.comparaison(this.donneCase(this.matrice[ligne][col], 2)))) {
+                        dir = 2;//Est
+                        if ((this.findStart(color1).comparaison(this.donneCase(this.matrice[ligne][col], 1))) || (this.findEnd(color1).comparaison(this.donneCase(this.matrice[ligne][col], 1)))) {
+                            dir2 = 1;
+                        } else if ((this.findStart(color1).comparaison(this.donneCase(this.matrice[ligne][col], 3))) || (this.findEnd(color1).comparaison(this.donneCase(this.matrice[ligne][col], 3)))) {
+                            dir2 = 3;
+                        } else if ((this.findStart(color1).comparaison(this.donneCase(this.matrice[ligne][col], 4))) || (this.findEnd(color1).comparaison(this.donneCase(this.matrice[ligne][col], 4)))) {
+                            dir2 = 4;
+                        } else {
+                            dir2 = (dir + 2) % 4;
+                            if (dir2 == 0) {
+                                dir2 = 4;
+                            }
+                        }
+                        tab[ligne][col] = "img/" + color1 + traduction2(traduction(dir) + traduction(dir2)) + ".png";
+                    } else if ((comp.comparaison(this.donneCase(this.matrice[ligne][col], 4))) || (comp1.comparaison(this.donneCase(this.matrice[ligne][col], 4)))) {
+                        dir = 4;//Ouest
+                        if ((this.findStart(color1).comparaison(this.donneCase(this.matrice[ligne][col], 2))) || (this.findEnd(color1).comparaison(this.donneCase(this.matrice[ligne][col], 2)))) {
+                            dir2 = 2;
+                        } else if ((this.findStart(color1).comparaison(this.donneCase(this.matrice[ligne][col], 3))) || (this.findEnd(color1).comparaison(this.donneCase(this.matrice[ligne][col], 3)))) {
+                            dir2 = 3;
+                        } else if ((this.findStart(color1).comparaison(this.donneCase(this.matrice[ligne][col], 1))) || (this.findEnd(color1).comparaison(this.donneCase(this.matrice[ligne][col], 1)))) {
+                            dir2 = 1;
+                        } else {
+                            dir2 = (dir + 2) % 4;
+                            if (dir2 == 0) {
+                                dir2 = 4;
+                            }
+                        }
+                        tab[ligne][col] = "img/" + color1 + traduction2(traduction(dir) + traduction(dir2)) + ".png";
+                    } else {
+                        System.out.println("erreur images2 1");
+                    }
+
+                } else {//il existe une case marquee apres=casemin(nb1,color1)
+                    //DEUXIEMME TROUVER
+                    //dir
+                    //case avant
+                    if (casemax.comparaison(this.findStart(color1))) {//la case est la premiere case marquee donc on recharche case depart et arrivee
+                        comp = this.findStart(color1);//case avant
+                        comp1 = this.findEnd(color1);
+                    } else {//case avant existe
+                        comp = casemax(nb1, color1);
+                        comp1 = casemax(nb1, color1);
+                    }
+                    if ((comp.comparaison(this.donneCase(this.matrice[ligne][col], 1))) || (comp1.comparaison(this.donneCase(this.matrice[ligne][col], 1)))) {
+                        dir = 1;//Nord
+                    } else if ((comp.comparaison(this.donneCase(this.matrice[ligne][col], 3))) || (comp1.comparaison(this.donneCase(this.matrice[ligne][col], 3)))) {
+                        dir = 3;//Sud
+                    } else if ((comp.comparaison(this.donneCase(this.matrice[ligne][col], 2))) || (comp1.comparaison(this.donneCase(this.matrice[ligne][col], 2)))) {
+                        dir = 2;//Est
+                    } else if ((comp.comparaison(this.donneCase(this.matrice[ligne][col], 4))) || (comp1.comparaison(this.donneCase(this.matrice[ligne][col], 4)))) {
+                        dir = 4;//Ouest
+                    } else {
+                        System.out.println("erreur images2 2");
+                    }
+                    //dir2
+                    comp = casemin(nb1, color1);// case apres
+                    if (comp.comparaison(this.donneCase(this.matrice[ligne][col], 1))) {
+                        dir2 = 1;//Nord
+                        tab[ligne][col] = "img/" + color1 + traduction2(traduction(dir) + traduction(dir2)) + ".png";
+                    } else if (comp.comparaison(this.donneCase(this.matrice[ligne][col], 3))) {
+                        dir2 = 3;//Sud
+                        tab[ligne][col] = "img/" + color1 + traduction2(traduction(dir) + traduction(dir2)) + ".png";
+                    } else if (comp.comparaison(this.donneCase(this.matrice[ligne][col], 2))) {
+                        dir2 = 2;//Est
+                        tab[ligne][col] = "img/" + color1 + traduction2(traduction(dir) + traduction(dir2)) + ".png";
+                    } else if (comp.comparaison(this.donneCase(this.matrice[ligne][col], 4))) {
+                        dir2 = 4;//Ouest
+                        tab[ligne][col] = "img/" + color1 + traduction2(traduction(dir) + traduction(dir2)) + ".png";
+                    } else {
+                        System.out.println("erreur images2 2");
+                    }
+
+                }
+
+            }//fin case marquee
+            //on change de case
+            if (col - 1 > -1) {
+                col -= 1;
+            } else {
+                ligne -= 1;
+                col = this.length - 1;
+            }
+        }
+        for (int i = 0; i < this.length; i++) {//cases vides
+            for (int j = 0; j < this.length; j++) {
+                if (this.matrice[i][j].color == 0) {
+                    tab[i][j] = "img/noir.png";
+                }
+                System.out.print("|" + tab[i][j]);
+            }
+            System.out.println("");
+        }
+        return tab;
+    }
+
+    //fonction case min (case apres)
+    //renvoi pour une couleur et un nb 
+    //la premiere case qui a ete marquee par cette couleur apres ce nombre
+    //par defaut case start de la couleur
+    private Case casemin(int nb1, int color1) {
+        Case casem = this.findStart(color1);
+        int nb2 = 10000;
+        int ligne = this.length - 1;
+        int col = this.length - 1;
+        while ((ligne > -1) & (col > -1)) {
+            if ((this.matrice[ligne][col].color == color1) & (this.matrice[ligne][col].nb_marked > nb1) & (this.matrice[ligne][col].nb_marked < nb2)) {
+                casem = this.matrice[ligne][col];
+                nb2 = this.matrice[ligne][col].nb_marked;
+            }
+            //on change de case
+            if (col - 1 > -1) {
+                col -= 1;
+            } else {
+                ligne -= 1;
+                col = this.length - 1;
+            }
+        }
+        return casem;
+    }
+
+    //fonction case max (case avant)
+    //renvoi pour une couleur et un nb 
+    //la derniere case qui a ete marquee par cette couleur avant ce nombre
+    //par defaut case start de la couleur
+    private Case casemax(int nb1, int color1) {
+        Case casem = this.findStart(color1);
+        int nb2 = 0;
+        int ligne = this.length - 1;
+        int col = this.length - 1;
+        while ((ligne > -1) & (col > -1)) {
+            if ((this.matrice[ligne][col].color == color1) & (this.matrice[ligne][col].nb_marked < nb1) & (this.matrice[ligne][col].nb_marked > nb2)) {
+                casem = this.matrice[ligne][col];
+                nb2 = this.matrice[ligne][col].nb_marked;
+            }
+            //on change de case
+            if (col - 1 > -1) {
+                col -= 1;
+            } else {
+                ligne -= 1;
+                col = this.length - 1;
+            }
+        }
+        return casem;
     }
 
 }
