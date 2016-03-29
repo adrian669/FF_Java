@@ -4,13 +4,44 @@ import javax.swing.*;
 
 public class Gui extends javax.swing.JFrame {
 
+    /**
+     * ¨Pour gérer le choix de la taille par l'utilisateur
+     */
     private int choixTaille;
+
+    /**
+     * La grille utilisée
+     */
     public Grille grille;
+
+    /**
+     * Pour gérer si l'utilisateur souhaite une grille aléatoire
+     */
     private boolean choixAleatoire;
-    private boolean aDemarrer = false; // Pour empecher le joueur de cliquer au mauvais endroit
+    /**
+     * Pour gérer la situation ou l'utilisateur clique sur démarrer. Empêche
+     * l'utilsateur de cliquer à certains endroit si faux.
+     */
+    private boolean aDemarrer = false;
+
+    /**
+     * Pour gérer la situation ou l'utilisateur souhaite effacer une case
+     */
     private boolean effaceCase = false;
-    private int choixCouleur; // Quelle couleur a été choisi par l'utilisateur
+
+    /**
+     * Pour gérer le choix de la couleur par l'utilisateur
+     */
+    private int choixCouleur;
+
+    /**
+     * Pour gérer le choix du numéro de grille par l'utilisateur
+     */
     private int choixNumeroGrille = -1;
+
+    /**
+     * Pour compter le nombre de coups joués
+     */
     private int compteurCoup = 0;
 
     public Gui() {
@@ -296,8 +327,7 @@ public class Gui extends javax.swing.JFrame {
 
         this.aDemarrer = true;
         this.compteurCoup = 0;
-        //this.grille.bloquerCoin();
-        
+
         if (this.choixTaille == 0) {
             JOptionPane.showMessageDialog(this,
                     "Choisis une taille de grille avant de démarrer une partie",
@@ -367,6 +397,9 @@ public class Gui extends javax.swing.JFrame {
         Object selected = comboBox.getSelectedItem();
         String temp = selected.toString();
         switch (temp) {
+            case "" :
+                this.choixTaille = 0;
+                break;
             case "5x5":
                 this.choixTaille = 5;
                 break;
@@ -383,8 +416,8 @@ public class Gui extends javax.swing.JFrame {
                 this.choixTaille = 9;
                 break;
         }
-        //this.choixNumeroGrille = -1;
-       refreshComboBoxChoixNumeroGrille();
+
+        refreshComboBoxChoixNumeroGrille();
     }//GEN-LAST:event_jComboBoxChoixTailleActionPerformed
 
     private void jCheckBoxChoixAleatoireActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBoxChoixAleatoireActionPerformed
@@ -396,7 +429,7 @@ public class Gui extends javax.swing.JFrame {
             this.choixNumeroGrille = -1;
             jComboBoxChoixNumeroGrille.setEnabled(false);
         } else {
-             jComboBoxChoixNumeroGrille.setEnabled(true);
+            jComboBoxChoixNumeroGrille.setEnabled(true);
             refreshComboBoxChoixNumeroGrille();
         }
     }//GEN-LAST:event_jCheckBoxChoixAleatoireActionPerformed
@@ -411,7 +444,6 @@ public class Gui extends javax.swing.JFrame {
                 refreshjPanel();
             } else {
                 if (casetemp.nb_marked != -1) {
-                    //changeCouleur(casetemp);
                     if (this.grille.canMark(casetemp, choixCouleur)) {
                         this.grille.mark(casetemp, choixCouleur);
                         this.compteurCoup += 1;
@@ -442,7 +474,6 @@ public class Gui extends javax.swing.JFrame {
                     refreshjPanel();
                 }
             }
-            System.out.println(compteurCoup);
         } else {
             JOptionPane.showMessageDialog(this,
                     "Démarre une partie avant de cliquer de partout !",
@@ -492,8 +523,7 @@ public class Gui extends javax.swing.JFrame {
 
     private void jButtonSolutionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSolutionActionPerformed
         if (aDemarrer) {
-            //System.out.println("Bouton solution");
-           this.grille.solve2(100);
+            this.grille.solve2(100);
             refreshjPanel();
         } else {
             JOptionPane.showMessageDialog(this,
@@ -536,38 +566,37 @@ public class Gui extends javax.swing.JFrame {
         Object selected = comboBox.getSelectedItem();
         String temp = selected.toString();
         if (!choixAleatoire) {
-        switch (temp) {
-            case "1":
-                this.choixNumeroGrille = 1;
-                break;
-            case "2":
-                this.choixNumeroGrille = 2;
-                break;
-            case "3":
-                this.choixNumeroGrille = 3;
-                break;
-            case "4":
-                this.choixNumeroGrille = 4;
-                break;
-            case "5":
-                this.choixNumeroGrille = 5;
-                break;
-            case "6":
-                this.choixNumeroGrille = 6;
-                break;
-            case "7":
-                this.choixNumeroGrille = 7;
-                break;
-            case "8":
-                this.choixNumeroGrille = 8;
-                break;
-        }
+            switch (temp) {
+                case "1":
+                    this.choixNumeroGrille = 1;
+                    break;
+                case "2":
+                    this.choixNumeroGrille = 2;
+                    break;
+                case "3":
+                    this.choixNumeroGrille = 3;
+                    break;
+                case "4":
+                    this.choixNumeroGrille = 4;
+                    break;
+                case "5":
+                    this.choixNumeroGrille = 5;
+                    break;
+                case "6":
+                    this.choixNumeroGrille = 6;
+                    break;
+                case "7":
+                    this.choixNumeroGrille = 7;
+                    break;
+                case "8":
+                    this.choixNumeroGrille = 8;
+                    break;
+            }
         } else {
             jComboBoxChoixNumeroGrille.setEnabled(false);
         }
         this.choixAleatoire = false;
         jCheckBoxChoixAleatoire.setSelected(false);
-       // refreshComboBoxChoixNumeroGrille();
     }//GEN-LAST:event_jComboBoxChoixNumeroGrilleActionPerformed
 
     /**
@@ -628,13 +657,13 @@ public class Gui extends javax.swing.JFrame {
                 jComboBoxChoixNumeroGrille.setModel(new javax.swing.DefaultComboBoxModel(new String[]{" ", "1", "2", "3", "4", "5", "6", "7"}));
                 break;
             case 7:
-                jComboBoxChoixNumeroGrille.setModel(new javax.swing.DefaultComboBoxModel(new String[]{" ", "1", "2", "3"}));
+                jComboBoxChoixNumeroGrille.setModel(new javax.swing.DefaultComboBoxModel(new String[]{" ", "1", "2", "3", "4", "5"}));
                 break;
             case 8:
-                jComboBoxChoixNumeroGrille.setModel(new javax.swing.DefaultComboBoxModel(new String[]{" ", "1", "2", "3", "4"}));
+                jComboBoxChoixNumeroGrille.setModel(new javax.swing.DefaultComboBoxModel(new String[]{" ", "1", "2", "3", "4", "5"}));
                 break;
             case 9:
-                jComboBoxChoixNumeroGrille.setModel(new javax.swing.DefaultComboBoxModel(new String[]{" ", "1", "2"}));
+                jComboBoxChoixNumeroGrille.setModel(new javax.swing.DefaultComboBoxModel(new String[]{" ", "1", "2", "3"}));
                 break;
         }
     }

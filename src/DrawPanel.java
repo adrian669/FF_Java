@@ -78,16 +78,24 @@ public class DrawPanel extends JPanel {
         this.gui.grille.affiche();
     }
 
+    
+    
+    
+    // Chaque image est de taille 100*100 pixel. Le nombre indique la couleur aosscié à l'image
+    // ( voir code couleur dans img/codecouleur.txt). Ensuites, start indique que c'est une case départ
+    // N indique le nord etc ... NS ou OE indique un rectangle qui va du Nord au Sud et de l'Ouest à l'est
+    // NE, ES , SO et , ON indique les coins.
+    
+    
+    
     /**
-     * Affiche la grille sur je panel
+     * Affiche la grille sur le panel
+     *
      * @param g graphics
      * @throws Exception
      */
     private void affichage(Graphics g) throws Exception {
         String[][] image = this.gui.grille.images2();
-        System.out.println("affichage");
-        this.gui.grille.affichenbmarked();
-        this.gui.grille.afficheparcours(1);
         for (int i = 0; i < this.gui.grille.length; i++) {
             for (int j = 0; j < this.gui.grille.length; j++) {
                 try {

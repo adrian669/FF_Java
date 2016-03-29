@@ -4,12 +4,31 @@ import static java.lang.System.out;
 
 public class Case {
 
-    //Attributs
-    public int i; //position ligne
-    public int j; //position colonne
-    public int color; //couleur (>=1) ou vide (0)
-    public boolean marked; //vrai si la case est remplie faux si elle est vide
-    public int nb_marked = 0; //0 si la case est vide, -1 si c'est une case départ, ou "h" pour h-ieme case marquée
+    /**
+     * Position en ligne
+     */
+    public int i;
+
+    /**
+     * Position en colonne
+     */
+    public int j;
+
+    /**
+     * Couleur >= 1 ou vide (0)
+     */
+    public int color;
+
+    /**
+     * Vrai si la case est remplie faux si elle est vide
+     */
+    public boolean marked;
+
+    /**
+     * 0 si la case est vide, -1 si c'est une case départ, ou "h" pour h-ieme
+     * case marquée
+     */
+    public int nb_marked = 0;
 
     /**
      *
